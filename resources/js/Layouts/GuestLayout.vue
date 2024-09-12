@@ -2,19 +2,22 @@
 import ApplicationLogo from '@/Components/ApplicationLogo.vue';
 import { Link } from '@inertiajs/vue3';
 import dayjs from "dayjs";
-import {IconSun} from "@tabler/icons-vue";
+import {IconSun, IconMoon} from "@tabler/icons-vue";
 import { toggleDarkMode, isDark } from '@/Composables'
+import Button from "primevue/button"
 </script>
 
 <template>
-    <div class="flex flex-col min-h-screen bg-surface-0 dark:bg-gray-950">
+    <div class="flex flex-col min-h-screen bg-surface-0 dark:bg-surface-950">
         <div class="flex py-3 px-5 md:px-10 justify-end items-center">
-            <div
-                class="w-[60px] h-[60px] p-[17.5px] flex items-center justify-center rounded-full hover:cursor-pointer hover:bg-gray-100 text-gray-800"
+            <Button
+                severity="secondary"
+                outlined
                 @click="() => { toggleDarkMode() }"
             >
-                <IconSun size="25" stroke-width="1.25" />
-            </div>
+                <IconSun v-if="!isDark" size="20" />
+                <IconMoon v-if="isDark" size="20" />
+            </Button>
         </div>
         <div class="flex flex-1 flex-col justify-center items-center pb-12 md:px-8 xs:gap-y-[60px]">
             <div class="w-full flex md:flex-1 justify-center">
