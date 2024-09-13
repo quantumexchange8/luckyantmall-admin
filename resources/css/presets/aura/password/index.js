@@ -9,7 +9,7 @@ export default {
 
             // Shape
             'border',
-            'shadow-md rounded-md',
+            'shadow rounded-md',
 
             // Colors
             'bg-surface-0 dark:bg-surface-900',

@@ -1,0 +1,164 @@
+<script setup>
+import { toRefs, computed } from 'vue'
+import { Link } from '@inertiajs/vue3'
+
+const props = defineProps({
+    variant: {
+        type: String,
+        default: 'primary',
+        validator(value) {
+            return [
+                'primary-flat', 'primary-tonal', 'primary-outlined', 'primary-text',
+                'gray-flat', 'gray-tonal', 'gray-outlined', 'gray-text',
+                'error-flat', 'error-tonal', 'error-outlined', 'error-text',
+                'success-flat', 'success-tonal', 'success-outlined', 'success-text',
+            ].includes(value)
+        },
+    },
+    type: {
+        type: String,
+        default: 'submit',
+    },
+    size: {
+        type: String,
+        default: 'sm',
+        validator(value) {
+            return ['sm', 'base', 'lg'].includes(value)
+        },
+    },
+    squared: {
+        type: Boolean,
+        default: false,
+    },
+    pill: {
+        type: Boolean,
+        default: false,
+    },
+    href: {
+        type: String,
+    },
+    disabled: {
+        type: Boolean,
+        default: false,
+    },
+    iconOnly: {
+        type: Boolean,
+        default: false,
+    },
+    srText: {
+        type: String || undefined,
+        default: undefined,
+    },
+    external: {
+        type: Boolean,
+        default: false,
+    }
+})
+
+const emit = defineEmits(['click'])
+
+const { type, variant, size, squared, pill, href, iconOnly, srText, external } = props
+
+const { disabled } = toRefs(props)
+
+const baseClasses = [
+    'inline-flex items-center justify-center gap-3 transition-colors text-sm font-medium select-none disabled:cursor-not-allowed disabled:text-gray-400 focus:outline-none focus:ring',
+]
+
+const variantClasses = (variant) => ({
+    'bg-primary-500 dark:bg-primary-600 hover:bg-primary-600 dark:hover:bg-primary-700 border border-primary-500 hover:border-primary-600 dark:border-primary-600 dark:hover:border-primary-700 focus:ring-primary-500 dark:ring-primary-600 text-white dark:text-surface-950 disabled:border-gray-100 disabled:bg-gray-100 dark:disabled:border-gray-800 dark:disabled:bg-gray-800': variant === 'primary-flat',
+    'bg-primary-50 dark:bg-primary-100 hover:bg-primary-100 dark:hover:bg-primary-200 border border-primary-50 hover:border-primary-100 dark:border-primary-100 dark:hover:border-primary-200 focus:ring-primary-100 dark:ring-primary-200 text-primary-500 dark:text-primary-400 disabled:border-gray-100 disabled:bg-gray-100 dark:disabled:border-gray-800 dark:disabled:bg-gray-800': variant === 'primary-tonal',
+    'bg-white dark:bg-surface-950 hover:bg-primary-25 dark:hover:bg-primary-50 border border-primary-500 hover:border-primary-600 dark:border-primary-600 dark:hover:border-primary-700 focus:ring-primary-500 dark:ring-primary-600 text-primary-500 dark:text-primary-400 shadow-input disabled:bg-gray-100 dark:disabled:bg-gray-800 disabled:border-gray-200 dark:disabled:border-gray-800': variant === 'primary-outlined',
+    'bg-transparent dark:bg-transparent hover:bg-primary-25 dark:hover:bg-primary-50 focus:ring-primary-100 dark:ring-primary-200 text-primary-500 dark:text-primary-400 disabled:bg-transparent dark:disabled:bg-transparent': variant === 'primary-text',
+
+    'bg-gray-400 dark:bg-gray-500 hover:bg-gray-500 dark:hover:bg-gray-600 border border-gray-400 hover:border-gray-500 dark:border-gray-500 dark:hover:border-gray-600 focus:ring-gray-500 dark:ring-gray-600 text-white dark:text-surface-950 disabled:border-gray-100 disabled:bg-gray-100 dark:disabled:border-gray-800 dark:disabled:bg-gray-800': variant === 'gray-flat',
+    'bg-gray-100 dark:bg-gray-200 hover:bg-gray-200 dark:hover:bg-gray-300 border border-gray-100 hover:border-gray-200 dark:border-gray-200 dark:hover:border-gray-300 focus:ring-gray-100 dark:ring-gray-200 text-gray-500 dark:text-gray-400 disabled:border-gray-100 disabled:bg-gray-100 dark:disabled:border-gray-800 dark:disabled:bg-gray-800': variant === 'gray-tonal',
+    'bg-white dark:bg-surface-950 hover:bg-gray-50 dark:hover:bg-gray-100 border border-gray-300 hover:border-gray-400 dark:border-gray-400 dark:hover:border-gray-500 focus:ring-gray-300 dark:ring-gray-400 text-gray-950 dark:text-gray-400 shadow-input disabled:bg-gray-100 dark:disabled:bg-gray-800 disabled:border-gray-200 dark:disabled:border-gray-800': variant === 'gray-outlined',
+    'bg-transparent dark:bg-transparent hover:bg-gray-200 dark:hover:bg-gray-800 focus:ring-0 focus:ring-gray-100 dark:ring-gray-800 text-gray-500 dark:text-white disabled:bg-transparent dark:disabled:bg-transparent': variant === 'gray-text',
+
+    'bg-error-500 dark:bg-error-600 hover:bg-error-600 dark:hover:bg-error-700 border border-error-500 hover:border-error-600 dark:border-error-600 dark:hover:border-error-700 focus:ring-error-500 dark:ring-error-600 text-white dark:text-surface-950 disabled:border-gray-100 disabled:bg-gray-100 dark:disabled:border-gray-800 dark:disabled:bg-gray-800': variant === 'error-flat',
+    'bg-error-50 dark:bg-error-100 hover:bg-error-100 dark:hover:bg-error-200 border border-error-50 hover:border-error-100 dark:border-error-100 dark:hover:border-error-200 focus:ring-error-100 dark:ring-error-200 text-error-500 dark:text-error-400 disabled:border-gray-100 disabled:bg-gray-100 dark:disabled:border-gray-800 dark:disabled:bg-gray-800': variant === 'error-tonal',
+    'bg-white dark:bg-surface-950 hover:bg-error-50 dark:hover:bg-error-100 border border-error-500 hover:border-error-600 dark:border-error-600 dark:hover:border-error-700 focus:ring-error-500 dark:ring-error-600 text-error-500 dark:text-error-400 shadow-input disabled:bg-gray-100 dark:disabled:bg-gray-800 disabled:border-gray-200 dark:disabled:border-gray-800': variant === 'error-outlined',
+    'bg-transparent dark:bg-transparent hover:bg-error-50 dark:hover:bg-error-100 focus:ring-error-100 dark:ring-error-200 text-error-500 dark:text-error-400 disabled:bg-transparent dark:disabled:bg-transparent': variant === 'error-text',
+
+    'bg-success-500 dark:bg-success-600 hover:bg-success-600 dark:hover:bg-success-700 border border-success-500 hover:border-success-600 dark:border-success-600 dark:hover:border-success-700 focus:ring-success-500 dark:ring-success-600 text-white dark:text-surface-950 disabled:border-gray-100 disabled:bg-gray-100 dark:disabled:border-gray-800 dark:disabled:bg-gray-800': variant === 'success-flat',
+    'bg-success-50 dark:bg-success-100 hover:bg-success-100 dark:hover:bg-success-200 border border-success-50 hover:border-success-100 dark:border-success-100 dark:hover:border-success-200 focus:ring-success-100 dark:ring-success-200 text-success-500 dark:text-success-400 disabled:border-gray-100 disabled:bg-gray-100 dark:disabled:border-gray-800 dark:disabled:bg-gray-800': variant === 'success-tonal',
+    'bg-white dark:bg-surface-950 hover:bg-success-50 dark:hover:bg-success-100 border border-success-500 hover:border-success-600 dark:border-success-600 dark:hover:border-success-700 focus:ring-success-500 dark:ring-success-600 text-success-500 dark:text-success-400 shadow-input disabled:bg-gray-100 dark:disabled:bg-gray-800 disabled:border-gray-200 dark:disabled:border-gray-800': variant === 'success-outlined',
+    'bg-transparent dark:bg-transparent hover:bg-success-50 dark:hover:bg-success-100 focus:ring-success-100 dark:ring-success-200 text-success-500 dark:text-success-400 disabled:bg-transparent dark:disabled:bg-transparent': variant === 'success-text',
+})
+
+const classes = computed(() => [
+    ...baseClasses,
+    iconOnly
+        ? {
+            'p-2.5': size === 'sm',
+            'p-3': size === 'base',
+            'p-4': size === 'lg',
+        }
+        : {
+            'px-4 py-2': size === 'sm',
+            'px-6 py-3': size === 'base',
+            'px-8 py-4': size === 'lg',
+        },
+    variantClasses(variant),
+    {
+        'rounded-lg': !squared && !pill,
+        'rounded-full': pill,
+    },
+    {
+        'pointer-events-none': href && disabled.value,
+    },
+])
+
+const iconSizeClasses = computed(() => ({
+    'w-4 h-4': props.size === 'sm',
+    'w-5 h-5': props.size === 'base' || props.size === 'lg',
+}))
+
+const handleClick = (e) => {
+    if (disabled.value) {
+        e.preventDefault()
+        e.stopPropagation()
+        return
+    }
+    emit('click', e)
+}
+
+const Tag = external ?  'a' : Link
+</script>
+
+<template>
+    <component
+        :is="Tag"
+        v-if="href"
+        :href="!disabled ? href : null"
+        :class="classes"
+        :aria-disabled="disabled.toString()"
+    >
+        <span
+            v-if="srText"
+            class="sr-only"
+        >
+            {{ srText }}
+        </span>
+
+        <slot :iconSizeClasses="iconSizeClasses" />
+    </component>
+
+    <button
+        v-else
+        :type="type"
+        :class="classes"
+        @click="handleClick"
+        :disabled="disabled"
+    >
+        <span
+            v-if="srText"
+            class="sr-only"
+        >
+            {{ srText }}
+        </span>
+
+        <slot :iconSizeClasses="iconSizeClasses" />
+    </button>
+</template>

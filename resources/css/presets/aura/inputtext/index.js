@@ -2,7 +2,7 @@ export default {
     root: ({ props, context, parent }) => ({
         class: [
             // Font
-            'leading-none',
+            'text-sm',
 
             // Flex
             { 'flex-1 w-[1%]': parent.instance.$name == 'InputGroup' },
@@ -32,9 +32,7 @@ export default {
             { 'border-surface-300 dark:border-surface-700': !props.invalid },
 
             // Invalid State
-            'invalid:focus:ring-red-200',
-            'invalid:hover:border-red-500',
-            { 'border-red-500 dark:border-red-400': props.invalid },
+            { 'border-error-500': props.invalid },
 
             // States
             {
@@ -47,7 +45,7 @@ export default {
             { filled: parent.instance?.$name == 'FloatLabel' && context.filled },
 
             // Misc
-            'appearance-none',
+            'appearance-none shadow',
             'transition-colors duration-200'
         ]
     })

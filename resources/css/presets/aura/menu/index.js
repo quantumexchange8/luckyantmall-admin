@@ -2,7 +2,7 @@ export default {
     root: {
         class: [
             // Sizing and Shape
-            'min-w-[12.5rem]',
+            'min-w-[7.5rem]',
             'rounded-md',
 
             // Spacing
@@ -20,7 +20,8 @@ export default {
             'list-none',
             'm-0',
             'p-0',
-            'outline-none'
+            'outline-none',
+            'text-sm'
         ]
     },
     item: {

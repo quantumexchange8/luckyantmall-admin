@@ -1,11 +1,13 @@
 <script setup>
-import Checkbox from '@/Components/Checkbox.vue';
+import Checkbox from 'primevue/checkbox';
 import GuestLayout from '@/Layouts/GuestLayout.vue';
 import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import InputText from 'primevue/inputtext';
+import Password from 'primevue/password';
 import { Head, Link, useForm } from '@inertiajs/vue3';
+import Button from "@/Components/Button.vue"
 
 defineProps({
     canResetPassword: {
@@ -37,8 +39,11 @@ const submit = () => {
             {{ status }}
         </div>
 
-        <form @submit.prevent="submit">
-            <div>
+        <form
+            @submit.prevent="submit"
+            class="space-y-4 w-full"
+        >
+            <div class="flex flex-col gap-1">
                 <InputLabel for="email" value="Email" />
 
                 <InputText
@@ -54,41 +59,50 @@ const submit = () => {
                 <InputError class="mt-2" :message="form.errors.email" />
             </div>
 
-            <div class="mt-4">
+            <div class="flex flex-col gap-1">
                 <InputLabel for="password" value="Password" />
 
-                <InputText
-                    id="password"
-                    type="password"
-                    class="mt-1 block w-full"
+                <Password
+                    input-id="password"
                     v-model="form.password"
-                    required
+                    toggleMask
+                    :inputStyle="{'width': '100%'}"
+                    :style="{'width': '100%'}"
+                    :invalid="!!form.errors.password"
+                    :feedback="false"
                     autocomplete="current-password"
                 />
 
                 <InputError class="mt-2" :message="form.errors.password" />
             </div>
 
-            <div class="block mt-4">
+            <div class="mt-4 flex justify-between">
                 <label class="flex items-center">
-                    <Checkbox name="remember" v-model:checked="form.remember" />
-                    <span class="ms-2 text-sm text-gray-600">Remember me</span>
+                    <Checkbox
+                        name="remember"
+                        v-model="form.remember"
+                        :binary="true"
+                    />
+                    <span class="ms-2 text-xs text-gray-600">Remember me</span>
                 </label>
-            </div>
 
-            <div class="flex items-center justify-end mt-4">
                 <Link
                     v-if="canResetPassword"
                     :href="route('password.request')"
-                    class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                    class="underline text-xs text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                 >
                     Forgot your password?
                 </Link>
-
-                <PrimaryButton class="ms-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                    Log in
-                </PrimaryButton>
             </div>
+
+            <Button
+                type="submit"
+                variant="primary-flat"
+                :disabled="form.processing"
+                class="w-full"
+            >
+                Log In
+            </Button>
         </form>
     </GuestLayout>
 </template>
