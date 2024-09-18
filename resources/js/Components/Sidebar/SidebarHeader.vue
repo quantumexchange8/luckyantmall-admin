@@ -14,7 +14,7 @@ import { IconX } from '@tabler/icons-vue';
                 </div>
                 <div
                     v-show="sidebarState.isOpen || sidebarState.isHovered"
-                    class="text-lg text-gray-800 dark:text-white w-full"
+                    class="text-gray-800 dark:text-white w-full"
                 >
                     Luckyant Mall
                 </div>

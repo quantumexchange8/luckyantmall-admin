@@ -33,11 +33,11 @@ const Tag = !props.external ? Link : 'a'
         v-if="href"
         :href="href"
         :class="[
-            'p-2.5 flex gap-3 items-center rounded-md transition-colors w-full',
+            'p-2.5 flex gap-3 items-center rounded-md transition-colors w-full hover:bg-primary-50 dark:hover:bg-primary-800/20',
             {
-                'text-gray-700 dark:text-gray-300 hover:text-primary-500 dark:hover:text-primary-100 hover:bg-primary-50 dark:hover:bg-primary-800':
+                'text-gray-700 dark:text-gray-300 hover:text-primary-500 dark:hover:text-primary-100':
                     !active,
-                'text-white bg-primary-500 dark:bg-primary-600 hover:bg-primary-600 dark:hover:bg-primary-700 border border-primary-500 hover:border-primary-600 dark:border-primary-600 dark:hover:border-primary-700':
+                'text-primary-600 bg-primary-100 dark:bg-primary-800/20':
                     active,
             },
         ]"

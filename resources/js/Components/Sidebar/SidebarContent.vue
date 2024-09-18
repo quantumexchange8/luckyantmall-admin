@@ -3,6 +3,7 @@ import PerfectScrollbar from '@/Components/PerfectScrollbar.vue'
 import SidebarLink from '@/Components/Sidebar/SidebarLink.vue'
 import SidebarCollapsible from '@/Components/Sidebar/SidebarCollapsible.vue'
 import SidebarCollapsibleItem from '@/Components/Sidebar/SidebarCollapsibleItem.vue'
+import { sidebarState } from '@/Composables'
 import {onMounted, ref, watchEffect} from "vue";
 import {usePage} from "@inertiajs/vue3";
 import {
@@ -17,6 +18,7 @@ import {
     IconClockDollar,
     IconAward
 } from '@tabler/icons-vue';
+import SidebarCategoryLabel from "@/Components/Sidebar/SidebarCategoryLabel.vue";
 
 const pendingWithdrawals = ref(0);
 const pendingPammAllocate = ref(0);
@@ -48,7 +50,11 @@ watchEffect(() => {
     <PerfectScrollbar
         tagname="nav"
         aria-label="main"
-        class="relative flex flex-col flex-1 max-h-full gap-1 px-5 py-3 items-center"
+        class="relative flex flex-col flex-1 max-h-full gap-1 items-center"
+        :class="{
+            'p-3': sidebarState.isOpen || sidebarState.isHovered,
+            'px-5 py-3': !sidebarState.isOpen && !sidebarState.isHovered,
+        }"
     >
         <!-- Dashboard -->
         <SidebarLink
@@ -61,46 +67,28 @@ watchEffect(() => {
             </template>
         </SidebarLink>
 
+        <SidebarCategoryLabel
+            :title="$t('public.customers')"
+        />
+
+        <SidebarCategoryLabel
+            :title="$t('public.product')"
+        />
+
         <!-- Pending -->
-<!--        <SidebarLink-->
-<!--            :title="$t('public.pending')"-->
-<!--            :href="route('pending')"-->
-<!--            :active="route().current('pending')"-->
-<!--            :pendingCounts="pendingWithdrawals"-->
-<!--        >-->
-<!--            <template #icon>-->
-<!--                <IconClockDollar :size="20" stroke-width="1.25" />-->
-<!--            </template>-->
-<!--        </SidebarLink>-->
+        <SidebarLink
+            :title="$t('public.profile')"
+            :href="route('profile.edit')"
+            :active="route().current('profile.edit')"
+        >
+            <template #icon>
+                <IconClockDollar :size="20" stroke-width="1.5" />
+            </template>
+        </SidebarLink>
 
-        <!-- Member -->
-<!--        <SidebarCollapsible-->
-<!--            :title="$t('public.member')"-->
-<!--            :active="route().current('member.*')"-->
-<!--        >-->
-<!--            <template #icon>-->
-<!--                <IconComponents :size="20" stroke-width="1.25" />-->
-<!--            </template>-->
-
-<!--            <SidebarCollapsibleItem-->
-<!--                :title="$t('public.member_listing')"-->
-<!--                :href="route('member.listing')"-->
-<!--                :active="route().current('member.listing') || route().current('member.detail')"-->
-<!--            />-->
-
-<!--            <SidebarCollapsibleItem-->
-<!--                :title="$t('public.member_network')"-->
-<!--                :href="route('member.network')"-->
-<!--                :active="route().current('member.network')"-->
-<!--            />-->
-
-<!--            <SidebarCollapsibleItem-->
-<!--                :title="$t('public.account_listing')"-->
-<!--                :href="route('member.account_listing')"-->
-<!--                :active="route().current('member.account_listing')"-->
-<!--            />-->
-
-<!--        </SidebarCollapsible>-->
+        <SidebarCategoryLabel
+            :title="$t('public.order')"
+        />
 
         <!-- Components -->
 <!--        <SidebarCollapsible-->
