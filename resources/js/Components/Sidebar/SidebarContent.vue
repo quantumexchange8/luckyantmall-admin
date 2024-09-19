@@ -8,7 +8,7 @@ import {onMounted, ref, watchEffect} from "vue";
 import {usePage} from "@inertiajs/vue3";
 import {
     IconLayoutDashboard,
-    IconComponents,
+    IconUsers,
     IconUserCircle,
     IconUsersGroup,
     IconReceiptDollar,
@@ -68,8 +68,48 @@ watchEffect(() => {
         </SidebarLink>
 
         <SidebarCategoryLabel
-            :title="$t('public.customers')"
+            :title="$t('public.customer')"
         />
+
+        <!-- Member -->
+        <SidebarCollapsible
+            :title="$t('public.customer')"
+            :active="route().current('customer.*')"
+        >
+            <template #icon>
+                <IconUsers :size="20" stroke-width="1.5" />
+            </template>
+
+            <SidebarCollapsibleItem
+                :title="$t('public.customer_listing')"
+                :href="route('customer.listing')"
+                :active="route().current('customer.listing')"
+            />
+
+<!--            <SidebarCollapsibleItem-->
+<!--                :title="$t('public.member_network')"-->
+<!--                :href="route('member.network')"-->
+<!--                :active="route().current('member.network')"-->
+<!--            />-->
+
+<!--            <SidebarCollapsibleItem-->
+<!--                :title="$t('public.account_listing')"-->
+<!--                :href="route('member.account_listing')"-->
+<!--                :active="route().current('member.account_listing')"-->
+<!--            />-->
+
+        </SidebarCollapsible>
+
+        <!-- Group -->
+        <SidebarLink
+            :title="$t('public.group')"
+            :href="route('group')"
+            :active="route().current('group')"
+        >
+            <template #icon>
+                <IconUsersGroup :size="20" stroke-width="1.5" />
+            </template>
+        </SidebarLink>
 
         <SidebarCategoryLabel
             :title="$t('public.product')"

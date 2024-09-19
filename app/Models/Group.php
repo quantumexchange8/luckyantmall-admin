@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Group extends Model
@@ -15,4 +16,10 @@ class Group extends Model
         'color',
         'edited_by',
     ];
+
+    // Relations
+    public function group_leader(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'group_leader_id', 'id');
+    }
 }

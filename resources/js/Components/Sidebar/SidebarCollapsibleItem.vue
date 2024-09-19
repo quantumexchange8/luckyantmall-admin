@@ -32,16 +32,16 @@ const Tag = external ? 'a' : Link
             :href="href"
             v-bind="$attrs"
             :class="[
-                'p-3 flex gap-3 items-center hover:text-primary-500 w-full',
+                'p-2.5 flex gap-3 items-center hover:text-primary-500 w-full',
                 {
                     'text-primary-500': active,
-                    'text-gray-950': !active,
+                    'text-gray-700': !active,
                 },
             ]"
         >
             <div class="p-1 flex items-center justify-center">
                 <IconCircle
-                    size="20"
+                    size="10"
                 />
             </div>
             <div v-show="sidebarState.isOpen || sidebarState.isHovered" class="font-medium">

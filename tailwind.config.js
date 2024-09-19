@@ -127,10 +127,10 @@ export default {
                 logo: '#2B398C',
                 indigo: '#424EF0',
                 turquoise: '#41EAD4',
-                green: '#06D001',
+                green: '#22c55e',
                 jonquil: '#ECC30B',
                 orange: '#F26419',
-                pink: '#FF2D58',
+                pink: '#f43f5e',
                 purple: '#7A5AF8',
             },
             boxShadow: {
@@ -151,7 +151,7 @@ export default {
                 xxl: ['30px', '42px'],
             },
             screens: {
-                'xs': '360px',
+                'xs': '320px',
                 'sm': '640px',
                 'md': '768px',
                 'lg': '1024px',

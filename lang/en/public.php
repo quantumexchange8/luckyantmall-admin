@@ -6,4 +6,7 @@ return [
     "remember_me" => "Remember me",
     "sign_in" => "Sign In",
     "dashboard" => "Dashboard",
+    "customer" => "Customer",
+    "customer_listing" => "Customer Listing",
+    "group" => "Group",
 ];

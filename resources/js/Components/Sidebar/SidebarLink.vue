@@ -68,11 +68,11 @@ const Tag = !props.external ? Link : 'a'
         v-else
         type="button"
         :class="[
-            'p-3 flex gap-3 items-center rounded-lg transition-colors w-full',
+            'p-2.5 flex gap-3 items-center rounded-md transition-colors w-full hover:bg-primary-50 dark:hover:bg-primary-800/20',
             {
-                'text-gray-950 hover:text-primary-500 hover:bg-primary-50':
+                'text-gray-700 dark:text-gray-300 hover:text-primary-500 dark:hover:text-primary-100':
                     !active,
-                'text-white bg-primary-500 hover:bg-primary-600':
+                'text-primary-600 bg-primary-100 dark:bg-primary-800/20':
                     active,
             },
         ]"

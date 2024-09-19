@@ -30,5 +30,21 @@ class UserSeeder extends Seeder
             'id_number' => 'SID000001',
             'role' => 'super-admin',
         ]);
+
+        User::create([
+            'name' => 'Luckyant Mall',
+            'email' => 'luckyant@luckyantmall.com',
+            'email_verified_at' => now(),
+            'password' =>  Hash::make('Lucky1234.'),
+            'remember_token' => Str::random(10),
+            'dial_code' => '60',
+            'phone' => '112233445',
+            'phone_number' => '60112233445',
+            'country_id' => 132,
+            'nationality' => 'Malaysian',
+            'referral_code' => 'LKMx123456',
+            'id_number' => 'LID000001',
+            'role' => 'user',
+        ]);
     }
 }

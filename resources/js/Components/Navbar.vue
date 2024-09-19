@@ -90,6 +90,7 @@ const changeLanguage = async (langVal) => {
                 <IconWorld size="20" stroke-width="1.5" />
             </Button>
             <Button
+                external
                 type="button"
                 variant="gray-text"
                 icon-only
