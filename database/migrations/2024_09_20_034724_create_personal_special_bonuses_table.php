@@ -7,25 +7,22 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up(): void
     {
-        Schema::create('groups', function (Blueprint $table) {
+        Schema::create('personal_special_bonuses', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->nullable();
-            $table->unsignedBigInteger('group_leader_id')->nullable();
-            $table->string('color')->nullable();
-            $table->unsignedBigInteger('parent_group_id')->nullable();
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->string('category')->nullable();
+            $table->double('bonus_in_percentage')->nullable();
+            $table->decimal('bonus_in_amount', 13)->nullable();
+            $table->tinyInteger('is_recurring')->nullable();
+            $table->string('bonus_period_type')->nullable();
+            $table->integer('bonus_period')->nullable();
             $table->unsignedBigInteger('edited_by')->nullable();
             $table->timestamps();
             $table->softDeletes();
 
-            $table->foreign('group_leader_id')
+            $table->foreign('user_id')
                 ->references('id')
                 ->on('users')
-                ->onUpdate('cascade')
-                ->onDelete('cascade');
-
-            $table->foreign('parent_group_id')
-                ->references('id')
-                ->on('groups')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
 
@@ -39,6 +36,6 @@ return new class extends Migration {
 
     public function down(): void
     {
-        Schema::dropIfExists('groups');
+        Schema::dropIfExists('personal_special_bonuses');
     }
 };

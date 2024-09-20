@@ -5,12 +5,12 @@ export default {
             'flex flex-col',
 
             //Shape
-            'rounded-[12px]',
-            'shadow-md',
+            'rounded-2xl',
+            'shadow-toast',
 
             //Color
-            'bg-surface-0 dark:bg-surface-900',
-            'text-surface-700 dark:text-surface-0'
+            'bg-surface-0 dark:bg-primary-900/20',
+            'text-gray-950 dark:text-surface-0'
         ]
     },
     body: {
@@ -19,7 +19,7 @@ export default {
             'flex flex-col',
             'gap-4',
 
-            'p-6'
+            'p-5'
         ]
     },
     caption: {

@@ -73,7 +73,7 @@ const variantClasses = (variant) => ({
 
     'bg-gray-400 dark:bg-gray-500 hover:bg-gray-500 dark:hover:bg-gray-600 border border-gray-400 hover:border-gray-500 dark:border-gray-500 dark:hover:border-gray-600 focus:ring-gray-500 dark:ring-gray-600 text-white dark:text-surface-950 disabled:border-gray-100 disabled:bg-gray-100 dark:disabled:border-gray-800 dark:disabled:bg-gray-800': variant === 'gray-flat',
     'bg-gray-100 dark:bg-gray-200 hover:bg-gray-200 dark:hover:bg-gray-300 border border-gray-100 hover:border-gray-200 dark:border-gray-200 dark:hover:border-gray-300 focus:ring-gray-100 dark:ring-gray-200 text-gray-500 dark:text-gray-400 disabled:border-gray-100 disabled:bg-gray-100 dark:disabled:border-gray-800 dark:disabled:bg-gray-800': variant === 'gray-tonal',
-    'bg-white dark:bg-surface-950 hover:bg-gray-50 dark:hover:bg-gray-100 border border-gray-300 hover:border-gray-400 dark:border-gray-400 dark:hover:border-gray-500 focus:ring-gray-300 dark:ring-gray-400 text-gray-950 dark:text-gray-400 shadow-input disabled:bg-gray-100 dark:disabled:bg-gray-800 disabled:border-gray-200 dark:disabled:border-gray-800': variant === 'gray-outlined',
+    'bg-white dark:bg-surface-800 hover:bg-gray-50 dark:hover:bg-gray-100 border border-gray-300 hover:border-gray-400 dark:border-gray-400 dark:hover:border-gray-500 focus:ring-gray-300 dark:ring-gray-400 text-gray-950 dark:text-gray-400 shadow-input disabled:bg-gray-100 dark:disabled:bg-gray-800 disabled:border-gray-200 dark:disabled:border-gray-800': variant === 'gray-outlined',
     'bg-transparent dark:bg-transparent hover:bg-gray-200 dark:hover:bg-gray-800 focus:ring-0 focus:ring-gray-100 dark:ring-gray-800 text-gray-500 dark:text-white disabled:bg-transparent dark:disabled:bg-transparent': variant === 'gray-text',
 
     'bg-error-500 dark:bg-error-600 hover:bg-error-600 dark:hover:bg-error-700 border border-error-500 hover:border-error-600 dark:border-error-600 dark:hover:border-error-700 focus:ring-error-500 dark:ring-error-600 text-white dark:text-surface-950 disabled:border-gray-100 disabled:bg-gray-100 dark:disabled:border-gray-800 dark:disabled:bg-gray-800': variant === 'error-flat',
@@ -102,7 +102,7 @@ const classes = computed(() => [
         },
     variantClasses(variant),
     {
-        'rounded-lg': !squared && !pill,
+        'rounded-md': !squared && !pill,
         'rounded-full': pill,
     },
     {

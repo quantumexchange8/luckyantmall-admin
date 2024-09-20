@@ -17,7 +17,7 @@ export default {
                 'flex-auto w-[1%]',
 
                 // Font
-                'leading-none',
+                'leading-none text-sm',
 
                 // Colors
                 'text-surface-600 dark:text-surface-200',
@@ -36,9 +36,9 @@ export default {
 
                 // Shape
                 'appearance-none',
-                { 'rounded-md': !props.showIcon || props.iconDisplay == 'input' },
-                { 'rounded-l-md  flex-1 pr-9': props.showIcon && props.iconDisplay !== 'input' },
-                { 'rounded-md flex-1 pr-9': props.showIcon && props.iconDisplay === 'input' },
+                { 'rounded-lg': !props.showIcon || props.iconDisplay == 'input' },
+                { 'rounded-l-lg  flex-1 pr-9': props.showIcon && props.iconDisplay !== 'input' },
+                { 'rounded-lg flex-1 pr-9': props.showIcon && props.iconDisplay === 'input' },
 
                 // Transitions
                 'transition-colors',
@@ -67,7 +67,7 @@ export default {
             'items-center inline-flex text-center align-bottom justify-center',
 
             // Shape
-            'rounded-r-md',
+            'rounded-r-lg',
 
             // Size
             'py-2 px-0',
@@ -144,7 +144,7 @@ export default {
     selectMonth: {
         class: [
             // Font
-            'text-base leading-[normal]',
+            'text-sm leading-[normal]',
             'font-medium',
 
             //shape
@@ -171,7 +171,7 @@ export default {
     selectYear: {
         class: [
             // Font
-            'text-base leading-[normal]',
+            'text-sm leading-[normal]',
             'font-medium',
 
             //shape
@@ -198,7 +198,7 @@ export default {
     table: {
         class: [
             // Font
-            'text-base leading-[normal]',
+            'text-sm leading-[normal]',
             // Size & Shape
             'border-collapse',
             'w-full',
@@ -211,7 +211,8 @@ export default {
         class: [
             // Spacing
             'p-1',
-            'font-medium'
+            'font-medium',
+            'text-sm'
         ]
     },
     weekHeader: {
@@ -230,7 +231,8 @@ export default {
     dayCell: {
         class: [
             // Spacing
-            'p-1'
+            'p-1',
+            'text-sm'
         ]
     },
     weekLabelContainer: {
@@ -264,9 +266,9 @@ export default {
 
             // Colors
             {
-                'bg-surface-100 dark:bg-surface-800 text-surface-600 dark:text-white/70': context.date.today && !context.selected && !context.disabled,
+                'bg-surface-100 dark:bg-surface-800 text-primary-600 dark:text-white/70': context.date.today && !context.selected && !context.disabled,
                 'bg-transparent text-surface-600 dark:text-white/70': !context.selected && !context.disabled && !context.date.today,
-                'bg-highlight': context.selected && !context.disabled
+                'bg-primary-100 dark:bg-surface-800 text-primary-600 dark:text-white/70': context.selected && !context.disabled
             },
 
             // States
@@ -275,7 +277,7 @@ export default {
                 'hover:bg-surface-50 dark:hover:bg-surface-500/10': !context.selected && !context.disabled
             },
             {
-                'opacity-60 cursor-default': context.disabled,
+                'text-surface-400 dark:text-surface-600 cursor-default': context.disabled,
                 'cursor-pointer': !context.disabled
             }
         ]

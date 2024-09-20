@@ -17,7 +17,10 @@ class GroupController extends Controller
 
     public function getGroupsData(Request $request)
     {
-        $groupsQuery = Group::query()->with('group_leader:id,name,email,upline_id,hierarchyList');
+        $groupsQuery = Group::query()->with([
+            'group_leader:id,name,email,upline_id,hierarchyList',
+            'group_has_user'
+        ]);
         $totalRecords = $groupsQuery->count();
         $groups = $groupsQuery->paginate($request->paginate);
 
@@ -27,6 +30,7 @@ class GroupController extends Controller
                 'color' => $group->color,
                 'leader_name' => $group->group_leader->name,
                 'leader_email' => $group->group_leader->email,
+                'member_count' => $group->group_has_user()->count(),
             ];
         });
 
