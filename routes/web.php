@@ -40,6 +40,7 @@ Route::middleware('auth')->group(function () {
     Route::prefix('customer')->group(function () {
         // listing
         Route::get('/listing', [CustomerController::class, 'index'])->name('customer.listing');
+        Route::get('/getCustomersData', [CustomerController::class, 'getCustomersData'])->name('customer.getCustomersData');
     });
 
     /**

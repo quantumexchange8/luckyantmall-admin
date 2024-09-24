@@ -43,16 +43,10 @@ export default {
     }),
     header: ({ props }) => ({
         class: [
-            'font-bold',
-
-            // Shape
-            props.showGridlines ? 'border-x border-t border-b-0' : 'border-y border-x-0',
-
-            // Spacing
-            'p-4',
+            'font-semibold',
 
             // Color
-            'bg-surface-0 dark:bg-surface-900',
+            'bg-surface-0 dark:bg-transparent',
             'border-surface-200 dark:border-surface-700',
             'text-surface-700 dark:text-white/80'
         ]
@@ -72,7 +66,7 @@ export default {
             {
                 'sticky z-20': instance.frozenRow && context.scrollable
             },
-            'bg-surface-0 dark:bg-surface-900'
+            'bg-surface-0 dark:bg-transparent'
         ]
     }),
     tfoot: ({ context }) => ({
@@ -93,7 +87,7 @@ export default {
             'p-4',
 
             // Color
-            'bg-surface-0 dark:bg-surface-900',
+            'bg-surface-0 dark:bg-transparent',
             'border-surface-200 dark:border-surface-700',
             'text-surface-700 dark:text-white/80'
         ]
@@ -103,6 +97,8 @@ export default {
             class: [
                 'font-semibold',
                 'leading-[normal]',
+                'text-sm',
+                'uppercase',
 
                 // Position
                 { 'sticky z-20 border-b': props.frozen || props.frozen === '' },
@@ -117,10 +113,10 @@ export default {
                 'border-0 border-b border-solid',
 
                 // Spacing
-                context?.size === 'small' ? 'py-[0.375rem] px-2' : context?.size === 'large' ? 'py-[0.9375rem] px-5' : 'py-3 px-4',
+                context?.size === 'small' ? 'py-[0.375rem] px-2' : context?.size === 'large' ? 'py-[0.9375rem] px-5' : 'py-2.5 px-4',
 
                 // Color
-                (props.sortable === '' || props.sortable) && context.sorted ? 'bg-highlight' : 'bg-surface-50 text-surface-700 dark:text-white/80 dark:bg-surface-800',
+                (props.sortable === '' || props.sortable) && context.sorted ? 'bg-primary-100 dark:bg-primary-800/30' : 'bg-surface-50 text-surface-700 dark:text-white/80 dark:bg-surface-800',
                 'border-surface-200 dark:border-surface-700 ',
 
                 // States
@@ -147,6 +143,7 @@ export default {
             class: [
                 // Font
                 'leading-[normal]',
+                'text-sm',
 
                 //Position
                 { 'sticky box-border border-b': parent.instance.frozenRow },
@@ -163,7 +160,7 @@ export default {
                 // Spacing
                 { 'py-[0.375rem] px-2': context?.size === 'small' && !state['d_editing'] },
                 { 'py-[0.9375rem] px-5': context?.size === 'large' && !state['d_editing'] },
-                { 'py-3 px-4': context?.size !== 'large' && context?.size !== 'small' && !state['d_editing'] },
+                { 'py-2.5 px-4': context?.size !== 'large' && context?.size !== 'small' && !state['d_editing'] },
                 { 'py-[0.6rem] px-2': state['d_editing'] },
 
                 // Color
@@ -192,7 +189,7 @@ export default {
                 // Color
                 'border-surface-200 dark:border-surface-700',
                 'text-surface-700 dark:text-white/80',
-                'bg-surface-0 dark:bg-surface-900'
+                'bg-surface-0 dark:bg-transparent'
             ]
         }),
         sortIcon: ({ context }) => ({
@@ -343,9 +340,9 @@ export default {
             // Color
             'dark:text-white/80',
             { 'bg-highlight': context.selected && props.highlightOnSelect },
-            { 'bg-surface-0 text-surface-600 dark:bg-surface-900': !context.selected },
-            { 'font-bold bg-surface-0 dark:bg-surface-900 z-20': props.frozenRow },
-            { 'odd:bg-surface-0 odd:text-surface-600 dark:odd:bg-surface-900 even:bg-surface-50 even:text-surface-600 dark:even:bg-surface-800/50': context.stripedRows },
+            { 'bg-surface-0 text-gray-800 dark:bg-transparent': !context.selected },
+            { 'font-bold bg-surface-0 dark:bg-transparent z-20': props.frozenRow },
+            { 'odd:bg-surface-0 odd:text-surface-600 dark:odd:bg-transparent even:bg-surface-50 even:text-surface-600 dark:even:bg-surface-800/50': context.stripedRows },
 
             // State
             { 'hover:bg-surface-300/20 dark:hover:bg-surface-800/50 hover:text-surface-600': props.selectionMode && !context.selected },

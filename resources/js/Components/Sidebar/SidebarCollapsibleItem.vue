@@ -24,7 +24,7 @@ const Tag = external ? 'a' : Link
 <template>
     <li
         :class="[
-            'text-sm rounded-lg hover:cursor-pointer hover:bg-primary-50 mt-1',
+            'text-sm rounded-lg hover:cursor-pointer hover:bg-primary-50 dark:hover:bg-transparent mt-1',
         ]"
     >
         <component

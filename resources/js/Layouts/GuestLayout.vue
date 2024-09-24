@@ -8,7 +8,7 @@ import Button from "@/Components/Button.vue"
 </script>
 
 <template>
-    <div class="flex flex-col min-h-screen bg-surface-0 dark:bg-surface-950">
+    <div class="flex flex-col min-h-screen bg-surface-0 dark:bg-gray-950">
         <div class="flex py-3 px-5 md:px-10 justify-end items-center">
             <Button
                 type="button"

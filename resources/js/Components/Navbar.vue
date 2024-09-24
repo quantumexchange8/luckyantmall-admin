@@ -8,7 +8,7 @@ import {
     IconSun
 } from '@tabler/icons-vue';
 // import ProfilePhoto from "@/Components/ProfilePhoto.vue";
-import {Link, usePage} from "@inertiajs/vue3";
+import {Link, router, usePage} from "@inertiajs/vue3";
 import Menu from 'primevue/menu';
 import Button from '@/Components/Button.vue';
 import {ref} from "vue";
@@ -46,12 +46,16 @@ const changeLanguage = async (langVal) => {
         console.error('Error changing locale:', error);
     }
 };
+
+const handleLogOut = () => {
+    router.post(route('logout'))
+}
 </script>
 
 <template>
     <nav
         aria-label="secondary"
-        class="sticky top-0 z-10 py-2 px-3 md:px-5 bg-primary-50 dark:bg-surface-950 flex items-center gap-3"
+        class="sticky top-0 z-10 py-2 px-3 md:px-5 bg-primary-50 dark:bg-gray-950 flex items-center gap-3"
     >
         <Button
             type="button"
@@ -95,8 +99,7 @@ const changeLanguage = async (langVal) => {
                 variant="gray-text"
                 icon-only
                 pill
-                :href="route('logout')"
-                method="post"
+                @click="handleLogOut"
             >
                 <IconLogout size="20" stroke-width="1.5" />
             </Button>
