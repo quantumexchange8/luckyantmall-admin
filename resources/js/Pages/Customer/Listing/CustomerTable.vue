@@ -1,5 +1,5 @@
 <script setup>
-import {ref} from "vue";
+import {onMounted, ref, watchEffect} from "vue";
 import Empty from "@/Components/Empty.vue";
 import Button from "@/Components/Button.vue";
 import {transactionFormat} from "@/Composables/format.js";
@@ -11,7 +11,6 @@ import {
     IconDownload
 } from "@tabler/icons-vue"
 import DatePicker from "primevue/datepicker";
-import CreateGroup from "@/Pages/Group/Partials/CreateGroup.vue";
 import Card from "primevue/card"
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
@@ -19,6 +18,7 @@ import {FilterMatchMode} from "@primevue/core/api";
 import InputText from "primevue/inputtext";
 import Tag from "primevue/tag";
 import dayjs from "dayjs";
+import {usePage} from "@inertiajs/vue3";
 
 const props = defineProps({
     customerCounts: Number
@@ -32,32 +32,30 @@ const total_users = ref(0);
 const {formatAmount} = transactionFormat();
 const dates = ref();
 
-const getResults = async (page = 1, filterRowsPerPage = rowsPerPage.value) => {
+const getResults = async () => {
     isLoading.value = true;
-
     try {
-        let url = `/customer/getCustomersData?page=${page}&paginate=${filterRowsPerPage}`;
-
-        const response = await axios.get(url);
+        const response = await axios.get('/customer/getCustomersData');
         users.value = response.data.users;
         total_users.value = response.data.total_users;
-        currentPage.value = response.data.currentPage;
     } catch (error) {
-        console.error('Error getting masters:', error);
+        console.error('Error fetching users:', error);
     } finally {
         isLoading.value = false;
     }
-}
+};
 
-getResults();
+onMounted(() => {
+    getResults();
+})
 
 const filters = ref({
-    global: { value: null, matchMode: FilterMatchMode.CONTAINS },
-    name: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
-    upline_id: { value: null, matchMode: FilterMatchMode.EQUALS },
-    group_id: { value: null, matchMode: FilterMatchMode.EQUALS },
-    role: { value: null, matchMode: FilterMatchMode.EQUALS },
-    status: { value: null, matchMode: FilterMatchMode.EQUALS },
+    global: {value: null, matchMode: FilterMatchMode.CONTAINS},
+    name: {value: null, matchMode: FilterMatchMode.STARTS_WITH},
+    upline_id: {value: null, matchMode: FilterMatchMode.EQUALS},
+    group_id: {value: null, matchMode: FilterMatchMode.EQUALS},
+    role: {value: null, matchMode: FilterMatchMode.EQUALS},
+    status: {value: null, matchMode: FilterMatchMode.EQUALS},
 });
 
 const getSeverity = (status) => {
@@ -75,6 +73,12 @@ const getSeverity = (status) => {
             return null;
     }
 }
+
+watchEffect(() => {
+    if (usePage().props.toast !== null) {
+        getResults();
+    }
+});
 </script>
 
 <template>
@@ -92,8 +96,8 @@ const getSeverity = (status) => {
                     v-else
                     class="w-full"
                     :class="{
-                'grid md:grid-cols-2': isLoading
-            }"
+                        'grid md:grid-cols-2': isLoading
+                    }"
                 >
                     <div
                         v-if="isLoading"
@@ -130,15 +134,17 @@ const getSeverity = (status) => {
                                 <div class="flex flex-col md:flex-row gap-3 items-center self-stretch md:pb-5">
                                     <div class="relative w-full md:w-60">
                                         <div class="absolute top-2/4 -mt-[9px] left-4 text-gray-400">
-                                            <IconSearch size="20" stroke-width="1.5" />
+                                            <IconSearch size="20" stroke-width="1.5"/>
                                         </div>
-                                        <InputText v-model="filters['global'].value" :placeholder="$t('public.keyword_search')" class="font-normal pl-12 w-full md:w-60" />
+                                        <InputText v-model="filters['global'].value"
+                                                   :placeholder="$t('public.keyword_search')"
+                                                   class="font-normal pl-12 w-full md:w-60"/>
                                         <div
                                             v-if="filters['global'].value !== null"
                                             class="absolute top-2/4 -mt-2 right-4 text-gray-300 hover:text-gray-400 select-none cursor-pointer"
                                             @click="clearFilterGlobal"
                                         >
-                                            <IconCircleXFilled size="16" />
+                                            <IconCircleXFilled size="16"/>
                                         </div>
                                     </div>
                                     <div class="grid grid-cols-2 w-full gap-3">
@@ -147,7 +153,7 @@ const getSeverity = (status) => {
                                             variant="gray-outlined"
                                             class="flex gap-3 items-center justify-center w-full md:w-[130px]"
                                         >
-                                            <IconAdjustments size="16" stroke-width="1.5" />
+                                            <IconAdjustments size="16" stroke-width="1.5"/>
                                             <div class="text-sm font-medium">
                                                 {{ $t('public.filter') }}
                                             </div>
@@ -160,16 +166,19 @@ const getSeverity = (status) => {
                                                 class="w-full md:w-auto"
                                             >
                                                 {{ $t('public.export') }}
-                                                <IconDownload size="16" stroke-width="1.5" />
+                                                <IconDownload size="16" stroke-width="1.5"/>
                                             </Button>
                                         </div>
                                     </div>
                                 </div>
                             </template>
-                            <template #empty><Empty :title="$t('public.empty_member_title')" :message="$t('public.empty_member_message')" /></template>
+                            <template #empty>
+                                <Empty :title="$t('public.empty_member_title')"
+                                       :message="$t('public.empty_member_message')"/>
+                            </template>
                             <template #loading>
                                 <div class="flex flex-col gap-2 items-center justify-center">
-                                    <Loader />
+                                    <Loader/>
                                     <span class="text-sm text-gray-700">{{ $t('public.loading_users_caption') }}</span>
                                 </div>
                             </template>
@@ -201,7 +210,7 @@ const getSeverity = (status) => {
                                                     <img :src="slotProps.data.profile_photo" alt="profile_photo">
                                                 </template>
                                                 <template v-else>
-                                                    <DefaultProfilePhoto />
+                                                    <DefaultProfilePhoto/>
                                                 </template>
                                             </div>
                                             <div class="flex flex-col items-start">
@@ -259,7 +268,9 @@ const getSeverity = (status) => {
                                     class="hidden md:table-cell"
                                 >
                                     <template #header>
-                                        <span class="hidden md:block items-center justify-center w-full text-center">{{ $t('public.group') }}</span>
+                                        <span class="hidden md:block items-center justify-center w-full text-center">{{
+                                                $t('public.group')
+                                            }}</span>
                                     </template>
                                     <template #body="slotProps">
                                         <div class="flex items-center justify-center">
@@ -311,7 +322,8 @@ const getSeverity = (status) => {
                                         <span class="hidden md:block">{{ $t('public.status') }}</span>
                                     </template>
                                     <template #body="slotProps">
-                                        <Tag :value="slotProps.data.kyc_status" :severity="getSeverity(slotProps.data.kyc_status)" />
+                                        <Tag :value="slotProps.data.kyc_status"
+                                             :severity="getSeverity(slotProps.data.kyc_status)"/>
                                     </template>
                                 </Column>
                                 <Column
@@ -333,17 +345,20 @@ const getSeverity = (status) => {
                                                 <div class="flex items-center gap-3 w-full">
                                                     <div class="w-7 h-7 rounded-full overflow-hidden grow-0 shrink-0">
                                                         <template v-if="slotProps.data.profile_photo">
-                                                            <img :src="slotProps.data.profile_photo" alt="profile_photo">
+                                                            <img :src="slotProps.data.profile_photo"
+                                                                 alt="profile_photo">
                                                         </template>
                                                         <template v-else>
-                                                            <DefaultProfilePhoto />
+                                                            <DefaultProfilePhoto/>
                                                         </template>
                                                     </div>
                                                     <div class="flex flex-col items-start">
-                                                        <div class="font-medium max-w-[120px] xxs:max-w-[140px] min-[390px]:max-w-[180px] xs:max-w-[220px] truncate">
+                                                        <div
+                                                            class="font-medium max-w-[120px] xxs:max-w-[140px] min-[390px]:max-w-[180px] xs:max-w-[220px] truncate">
                                                             {{ slotProps.data.name }}
                                                         </div>
-                                                        <div class="text-gray-500 text-xs max-w-[120px] xxs:max-w-[140px] min-[390px]:max-w-[180px] xs:max-w-[220px] truncate">
+                                                        <div
+                                                            class="text-gray-500 text-xs max-w-[120px] xxs:max-w-[140px] min-[390px]:max-w-[180px] xs:max-w-[220px] truncate">
                                                             {{ slotProps.data.email }}
                                                         </div>
                                                     </div>
@@ -355,7 +370,9 @@ const getSeverity = (status) => {
                                                 </div>
                                             </div>
                                             <div class="flex items-center gap-1 h-[26px]">
-                                                <StatusBadge :value="slotProps.data.role">{{ $t(`public.${slotProps.data.role}`) }}</StatusBadge>
+                                                <StatusBadge :value="slotProps.data.role">
+                                                    {{ $t(`public.${slotProps.data.role}`) }}
+                                                </StatusBadge>
                                                 <div class="flex items-center justify-center">
                                                     <div
                                                         v-if="slotProps.data.group_id"

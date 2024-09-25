@@ -51,7 +51,7 @@ export default {
         ]
     },
     title: {
-        class: ['font-semibold text-xl leading-[normal]']
+        class: ['font-semibold text-lg leading-[normal]']
     },
     headerActions: {
         class: ['flex items-center']

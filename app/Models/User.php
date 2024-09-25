@@ -17,10 +17,10 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
+    protected $guarded = [
+        'id',
+        'created_at',
+        'updated_at',
     ];
 
     /**
@@ -44,6 +44,29 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function setReferralId(): void
+    {
+        $characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        $randomString = 'LKMx';
+
+        $length = 10 - strlen($randomString);
+
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, strlen($characters) - 1)];
+        }
+
+        $this->referral_code = $randomString;
+        $this->save();
+    }
+
+    public function assignGroup($group_id): void
+    {
+        GroupHasUser::updateOrCreate(
+            ['user_id' => $this->id],
+            ['group_id' => $group_id]
+        );
     }
 
     // Relations

@@ -4,6 +4,7 @@ export default {
             // Display and Position
             'inline-flex',
             'relative',
+
             // Shape
             { 'rounded-md': parent.instance.$name !== 'InputGroup' },
             { 'first:rounded-l-md rounded-none last:rounded-r-md': parent.instance.$name == 'InputGroup' },
@@ -11,17 +12,18 @@ export default {
             { 'first:ml-0 ml-[-1px]': parent.instance.$name == 'InputGroup' && !props.showButtons },
 
             // Color and Background
-            { 'bg-surface-0 dark:bg-surface-950': !props.disabled },
+            { 'bg-surface-0 dark:bg-gray-950': !props.disabled },
 
             'border',
             { 'dark:border-surface-700': parent.instance.$name != 'InputGroup' },
             { 'dark:border-surface-600': parent.instance.$name == 'InputGroup' },
             { 'border-surface-300 dark:border-surface-600': !props.invalid },
+            'shadow',
 
             // Invalid State
             'invalid:focus:ring-red-200',
             'invalid:hover:border-red-500',
-            { 'border-red-500 dark:border-red-400': props.invalid },
+            { 'border-error-500 dark:border-error-400': props.invalid },
 
             // Transitions
             'transition-all',
@@ -29,7 +31,7 @@ export default {
 
             // States
             { 'hover:border-surface-400 dark:hover:border-surface-600': !props.invalid },
-            { 'outline-none outline-offset-0 ring-1 ring-primary-500 dark:ring-primary-400 z-10': state.focused },
+            { 'focus:outline-none focus:outline-offset-0 focus:ring-0 ring-primary-500 dark:ring-primary-400 z-10': state.focused },
 
             // Misc
             'cursor-pointer',
@@ -41,6 +43,7 @@ export default {
         class: [
             //Font
             'leading-[normal]',
+            'text-sm',
 
             // Display
             'block',
@@ -98,7 +101,7 @@ export default {
     overlay: {
         class: [
             // Colors
-            'bg-surface-0 dark:bg-surface-900',
+            'bg-surface-0 dark:bg-gray-900',
             'text-surface-700 dark:text-white/80',
 
             // Shape
@@ -126,6 +129,7 @@ export default {
 
             // Font
             'leading-none',
+            'text-sm',
 
             // Spacing
             'm-0 px-3 py-2',
@@ -139,7 +143,7 @@ export default {
                 'text-surface-700 dark:text-white/80': !context.focused && !context.selected,
                 'bg-surface-200 dark:bg-surface-600/60': context.focused && !context.selected,
                 'text-surface-700 dark:text-white/80': context.focused && !context.selected,
-                'bg-highlight': context.selected
+                'bg-primary-100 dark:bg-surface-600/40': context.selected
             },
 
             //States
@@ -174,6 +178,7 @@ export default {
         class: [
             // Font
             'leading-none',
+            'text-sm',
 
             // Spacing
             'py-2 px-3',
@@ -196,7 +201,7 @@ export default {
 
             // Color
             'text-surface-700 dark:text-white/80',
-            'bg-surface-0 dark:bg-surface-900',
+            'bg-surface-0 dark:bg-gray-900',
             'border-surface-300 dark:border-surface-700'
         ]
     },
