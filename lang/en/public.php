@@ -42,4 +42,5 @@ return [
     "save" => "Save",
     "success" => "Success",
     "toast_create_customer_success_message" => "Successfully added new customer",
+    "paginator_caption" => "Showing {first} to {last} of {totalRecords} entries",
 ];

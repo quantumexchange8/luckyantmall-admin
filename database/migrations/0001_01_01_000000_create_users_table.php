@@ -41,7 +41,7 @@ return new class extends Migration
             $table->unsignedBigInteger('display_rank_id')->default(1);
             $table->string('rank_up_status')->default('auto');
             $table->string('status')->default('active');
-            $table->string('remark')->nullable();
+            $table->string('remarks')->nullable();
             $table->timestamp('password_changed_at')->nullable();
             $table->rememberToken();
             $table->timestamps();

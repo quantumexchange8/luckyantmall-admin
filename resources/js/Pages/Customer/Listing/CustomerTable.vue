@@ -25,12 +25,8 @@ const props = defineProps({
 })
 
 const users = ref([]);
-const isLoading = ref(false);
-const currentPage = ref(1);
-const rowsPerPage = ref(6);
 const total_users = ref(0);
-const {formatAmount} = transactionFormat();
-const dates = ref();
+const isLoading = ref(false);
 
 const getResults = async () => {
     isLoading.value = true;
@@ -47,7 +43,7 @@ const getResults = async () => {
 
 onMounted(() => {
     getResults();
-})
+});
 
 const filters = ref({
     global: {value: null, matchMode: FilterMatchMode.CONTAINS},
@@ -121,6 +117,7 @@ watchEffect(() => {
                             :value="users"
                             :paginator="users?.length > 0 && total_users > 0"
                             removableSort
+                            dataKey="id"
                             :rows="10"
                             :rowsPerPageOptions="[10, 20, 50, 100]"
                             tableStyle="md:min-width: 50rem"
@@ -259,7 +256,7 @@ watchEffect(() => {
                                         <span class="hidden md:block">{{ $t('public.rank') }}</span>
                                     </template>
                                     <template #body="slotProps">
-                                        {{ $t(`public.${slotProps.data.rank.name}`) }}
+                                        Rank
                                     </template>
                                 </Column>
                                 <Column

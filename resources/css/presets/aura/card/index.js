@@ -5,7 +5,7 @@ export default {
             'flex flex-col',
 
             //Shape
-            'rounded-2xl',
+            'rounded-lg',
             'shadow-toast',
 
             //Color

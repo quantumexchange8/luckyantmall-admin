@@ -31,7 +31,7 @@ export default {
 
             // States
             { 'hover:border-surface-400 dark:hover:border-surface-600': !props.invalid },
-            { 'focus:outline-none focus:outline-offset-0 focus:ring-0 ring-primary-500 dark:ring-primary-400 z-10': state.focused },
+            { 'outline-none outline-offset-0 ring-1 ring-primary-500 dark:ring-primary-300 z-10': state.focused },
 
             // Misc
             'cursor-pointer',

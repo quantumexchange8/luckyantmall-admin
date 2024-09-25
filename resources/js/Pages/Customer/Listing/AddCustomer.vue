@@ -69,6 +69,10 @@ const submitForm = () => {
     form.country = selectedCountry.value;
     form.dial_code = selectedPhoneCode.value;
 
+    if (selectedUser.value) {
+        form.upline = selectedUser.value;
+    }
+
     if (selectedPhoneCode.value) {
         form.phone_number = selectedPhoneCode.value.phone_code + form.phone;
     }
@@ -224,7 +228,7 @@ const closeDialog = () => {
                                 v-model="selectedPhoneCode"
                                 :options="countries"
                                 filter
-                                :filterFields="['name', 'phone_code']"
+                                :filterFields="['name', 'iso2', 'phone_code']"
                                 optionLabel="name"
                                 :placeholder="$t('public.phone_code')"
                                 class="w-[100px]"

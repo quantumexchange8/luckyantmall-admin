@@ -7,6 +7,7 @@ use App\Models\Country;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 use Inertia\Inertia;
 
 class CustomerController extends Controller
@@ -20,13 +21,15 @@ class CustomerController extends Controller
 
     public function getCustomersData(Request $request)
     {
-        $user = User::with([
+        $users = User::with([
             'country:id,name,emoji',
             'rank:id,name'
-        ])->get();
+        ])
+            ->latest()
+            ->get();
 
         return response()->json([
-            'users' => $user,
+            'users' => $users,
             'total_users' => User::count()
         ]);
     }
@@ -48,8 +51,26 @@ class CustomerController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
+        if ($request->upline) {
+            $upline_id = $request->upline['id'];
+            $upline = User::find($upline_id);
+
+            if(empty($upline->hierarchyList)) {
+                $hierarchyList = "-" . $upline_id . "-";
+            } else {
+                $hierarchyList = $upline->hierarchyList . $upline_id . "-";
+            }
+
+            $user->upline_id = $upline_id;
+            $user->hierarchyList = $hierarchyList;
+        }
+
         $user->setReferralId();
         $user->assignGroup(1);
+
+        $id_no = 'LID' . Str::padLeft($user->id - 1, 6, "0");
+        $user->id_number = $id_no;
+        $user->save();
 
         return back()->with('toast', [
             'title' => trans("public.success"),
