@@ -5,7 +5,7 @@ import {
     IconTriangleFilled,
     IconTriangleInvertedFilled
 } from "@tabler/icons-vue"
-import {transactionFormat} from "@/Composables/format.js";
+import {generalFormat} from "@/Composables/format.js";
 import Groups from "@/Pages/Group/Groups.vue";
 import Card from "primevue/card"
 
@@ -25,7 +25,7 @@ const dataItems = ref([
         comparison: ref(5),
     }
 ]);
-const {formatAmount} = transactionFormat();
+const {formatAmount} = generalFormat();
 </script>
 
 <template>

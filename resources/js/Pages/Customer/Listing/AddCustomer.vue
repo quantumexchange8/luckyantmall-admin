@@ -114,6 +114,7 @@ const closeDialog = () => {
                         <InputLabel
                             for="name"
                             :value="$t('public.full_name')"
+                            :invalid="!!form.errors.name"
                         />
                         <InputText
                             id="name"
@@ -130,6 +131,7 @@ const closeDialog = () => {
                         <InputLabel
                             for="email"
                             :value="$t('public.email')"
+                            :invalid="!!form.errors.email"
                         />
                         <InputText
                             id="email"
@@ -145,6 +147,7 @@ const closeDialog = () => {
                         <InputLabel
                             for="username"
                             :value="$t('public.username')"
+                            :invalid="!!form.errors.username"
                         />
                         <InputText
                             id="username"
@@ -192,6 +195,7 @@ const closeDialog = () => {
                         <InputLabel
                             for="country"
                             :value="$t('public.country')"
+                            :invalid="!!form.errors.country"
                         />
                         <Select
                             v-model="selectedCountry"
@@ -222,6 +226,7 @@ const closeDialog = () => {
                         <InputLabel
                             for="phone"
                             :value="$t('public.phone_number')"
+                            :invalid="!!form.errors.phone"
                         />
                         <div class="flex gap-2 items-center self-stretch relative">
                             <Select
@@ -261,7 +266,7 @@ const closeDialog = () => {
                                 :invalid="!!form.errors.phone"
                             />
                         </div>
-                        <InputError :message="form.errors.username" />
+                        <InputError :message="form.errors.phone" />
                     </div>
                 </div>
             </div>
@@ -273,6 +278,7 @@ const closeDialog = () => {
                         <InputLabel
                             for="password"
                             :value="$t('public.password')"
+                            :invalid="!!form.errors.password"
                         />
                         <Password
                             v-model="form.password"
@@ -285,6 +291,7 @@ const closeDialog = () => {
                         <InputLabel
                             for="password_confirmation"
                             :value="$t('public.confirm_password')"
+                            :invalid="!!form.errors.password"
                         />
                         <Password
                             v-model="form.password_confirmation"
@@ -301,6 +308,7 @@ const closeDialog = () => {
                     variant="gray-tonal"
                     @click="closeDialog"
                     :disabled="form.processing"
+                    class="w-full md:w-auto"
                 >
                     {{ $t('public.cancel') }}
                 </Button>
@@ -308,6 +316,7 @@ const closeDialog = () => {
                     variant="primary-flat"
                     @click="submitForm"
                     :disabled="form.processing"
+                    class="w-full md:w-auto"
                 >
                     {{ $t('public.save') }}
                 </Button>

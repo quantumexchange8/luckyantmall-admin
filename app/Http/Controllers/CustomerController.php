@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\AddCustomerRequest;
 use App\Models\Country;
+use App\Models\Group;
 use App\Models\User;
+use App\Services\GroupService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -21,12 +23,32 @@ class CustomerController extends Controller
 
     public function getCustomersData(Request $request)
     {
-        $users = User::with([
-            'country:id,name,emoji',
-            'rank:id,name'
+        $users = User::select([
+            'id',
+            'name',
+            'email',
+            'username',
+            'upline_id',
+            'country_id',
+            'setting_rank_id',
+            'role',
+            'id_number',
+            'kyc_status'
         ])
+            ->with([
+                'country:id,name,emoji',
+                'rank:id,name',
+                'group.group:id,name,color',
+                'upline:id,name,email,upline_id',
+            ])
+            ->where('role', 'user')
             ->latest()
-            ->get();
+            ->get()
+            ->map(function($user) {
+                $data = $user;
+
+                return $data;
+            });
 
         return response()->json([
             'users' => $users,
@@ -63,10 +85,15 @@ class CustomerController extends Controller
 
             $user->upline_id = $upline_id;
             $user->hierarchyList = $hierarchyList;
+
+            if ($upline->group) {
+                (new GroupService())->addUserToGroup($upline->group->group_id, $user->id);
+            }
+        } else {
+            (new GroupService())->addUserToGroup(Group::first()->id, $user->id);
         }
 
         $user->setReferralId();
-        $user->assignGroup(1);
 
         $id_no = 'LID' . Str::padLeft($user->id - 1, 6, "0");
         $user->id_number = $id_no;

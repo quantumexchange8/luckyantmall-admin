@@ -11,7 +11,7 @@ class GroupSeeder extends Seeder
     public function run(): void
     {
         Group::create([
-            'name' => 'Public',
+            'name' => 'Luckyant Mall',
             'group_leader_id' => 2,
             'color' => '839DD1',
             'edited_by' => 1

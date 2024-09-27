@@ -24,7 +24,7 @@ export default {
             'w-full h-full',
 
             // Color
-            'bg-surface-100/40 dark:bg-surface-900/40',
+            'bg-primary-50/40 dark:bg-surface-900/50 backdrop-blur-sm',
 
             // Transition
             'transition duration-200'

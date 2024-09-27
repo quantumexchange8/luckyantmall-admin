@@ -18,12 +18,10 @@ export default {
             { 'dark:border-surface-700': parent.instance.$name != 'InputGroup' },
             { 'dark:border-surface-600': parent.instance.$name == 'InputGroup' },
             { 'border-surface-300 dark:border-surface-600': !props.invalid },
-            'shadow',
+            'shadow-input',
 
             // Invalid State
-            'invalid:focus:ring-red-200',
-            'invalid:hover:border-red-500',
-            { 'border-error-500 dark:border-error-400': props.invalid },
+            { 'border-error-500 dark:border-[#F97066]': props.invalid },
 
             // Transitions
             'transition-all',

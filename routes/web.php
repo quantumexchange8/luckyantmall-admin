@@ -32,6 +32,7 @@ Route::get('/dashboard', function () {
 Route::middleware('auth')->group(function () {
     Route::get('/getCountries', [SelectOptionController::class, 'getCountries'])->name('getCountries');
     Route::get('/getUsers', [SelectOptionController::class, 'getUsers'])->name('getUsers');
+    Route::get('/getAvailableLeader', [SelectOptionController::class, 'getAvailableLeader'])->name('getAvailableLeader');
 
     Route::get('/getPendingCounts', [DashboardController::class, 'getPendingCounts'])->name('dashboard.getPendingCounts');
 
@@ -57,6 +58,8 @@ Route::middleware('auth')->group(function () {
         // listing
         Route::get('/', [GroupController::class, 'index'])->name('group');
         Route::get('/getGroupsData', [GroupController::class, 'getGroupsData'])->name('group.getGroupsData');
+
+        Route::post('/addGroup', [GroupController::class, 'addGroup'])->name('group.addGroup');
     });
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

@@ -100,14 +100,14 @@ export default {
                 {
                     'hover:border-surface-400 dark:hover:border-surface-600': !context.disabled && !props.invalid,
                     'focus:outline-none focus:ring-0 focus:border-primary-500 dark:focus:border-primary-300': !context.disabled,
-                    'bg-surface-200 dark:bg-surface-700 select-none pointer-events-none cursor-default': context.disabled
+                    'bg-surface-200 dark:bg-surface-800 disabled:text-gray-500 dark:disabled:text-gray-500 select-none pointer-events-none cursor-default': context.disabled
                 },
 
                 // Filled State *for FloatLabel
                 { filled: parent.instance?.$name == 'FloatLabel' && context.filled },
 
                 // Misc
-                'appearance-none shadow',
+                'appearance-none shadow-input',
                 'transition-colors duration-200',
                 'w-full',
             ]

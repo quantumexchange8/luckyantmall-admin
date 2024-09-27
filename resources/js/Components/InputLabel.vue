@@ -12,7 +12,7 @@ defineProps({
         class="block font-medium text-xs"
         :class="{
             'text-gray-700 dark:text-gray-400': !invalid,
-            'text-error-500': invalid
+            'text-error-500 dark:text-error-400': invalid
         }"
     >
         <div v-if="value">

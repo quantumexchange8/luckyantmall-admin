@@ -5,6 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -61,12 +62,11 @@ class User extends Authenticatable
         $this->save();
     }
 
-    public function assignGroup($group_id): void
+    public function getChildrenIds(): array
     {
-        GroupHasUser::updateOrCreate(
-            ['user_id' => $this->id],
-            ['group_id' => $group_id]
-        );
+        return User::query()->where('hierarchyList', 'like', '%-' . $this->id . '-%')
+            ->pluck('id')
+            ->toArray();
     }
 
     // Relations
@@ -78,5 +78,15 @@ class User extends Authenticatable
     public function rank(): BelongsTo
     {
         return $this->belongsTo(SettingRank::class, 'setting_rank_id', 'id');
+    }
+
+    public function upline(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'upline_id', 'id');
+    }
+
+    public function group(): HasOne
+    {
+        return $this->hasOne(GroupHasUser::class, 'user_id');
     }
 }

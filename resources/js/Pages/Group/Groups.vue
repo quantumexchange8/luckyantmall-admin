@@ -2,7 +2,7 @@
 import {ref} from "vue";
 import Empty from "@/Components/Empty.vue";
 import Button from "@/Components/Button.vue";
-import {transactionFormat} from "@/Composables/format.js";
+import {generalFormat} from "@/Composables/format.js";
 import DefaultProfilePhoto from '@/Components/DefaultProfilePhoto.vue';
 import {
     IconUserFilled
@@ -20,7 +20,7 @@ const isLoading = ref(false);
 const currentPage = ref(1);
 const rowsPerPage = ref(6);
 const totalRecords = ref(0);
-const {formatAmount} = transactionFormat();
+const {formatAmount} = generalFormat();
 const dates = ref();
 
 const getResults = async (page = 1, filterRowsPerPage = rowsPerPage.value) => {
@@ -128,10 +128,10 @@ getResults();
                                         </div>
                                         <div class="flex flex-col items-start flex-1">
                                             <div class="max-w-40 self-stretch overflow-hidden whitespace-nowrap text-gray-950 dark:text-white text-ellipsis text-sm font-medium md:max-w-[500px] xl:max-w-3xl">
-                                                {{ group.leader_name }}
+                                                {{ group.group_leader.name }}
                                             </div>
                                             <div class="max-w-40 self-stretch overflow-hidden whitespace-nowrap text-gray-500 dark:text-gray-500 text-ellipsis text-xs md:max-w-[500px] xl:max-w-3xl">
-                                                {{ group.leader_email }}
+                                                {{ group.group_leader.email }}
                                             </div>
                                         </div>
                                     </div>

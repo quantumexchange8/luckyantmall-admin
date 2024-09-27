@@ -1,4 +1,4 @@
-export function transactionFormat() {
+export function generalFormat() {
     function formatDateTime(date, includeTime = true) {
         const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
         const formattedDate = new Date(date);
@@ -25,8 +25,16 @@ export function transactionFormat() {
         return decimalPlaces > 0 ? `${integerWithCommas}.${decimalPart}` : integerWithCommas;
     }
 
+    const formatRgbaColor = (hex, opacity) => {
+        const r = parseInt(hex.slice(0, 2), 16);
+        const g = parseInt(hex.slice(2, 4), 16);
+        const b = parseInt(hex.slice(4, 6), 16);
+        return `rgba(${r}, ${g}, ${b}, ${opacity})`;
+    };
+
     return {
         formatDateTime,
         formatAmount,
+        formatRgbaColor
     };
 }
