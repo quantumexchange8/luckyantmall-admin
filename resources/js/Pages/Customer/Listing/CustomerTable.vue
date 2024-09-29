@@ -162,8 +162,7 @@ watchEffect(() => {
                         <Column
                             field="created_at"
                             sortable
-                            style="width: 15%"
-                            class="hidden md:table-cell"
+                            class="hidden md:table-cell min-w-[120px]"
                         >
                             <template #header>
                                 <span class="hidden md:block">{{ $t('public.joined') }}</span>
@@ -175,9 +174,9 @@ watchEffect(() => {
                         <Column
                             field="name"
                             sortable
+                            frozen
                             :header="$t('public.name')"
-                            style="width: 25%"
-                            class="hidden md:table-cell"
+                            class="hidden md:table-cell min-w-[220px]"
                         >
                             <template #body="slotProps">
                                 <div class="flex items-center gap-3">
@@ -190,10 +189,10 @@ watchEffect(() => {
                                         </template>
                                     </div>
                                     <div class="flex flex-col items-start">
-                                        <div class="font-medium">
+                                        <div class="font-medium max-w-[150px] truncate">
                                             {{ slotProps.data.name }}
                                         </div>
-                                        <div class="text-gray-500 text-xs">
+                                        <div class="text-gray-500 text-xs max-w-[150px] truncate">
                                             @{{ slotProps.data.username }}
                                         </div>
                                     </div>
@@ -216,7 +215,6 @@ watchEffect(() => {
                         <Column
                             field="id_number"
                             sortable
-                            style="width: 15%"
                             class="hidden md:table-cell"
                         >
                             <template #header>
@@ -228,8 +226,7 @@ watchEffect(() => {
                         </Column>
                         <Column
                             field="upline.name"
-                            style="width: 15%"
-                            class="hidden md:table-cell"
+                            class="hidden md:table-cell min-w-[220px]"
                         >
                             <template #header>
                                 <span class="hidden md:block">{{ $t('public.upline') }}</span>
@@ -239,10 +236,10 @@ watchEffect(() => {
                                     v-if="slotProps.data.upline"
                                     class="flex flex-col items-start"
                                 >
-                                    <div class="font-medium">
+                                    <div class="font-medium max-w-[180px] truncate">
                                         {{ slotProps.data.upline.name }}
                                     </div>
-                                    <div class="text-gray-500 text-xs">
+                                    <div class="text-gray-500 text-xs max-w-[180px] truncate">
                                         {{ slotProps.data.upline.email }}
                                     </div>
                                 </div>
@@ -253,8 +250,7 @@ watchEffect(() => {
                         </Column>
                         <Column
                             field="group"
-                            style="width: 20%"
-                            class="hidden md:table-cell"
+                            class="hidden md:table-cell min-w-40"
                         >
                             <template #header>
                                 <span class="hidden md:block">{{ $t('public.group') }}</span>
@@ -285,8 +281,7 @@ watchEffect(() => {
                         </Column>
                         <Column
                             field="role"
-                            style="width: 15%"
-                            class="hidden md:table-cell"
+                            class="hidden md:table-cell min-w-28"
                         >
                             <template #header>
                                 <span class="hidden md:block">{{ $t('public.rank') }}</span>
@@ -298,8 +293,7 @@ watchEffect(() => {
                         <Column
                             field="country_id"
                             sortable
-                            style="width: 15%"
-                            class="hidden md:table-cell"
+                            class="hidden md:table-cell min-w-32"
                         >
                             <template #header>
                                 <span class="hidden md:block">{{ $t('public.country') }}</span>
@@ -307,7 +301,7 @@ watchEffect(() => {
                             <template #body="slotProps">
                                 <div class="flex items-center gap-1">
                                     <span>{{ slotProps.data.country.emoji }}</span>
-                                    <span>{{ slotProps.data.country.name }}</span>
+                                    <span class="max-w-20 truncate">{{ slotProps.data.country.name }}</span>
                                 </div>
                             </template>
                         </Column>

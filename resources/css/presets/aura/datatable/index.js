@@ -116,7 +116,7 @@ export default {
                 context?.size === 'small' ? 'py-[0.375rem] px-2' : context?.size === 'large' ? 'py-[0.9375rem] px-5' : 'py-2.5 px-4',
 
                 // Color
-                (props.sortable === '' || props.sortable) && context.sorted ? 'bg-primary-100 dark:bg-primary-800/30' : 'bg-surface-50 text-surface-700 dark:text-white/80 dark:bg-surface-800',
+                (props.sortable === '' || props.sortable) && context.sorted ? 'md:bg-primary-100 md:dark:bg-primary-800/30' : 'md:bg-surface-50 text-surface-700 dark:text-white/80 md:dark:bg-surface-800',
                 'border-surface-200 dark:border-surface-700 ',
 
                 // States
@@ -155,7 +155,7 @@ export default {
                 // Shape
                 'border-0 border-b border-solid',
                 { 'first:border-l border-r border-b': context?.showGridlines },
-                { 'bg-surface-0 dark:bg-surface-900': parent.instance.frozenRow || props.frozen || props.frozen === '' },
+                { 'bg-surface-0 dark:bg-[#171e2d]': parent.instance.frozenRow || props.frozen || props.frozen === '' },
 
                 // Spacing
                 { 'py-[0.375rem] px-2': context?.size === 'small' && !state['d_editing'] },
