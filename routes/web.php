@@ -33,6 +33,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/getCountries', [SelectOptionController::class, 'getCountries'])->name('getCountries');
     Route::get('/getUsers', [SelectOptionController::class, 'getUsers'])->name('getUsers');
     Route::get('/getAvailableLeader', [SelectOptionController::class, 'getAvailableLeader'])->name('getAvailableLeader');
+    Route::get('/getSettingRanks', [SelectOptionController::class, 'getSettingRanks'])->name('getSettingRanks');
 
     Route::get('/getPendingCounts', [DashboardController::class, 'getPendingCounts'])->name('dashboard.getPendingCounts');
 

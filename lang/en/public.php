@@ -54,4 +54,9 @@ return [
     "create" => "Create",
     "total_group_members" => "Total Group Members",
     "toast_create_group_success" => "Successfully created group",
+    "settings" => "Settings",
+    "next" => "Next",
+    "back" => "Back",
+    "rebate" => "Rebate",
+    "group_sales" => "Group Sales",
 ];

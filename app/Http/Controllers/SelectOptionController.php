@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Country;
 use App\Models\Group;
+use App\Models\SettingRank;
 use App\Models\User;
 
 class SelectOptionController extends Controller
@@ -41,5 +42,19 @@ class SelectOptionController extends Controller
             });
 
         return response()->json($users);
+    }
+
+    public function getSettingRanks()
+    {
+        $ranks = SettingRank::select('id', 'name', 'lot_rebate_amount', 'min_group_sales')
+            ->where('id', '>', 1)
+            ->get()
+            ->map(function($rank) {
+                $rank->lot_rebate_amount = intval($rank->lot_rebate_amount);
+                $rank->min_group_sales = intval($rank->min_group_sales);
+                return $rank;
+            });
+
+        return response()->json($ranks);
     }
 }

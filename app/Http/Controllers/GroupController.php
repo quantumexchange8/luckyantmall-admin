@@ -54,6 +54,8 @@ class GroupController extends Controller
 
     public function addGroup(Request $request)
     {
+        dd($request->all());
+
         $validator = Validator::make($request->all(), [
             'name' => ['required', 'regex:/^[a-zA-Z0-9\p{Han}. ]+$/u', 'max:255'],
             'color' => ['required'],
@@ -64,6 +66,7 @@ class GroupController extends Controller
             'leader' => trans('public.leader'),
         ]);
         $validator->validate();
+        dd($request->all());
 
         $leader_id = $request->leader['id'];
         $group_of_leader = GroupHasUser::where('user_id', $leader_id)

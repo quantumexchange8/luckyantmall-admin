@@ -30,7 +30,7 @@ export default {
             'rounded-full',
 
             // Text
-            'text-lg',
+            'text-base',
 
             // Transitions
             'transition',
@@ -51,6 +51,7 @@ export default {
             // Text
             context.active ? 'text-primary' : 'text-surface-700 dark:text-surface-0/80',
             'font-medium',
+            'text-sm',
 
             // Transitions
             'transition',
