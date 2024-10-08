@@ -263,7 +263,7 @@ const closeDialog = () => {
                         editMode="cell"
                         @cell-edit-complete="onCellEditComplete"
                     >
-                        <Column field="name" :header="$t('public.rank')"></Column>
+                        <Column field="rank_name" :header="$t('public.rank')"></Column>
                         <Column
                             field="lot_rebate_amount"
                             :header="$t('public.rebate')"
@@ -302,6 +302,9 @@ const closeDialog = () => {
                             </template>
                         </Column>
                     </DataTable>
+                    <div class="text-xs mt-1.5 text-gray-500 dark:text-gray-400">
+                        {{ $t('public.click_to_edit_note') }}
+                    </div>
                     <div class="pt-8 flex justify-between items-center self-stretch w-full">
                         <Button
                             type="button"

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Group;
 use App\Models\GroupHasUser;
+use App\Models\GroupRankSetting;
 use App\Models\User;
 use App\Services\GroupService;
 use Illuminate\Http\Request;
@@ -54,8 +55,6 @@ class GroupController extends Controller
 
     public function addGroup(Request $request)
     {
-        dd($request->all());
-
         $validator = Validator::make($request->all(), [
             'name' => ['required', 'regex:/^[a-zA-Z0-9\p{Han}. ]+$/u', 'max:255'],
             'color' => ['required'],
@@ -66,7 +65,6 @@ class GroupController extends Controller
             'leader' => trans('public.leader'),
         ]);
         $validator->validate();
-        dd($request->all());
 
         $leader_id = $request->leader['id'];
         $group_of_leader = GroupHasUser::where('user_id', $leader_id)
@@ -92,6 +90,75 @@ class GroupController extends Controller
 
         foreach ($children_ids as $child_id) {
             $this->groupService->updateUserGroup($group_id, $child_id);
+        }
+
+        if ($request->rank_settings) {
+            // Fetch default group rank settings and key them by 'id' for easier comparison
+            $default = GroupRankSetting::where('group_id', 1)->get()->keyBy('id');
+
+            // Start with an empty array to hold merged ranks
+            $mergedRanks = [];
+
+            // Overwrite or append new rank settings from the request
+            foreach ($request->rank_settings as $rankId => $rankData) {
+                // Get the existing rank from default or an empty array if not found
+                $existingRank = isset($default[$rankId]) ? $default[$rankId]->toArray() : [];
+
+                // Merge request data with default data (if any), ensuring all fields are accounted for
+                $mergedRanks[$rankId] = array_merge($existingRank, $rankData);
+            }
+
+            // Add any remaining default ranks that are not in the request
+            foreach ($default as $rankId => $existingRank) {
+                if (!isset($mergedRanks[$rankId])) {
+                    $mergedRanks[$rankId] = $existingRank->toArray();
+                }
+            }
+
+            ksort($mergedRanks);
+
+            $i = 1;
+            $newRankSettings = [];
+
+            foreach ($mergedRanks as $rankId => $rankData) {
+                $rankSetting = GroupRankSetting::updateOrCreate(
+                    [
+                        'group_id' => $group_id,
+                        'rank_name' => $rankData['rank_name']
+                    ],
+                    [
+                        'group_id' => $group_id,
+                        'rank_name' => $rankData['rank_name'],
+                        'rank_position' => $i,
+                        'lot_rebate_currency' => $rankData['lot_rebate_currency'] ?? 'USD',
+                        'lot_rebate_amount' => $rankData['lot_rebate_amount'],
+                        'min_direct_referral' => $rankData['min_direct_referral'] ?? null,
+                        'group_sales_currency' => $rankData['group_sales_currency'] ?? null,
+                        'max_capped_per_line' => $rankData['min_group_sales'] / ($rankData['min_direct_referral'] ?? 1),
+                        'min_group_sales' => $rankData['min_group_sales'] ?? 0,
+                        'edited_by' => Auth::id(),
+                    ]
+                );
+
+                $newRankSettings[$rankId] = $rankSetting->id;
+
+                $i++;
+            }
+
+            // Second pass to update min_direct_referral_rank_id with new rank ids
+            foreach ($mergedRanks as $rankId => $rankData) {
+                if (isset($rankData['min_direct_referral_rank_id'])) {
+                    $newRankId = $newRankSettings[$rankData['min_direct_referral_rank_id']] ?? null;
+
+                    if ($newRankId) {
+                        GroupRankSetting::where('group_id', $group_id)
+                            ->where('rank_name', $rankData['rank_name'])
+                            ->update([
+                                'min_direct_referral_rank_id' => $newRankId
+                            ]);
+                    }
+                }
+            }
         }
 
         return back()->with('toast', [

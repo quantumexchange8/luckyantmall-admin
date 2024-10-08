@@ -88,6 +88,8 @@ class CustomerController extends Controller
 
             if ($upline->group) {
                 (new GroupService())->addUserToGroup($upline->group->group_id, $user->id);
+                $group_rank_setting = $upline->group->group->group_rank_settings()->first();
+                $user->setting_rank_id = $group_rank_setting->id;
             }
         } else {
             (new GroupService())->addUserToGroup(Group::first()->id, $user->id);

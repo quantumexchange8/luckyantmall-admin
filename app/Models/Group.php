@@ -34,4 +34,9 @@ class Group extends Model
     {
         return $this->hasMany(Group::class, 'parent_group_id', 'id');
     }
+
+    public function group_rank_settings(): hasMany
+    {
+        return $this->hasMany(GroupRankSetting::class, 'group_id', 'id');
+    }
 }

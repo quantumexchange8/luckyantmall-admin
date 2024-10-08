@@ -59,4 +59,5 @@ return [
     "back" => "Back",
     "rebate" => "Rebate",
     "group_sales" => "Group Sales",
+    "click_to_edit_note" => "Note: Click on amount to edit",
 ];
