@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Country;
 use App\Models\Group;
 use App\Models\GroupRankSetting;
+use App\Models\Item;
 use App\Models\SettingRank;
 use App\Models\User;
 
@@ -58,5 +59,18 @@ class SelectOptionController extends Controller
             });
 
         return response()->json($ranks);
+    }
+
+    public function getItems()
+    {
+        $items = Item::where('status', 'active')
+            ->get()
+            ->map(function($item) {
+                $item->item_name = $item->getTranslation('name', app()->getLocale());;
+
+                return $item;
+            });
+
+        return response()->json($items);
     }
 }

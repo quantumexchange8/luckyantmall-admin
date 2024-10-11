@@ -94,7 +94,9 @@ class GroupController extends Controller
 
         if ($request->rank_settings) {
             // Fetch default group rank settings and key them by 'id' for easier comparison
-            $default = GroupRankSetting::where('group_id', 1)->get()->keyBy('id');
+            $default = GroupRankSetting::where('group_id', 1)
+                ->get()
+                ->keyBy('id');
 
             // Start with an empty array to hold merged ranks
             $mergedRanks = [];

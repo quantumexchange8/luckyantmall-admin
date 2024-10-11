@@ -32,10 +32,10 @@ const Tag = external ? 'a' : Link
             :href="href"
             v-bind="$attrs"
             :class="[
-                'p-2.5 flex gap-3 items-center hover:text-primary-500 w-full',
+                'p-2.5 flex gap-3 items-center hover:text-primary-500 dark:hover:text-primary-300 w-full',
                 {
-                    'text-primary-500': active,
-                    'text-gray-500': !active,
+                    'text-primary-500 dark:text-primary-300': active,
+                    'text-surface-500': !active,
                 },
             ]"
         >

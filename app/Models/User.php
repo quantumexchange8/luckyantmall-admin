@@ -77,7 +77,7 @@ class User extends Authenticatable
 
     public function rank(): BelongsTo
     {
-        return $this->belongsTo(SettingRank::class, 'setting_rank_id', 'id');
+        return $this->belongsTo(GroupRankSetting::class, 'setting_rank_id', 'id');
     }
 
     public function upline(): BelongsTo

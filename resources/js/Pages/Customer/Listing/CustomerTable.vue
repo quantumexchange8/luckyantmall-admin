@@ -287,7 +287,7 @@ watchEffect(() => {
                                 <span class="hidden md:block">{{ $t('public.rank') }}</span>
                             </template>
                             <template #body="slotProps">
-                                Rank
+                                {{ $t(`public.${slotProps.data.rank.rank_name}`) }}
                             </template>
                         </Column>
                         <Column

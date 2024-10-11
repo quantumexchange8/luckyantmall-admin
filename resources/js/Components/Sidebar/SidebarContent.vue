@@ -11,8 +11,8 @@ import {
     IconUsers,
     IconUserCircle,
     IconUsersGroup,
-    IconReceiptDollar,
-    IconId,
+    IconTemplate,
+    IconCategory,
     IconCoinMonero,
     IconBusinessplan,
     IconClockDollar,
@@ -115,14 +115,25 @@ watchEffect(() => {
             :title="$t('public.product')"
         />
 
-        <!-- Pending -->
+        <!-- Item -->
         <SidebarLink
-            :title="$t('public.profile')"
-            :href="route('profile.edit')"
-            :active="route().current('profile.edit')"
+            :title="$t('public.item')"
+            :href="route('item.listing')"
+            :active="route().current('item.listing')"
         >
             <template #icon>
-                <IconClockDollar :size="20" stroke-width="1.5" />
+                <IconTemplate :size="20" stroke-width="1.5" />
+            </template>
+        </SidebarLink>
+
+        <!-- Category -->
+        <SidebarLink
+            :title="$t('public.category')"
+            :href="route('category.listing')"
+            :active="route().current('category.listing')"
+        >
+            <template #icon>
+                <IconCategory :size="20" stroke-width="1.5" />
             </template>
         </SidebarLink>
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\AddCustomerRequest;
 use App\Models\Country;
 use App\Models\Group;
+use App\Models\Item;
 use App\Models\User;
 use App\Services\GroupService;
 use Illuminate\Http\Request;
@@ -33,11 +34,12 @@ class CustomerController extends Controller
             'setting_rank_id',
             'role',
             'id_number',
-            'kyc_status'
+            'kyc_status',
+            'created_at'
         ])
             ->with([
                 'country:id,name,emoji',
-                'rank:id,name',
+                'rank:id,rank_name',
                 'group.group:id,name,color',
                 'upline:id,name,email,upline_id',
             ])

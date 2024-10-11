@@ -1,8 +1,10 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\GroupController;
+use App\Http\Controllers\ItemController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SelectOptionController;
 use Illuminate\Foundation\Application;
@@ -34,6 +36,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/getUsers', [SelectOptionController::class, 'getUsers'])->name('getUsers');
     Route::get('/getAvailableLeader', [SelectOptionController::class, 'getAvailableLeader'])->name('getAvailableLeader');
     Route::get('/getSettingRanks', [SelectOptionController::class, 'getSettingRanks'])->name('getSettingRanks');
+    Route::get('/getItems', [SelectOptionController::class, 'getItems'])->name('getItems');
 
     Route::get('/getPendingCounts', [DashboardController::class, 'getPendingCounts'])->name('dashboard.getPendingCounts');
 
@@ -48,6 +51,34 @@ Route::middleware('auth')->group(function () {
         Route::get('/getCustomersData', [CustomerController::class, 'getCustomersData'])->name('customer.getCustomersData');
 
         Route::post('/addNewCustomer', [CustomerController::class, 'addNewCustomer'])->name('customer.addNewCustomer');
+    });
+
+    /**
+     * ==============================
+     *             Item
+     * ==============================
+     */
+    Route::prefix('item')->group(function () {
+        // listing
+        Route::get('/listing', [ItemController::class, 'index'])->name('item.listing');
+        Route::get('/getItemsData', [ItemController::class, 'getItemsData'])->name('item.getCustomersData');
+
+        Route::post('/addItem', [ItemController::class, 'addItem'])->name('item.addItem');
+        Route::patch('/updateItemStatus', [ItemController::class, 'updateItemStatus'])->name('item.updateItemStatus');
+    });
+
+    /**
+     * ==============================
+     *           Category
+     * ==============================
+     */
+    Route::prefix('category')->group(function () {
+        // listing
+        Route::get('/listing', [CategoryController::class, 'index'])->name('category.listing');
+        Route::get('/getCategoriesData', [CategoryController::class, 'getCategoriesData'])->name('category.getCustomersData');
+
+        Route::post('/addCategory', [CategoryController::class, 'addCategory'])->name('category.addCategory');
+        Route::patch('/updateCategoryStatus', [CategoryController::class, 'updateCategoryStatus'])->name('category.updateCategoryStatus');
     });
 
     /**

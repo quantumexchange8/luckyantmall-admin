@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             GroupSeeder::class,
             RunningNumberSeeder::class,
+            SettingRankSeeder::class,
         ]);
     }
 }

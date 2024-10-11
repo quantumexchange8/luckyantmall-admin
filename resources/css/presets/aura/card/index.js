@@ -9,7 +9,7 @@ export default {
             'shadow-toast',
 
             //Color
-            'bg-surface-0 dark:bg-primary-900/20',
+            'bg-surface-0 dark:bg-surface-900',
             'text-gray-950 dark:text-surface-0'
         ]
     },

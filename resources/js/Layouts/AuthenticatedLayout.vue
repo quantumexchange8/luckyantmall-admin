@@ -4,6 +4,7 @@ import Sidebar from '@/Components/Sidebar/Sidebar.vue'
 import Navbar from '@/Components/Navbar.vue'
 import { sidebarState } from '@/Composables'
 import ToastList from "@/Components/ToastList.vue";
+import ConfirmationDialog from "@/Components/ConfirmationDialog.vue";
 
 defineProps({
     title: String
@@ -14,7 +15,7 @@ defineProps({
     <Head :title="title"></Head>
 
     <div
-        class="min-h-screen bg-primary-50 dark:bg-gray-950"
+        class="min-h-screen bg-primary-50 dark:bg-surface-950"
     >
         <!-- Sidebar -->
         <Sidebar />
@@ -38,7 +39,7 @@ defineProps({
                     <!-- Toast -->
                     <ToastList />
                     <!-- Confirmation Dialog -->
-<!--                    <ConfirmationDialog />-->
+                    <ConfirmationDialog />
 
                     <slot />
                 </div>
