@@ -169,7 +169,7 @@ getResults();
                                 <div class="flex items-center gap-2">
                                     <IconUserFilled size="16" stroke-width="1.25" color="white" />
                                     <div class="text-white text-right text-sm font-medium">
-                                        {{ formatAmount(group.member_count, 0) }}
+                                        {{ group.group_has_user_count }}
                                     </div>
                                 </div>
                             </div>

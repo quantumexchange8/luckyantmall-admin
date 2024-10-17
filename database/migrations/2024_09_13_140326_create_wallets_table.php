@@ -16,7 +16,10 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->string('type');
             $table->string('address');
-            $table->decimal('balance', 13);
+            $table->string('currency', 30)->nullable();
+            $table->string('currency_symbol', 100)->nullable();
+            $table->decimal('balance', 13)->default(0);
+            $table->tinyInteger('balance_visibility')->default(1);
             $table->timestamps();
             $table->softDeletes();
 

@@ -30,20 +30,18 @@ class GroupController extends Controller
 
     public function getGroupsData(Request $request)
     {
-        $groupsQuery = Group::query()->with([
-            'group_leader:id,name,email,upline_id,hierarchyList',
-            'group_has_user',
-            'child_groups:id,parent_group_id',
-        ]);
+        $groupsQuery = Group::query()
+            ->with([
+                'group_leader:id,name,email,upline_id,hierarchyList',
+                'child_groups:id,parent_group_id',
+            ])
+            ->withCount('group_has_user');
+
         $totalRecords = $groupsQuery->count();
         $groups = $groupsQuery->paginate($request->paginate);
 
         $formattedGroups = $groups->map(function($group) {
-            $data = $group;
-            $totalMemberCount = $this->getGroupTotalMembers($group);
-            $data['member_count'] = $totalMemberCount;
-
-            return $data;
+            return $group;
         });
 
         return response()->json([
@@ -168,18 +166,5 @@ class GroupController extends Controller
             'message' => trans('public.toast_create_group_success'),
             'type' => 'success',
         ]);
-    }
-
-    private function getGroupTotalMembers($group)
-    {
-        $memberCount = $group->group_has_user()->count();
-
-        $childGroups = $group->child_groups;
-
-        foreach ($childGroups as $childGroup) {
-            $memberCount += $this->getGroupTotalMembers($childGroup);
-        }
-
-        return $memberCount;
     }
 }
