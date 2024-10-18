@@ -38,7 +38,7 @@ export default {
     labelContainer: 'overflow-hidden flex flex-auto cursor-pointer',
     label: ({ props }) => ({
         class: [
-            'text-base leading-2',
+            'text-sm leading-2',
 
             // Spacing
             {
@@ -129,6 +129,7 @@ export default {
 
             // Font
             'leading-none',
+            'text-sm',
 
             // Spacing
             'm-0 px-3 py-2 gap-2',
@@ -175,6 +176,7 @@ export default {
         class: [
             // Font
             'leading-none',
+            'text-sm',
 
             // Spacing
             'py-2 px-3',

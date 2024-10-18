@@ -16,7 +16,7 @@ import {
     IconCoinMonero,
     IconBusinessplan,
     IconClockDollar,
-    IconAward
+    IconAdjustmentsDollar
 } from '@tabler/icons-vue';
 import SidebarCategoryLabel from "@/Components/Sidebar/SidebarCategoryLabel.vue";
 
@@ -138,8 +138,19 @@ watchEffect(() => {
         </SidebarLink>
 
         <SidebarCategoryLabel
-            :title="$t('public.order')"
+            :title="$t('public.settings')"
         />
+
+        <!-- Deposit Profile -->
+        <SidebarLink
+            :title="$t('public.deposit_profile')"
+            :href="route('deposit_profile')"
+            :active="route().current('deposit_profile')"
+        >
+            <template #icon>
+                <IconAdjustmentsDollar :size="20" stroke-width="1.5" />
+            </template>
+        </SidebarLink>
 
         <!-- Components -->
 <!--        <SidebarCollapsible-->

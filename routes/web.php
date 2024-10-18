@@ -3,6 +3,7 @@
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DepositProfileController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\ProfileController;
@@ -92,6 +93,23 @@ Route::middleware('auth')->group(function () {
         Route::get('/getGroupsData', [GroupController::class, 'getGroupsData'])->name('group.getGroupsData');
 
         Route::post('/addGroup', [GroupController::class, 'addGroup'])->name('group.addGroup');
+    });
+
+    /**
+     * ==============================
+     *           Settings
+     * ==============================
+     */
+    Route::prefix('settings')->group(function () {
+        Route::prefix('deposit_profile')->group(function () {
+            // listing
+            Route::get('/', [DepositProfileController::class, 'deposit_profile'])->name('deposit_profile');
+            Route::get('/getDepositProfileData', [DepositProfileController::class, 'getDepositProfileData'])->name('deposit_profile.getDepositProfileData');
+
+            Route::post('/addDepositProfile', [DepositProfileController::class, 'addDepositProfile'])->name('deposit_profile.addDepositProfile');
+            Route::patch('/updateDepositProfileStatus', [DepositProfileController::class, 'updateDepositProfileStatus'])->name('deposit_profile.updateDepositProfileStatus');
+        });
+
     });
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

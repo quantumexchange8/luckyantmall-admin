@@ -4,8 +4,24 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
-class Transaction extends Model
+class Transaction extends Model implements HasMedia
 {
-    use HasFactory;
+    use SoftDeletes, InteractsWithMedia;
+
+    protected $guarded = [
+        'id',
+        'created_at',
+        'updated_at'
+    ];
+
+    protected function casts(): array
+    {
+        return [
+            'approval_at' => 'datetime',
+        ];
+    }
 }

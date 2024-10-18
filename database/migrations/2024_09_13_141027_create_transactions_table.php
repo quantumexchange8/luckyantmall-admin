@@ -31,10 +31,11 @@ return new class extends Migration
             $table->string('txn_hash')->nullable();
             $table->decimal('amount', 13)->nullable();
             $table->decimal('transaction_charges', 13)->nullable();
+            $table->string('from_currency')->nullable();
+            $table->string('to_currency')->nullable();
             $table->decimal('conversion_rate')->nullable();
             $table->decimal('conversion_amount', 13)->nullable();
             $table->decimal('transaction_amount', 13)->nullable();
-            $table->string('currency')->nullable();
             $table->string('fund_type')->nullable();
             $table->decimal('old_wallet_amount', 13)->nullable();
             $table->decimal('new_wallet_amount', 13)->nullable();
