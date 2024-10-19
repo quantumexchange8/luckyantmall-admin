@@ -71,7 +71,7 @@ watchEffect(() => {
             :title="$t('public.customer')"
         />
 
-        <!-- Member -->
+        <!-- Customer -->
         <SidebarCollapsible
             :title="$t('public.customer')"
             :active="route().current('customer.*')"
@@ -97,6 +97,33 @@ watchEffect(() => {
 <!--                :href="route('member.account_listing')"-->
 <!--                :active="route().current('member.account_listing')"-->
 <!--            />-->
+
+        </SidebarCollapsible>
+
+        <SidebarCategoryLabel
+            :title="$t('public.transaction')"
+        />
+
+        <!-- Transaction -->
+        <SidebarCollapsible
+            :title="$t('public.pending')"
+            :active="route().current('transaction.*')"
+        >
+            <template #icon>
+                <IconClockDollar :size="20" stroke-width="1.5" />
+            </template>
+
+            <SidebarCollapsibleItem
+                :title="$t('public.deposit')"
+                :href="route('transaction.pending_deposit')"
+                :active="route().current('transaction.pending_deposit')"
+            />
+
+            <SidebarCollapsibleItem
+                :title="$t('public.withdrawal')"
+                :href="route('customer.listing')"
+                :active="route().current('customer.listing')"
+            />
 
         </SidebarCollapsible>
 

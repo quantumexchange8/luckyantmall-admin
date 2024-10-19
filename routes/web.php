@@ -8,6 +8,7 @@ use App\Http\Controllers\GroupController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SelectOptionController;
+use App\Http\Controllers\TransactionController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -52,6 +53,28 @@ Route::middleware('auth')->group(function () {
         Route::get('/getCustomersData', [CustomerController::class, 'getCustomersData'])->name('customer.getCustomersData');
 
         Route::post('/addNewCustomer', [CustomerController::class, 'addNewCustomer'])->name('customer.addNewCustomer');
+    });
+
+    /**
+     * ==============================
+     *         Transactions
+     * ==============================
+     */
+    Route::prefix('transaction')->group(function () {
+        /**
+         * ==============================
+         *        Pending Deposit
+         * ==============================
+         */
+        Route::prefix('pending_deposit')->group(function () {
+            // listing
+            Route::get('/', [TransactionController::class, 'pending_deposit'])->name('transaction.pending_deposit');
+            Route::get('/getRecentApprovals', [TransactionController::class, 'getRecentApprovals'])->name('transaction.getRecentApprovals');
+            Route::get('/getPendingDeposits', [TransactionController::class, 'getPendingDeposits'])->name('transaction.getPendingDeposits');
+
+            Route::post('/pendingApproval', [TransactionController::class, 'pendingApproval'])->name('transaction.pendingApproval');
+        });
+
     });
 
     /**
