@@ -345,6 +345,7 @@ export default {
             { 'odd:bg-surface-0 odd:text-surface-600 dark:odd:bg-surface-900 even:bg-surface-50 even:text-surface-600 dark:even:bg-surface-800/50': context.stripedRows },
 
             // State
+            { 'focus:outline-none focus:outline-offset-0 focus:ring-1 focus:ring-transparent': context.selectable },
             { 'hover:bg-surface-300/20 dark:hover:bg-surface-800/50 hover:text-surface-600': props.selectionMode && !context.selected },
 
             // Transition

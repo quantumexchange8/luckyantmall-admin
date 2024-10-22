@@ -21,7 +21,7 @@ const props = defineProps({
     },
     size: {
         type: String,
-        default: 'sm',
+        default: 'base',
         validator(value) {
             return ['sm', 'base', 'lg'].includes(value)
         },
@@ -67,7 +67,7 @@ const baseClasses = [
 
 const variantClasses = (variant) => ({
     'bg-primary-500 dark:bg-primary-600 hover:bg-primary-600 dark:hover:bg-primary-700 border border-primary-500 hover:border-primary-600 dark:border-primary-600 dark:hover:border-primary-700 focus:ring-primary-500 dark:ring-primary-600 text-white disabled:border-gray-100 disabled:bg-gray-100 dark:disabled:border-gray-800 dark:disabled:bg-gray-800': variant === 'primary-flat',
-    'bg-primary-50 dark:bg-primary-100 hover:bg-primary-100 dark:hover:bg-primary-200 border border-primary-50 hover:border-primary-100 dark:border-primary-100 dark:hover:border-primary-200 focus:ring-primary-100 dark:ring-primary-200 text-primary-500 dark:text-primary-400 disabled:border-gray-100 disabled:bg-gray-100 dark:disabled:border-gray-800 dark:disabled:bg-gray-800': variant === 'primary-tonal',
+    'bg-primary-50 dark:bg-primary-950 hover:bg-primary-100 dark:hover:bg-primary-900 border border-primary-50 hover:border-primary-100 dark:border-primary-950 dark:hover:border-primary-900 focus:ring-primary-100 dark:ring-primary-900 text-primary-500 dark:text-primary-300 disabled:border-gray-100 disabled:bg-gray-100 dark:disabled:border-gray-800 dark:disabled:bg-gray-800': variant === 'primary-tonal',
     'bg-transparent hover:bg-primary-50 dark:hover:bg-primary-900 border border-primary-500 hover:border-primary-600 dark:border-primary-600 dark:hover:text-surface-300 dark:hover:border-primary-700 focus:ring-primary-500 dark:ring-primary-600 text-primary-500 dark:text-primary-400 shadow-input disabled:bg-gray-100 dark:disabled:bg-gray-800 disabled:border-gray-200 dark:disabled:border-gray-800': variant === 'primary-outlined',
     'bg-transparent dark:bg-transparent hover:bg-primary-25 dark:hover:bg-primary-50 focus:ring-primary-100 dark:ring-primary-200 text-primary-500 dark:text-primary-400 disabled:bg-transparent dark:disabled:bg-transparent': variant === 'primary-text',
 
@@ -96,8 +96,8 @@ const classes = computed(() => [
             'p-4': size === 'lg',
         }
         : {
-            'px-4 py-2': size === 'sm',
-            'px-6 py-3': size === 'base',
+            'px-3 py-1': size === 'sm',
+            'px-4 py-2': size === 'base',
             'px-8 py-4': size === 'lg',
         },
     variantClasses(variant),

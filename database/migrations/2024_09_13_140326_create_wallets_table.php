@@ -20,6 +20,9 @@ return new class extends Migration
             $table->string('currency_symbol', 100)->nullable();
             $table->decimal('balance', 13)->default(0);
             $table->tinyInteger('balance_visibility')->default(1);
+            $table->decimal('demo_fund', 13)->default(0);
+            $table->decimal('real_fund', 13)->default(0);
+            $table->string('status', 100)->nullable()->default('nullable');
             $table->timestamps();
             $table->softDeletes();
 

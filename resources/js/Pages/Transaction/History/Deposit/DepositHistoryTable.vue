@@ -10,17 +10,18 @@ import InputText from "primevue/inputtext";
 import Button from "@/Components/Button.vue";
 import DataTable from "primevue/datatable";
 import Column from "primevue/column";
+import Dialog from "primevue/dialog";
 import {onMounted, ref, watchEffect} from "vue";
 import {generalFormat} from "@/Composables/format.js";
 import {FilterMatchMode} from "@primevue/core/api";
-import PendingTransactionAction from "@/Pages/Transaction/Pending/PendingTransactionAction.vue";
 import {usePage} from "@inertiajs/vue3";
+import Image from "primevue/image";
 
 const props = defineProps({
-    pendingDepositCounts: Number
+    depositHistoryCount: Number
 });
 
-const pendingDeposits = ref([]);
+const depositHistories = ref([]);
 const isLoading = ref(false);
 const {formatRgbaColor} = generalFormat();
 const emit = defineEmits(['update:totalPendingAmount']);
@@ -28,8 +29,8 @@ const emit = defineEmits(['update:totalPendingAmount']);
 const getResults = async () => {
     isLoading.value = true;
     try {
-        const response = await axios.get('/transaction/pending/getPendingDeposits');
-        pendingDeposits.value = response.data.pendingDeposits;
+        const response = await axios.get('/transaction/history/getDepositHistoryData');
+        depositHistories.value = response.data.depositHistories;
         emit('update:totalPendingAmount', response.data.totalPendingAmount);
     } catch (error) {
         console.error('Error fetching pending deposits:', error);
@@ -51,6 +52,27 @@ const filters = ref({
     status: {value: null, matchMode: FilterMatchMode.EQUALS},
 });
 
+const getSeverity = (status) => {
+    switch (status) {
+        case 'fail':
+            return 'danger';
+
+        case 'success':
+            return 'success';
+
+        default:
+            return null;
+    }
+}
+
+// dialog
+const visible = ref(false);
+const data = ref({});
+const openDialog = (rowData) => {
+    visible.value = true;
+    data.value = rowData;
+};
+
 watchEffect(() => {
     if (usePage().props.toast !== null) {
         getResults();
@@ -61,18 +83,18 @@ watchEffect(() => {
 <template>
     <Card class="w-full">
         <template #content>
-            <div v-if="pendingDepositCounts === 0">
+            <div v-if="depositHistoryCount === 0">
                 <Empty
-                    :title="$t('public.empty_pending_request_title')"
-                    :message="$t('public.empty_pending_request_message')"
+                    :title="$t('public.empty_deposit_title')"
+                    :message="$t('public.empty_deposit_message')"
                 />
             </div>
 
             <div v-else>
                 <DataTable
                     v-model:filters="filters"
-                    :value="pendingDeposits"
-                    :paginator="pendingDeposits?.length > 0"
+                    :value="depositHistories"
+                    :paginator="depositHistories?.length > 0"
                     removableSort
                     dataKey="id"
                     :rows="10"
@@ -80,9 +102,11 @@ watchEffect(() => {
                     tableStyle="md:min-width: 50rem"
                     paginatorTemplate="RowsPerPageDropdown FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport"
                     :currentPageReportTemplate="$t('public.paginator_caption')"
-                    :globalFilterFields="['name']"
+                    :globalFilterFields="['user.name', 'user.email', 'transaction_number']"
                     ref="dt"
                     :loading="isLoading"
+                    selectionMode="single"
+                    @row-click="(event) => openDialog(event.data)"
                 >
                     <template #header>
                         <div class="flex flex-col md:flex-row gap-3 items-center self-stretch md:pb-5">
@@ -130,8 +154,8 @@ watchEffect(() => {
                     </template>
                     <template #empty>
                         <Empty
-                            :title="$t('public.empty_pending_request_title')"
-                            :message="$t('public.empty_pending_request_message')"
+                            :title="$t('public.empty_deposit_title')"
+                            :message="$t('public.empty_deposit_message')"
                         />
                     </template>
                     <template #loading>
@@ -139,24 +163,24 @@ watchEffect(() => {
                             <ProgressSpinner
                                 strokeWidth="4"
                             />
-                            <span class="text-sm text-gray-700 dark:text-gray-300">{{ $t('public.loading_pending_deposit') }}</span>
+                            <span class="text-sm text-gray-700 dark:text-gray-300">{{ $t('public.loading_transactions_caption') }}</span>
                         </div>
                     </template>
-                    <template v-if="pendingDeposits?.length > 0">
+                    <template v-if="depositHistories?.length > 0">
                         <Column
-                            field="created_at"
+                            field="approval_at"
                             sortable
                             class="hidden md:table-cell min-w-[120px]"
                         >
                             <template #header>
-                                <span class="hidden md:block">{{ $t('public.requested_date') }}</span>
+                                <span class="hidden md:block">{{ $t('public.date') }}</span>
                             </template>
                             <template #body="slotProps">
-                                {{ dayjs(slotProps.data.created_at).format('YYYY/MM/DD HH:mm:ss') }}
+                                {{ dayjs(slotProps.data.approval_at).format('YYYY/MM/DD HH:mm:ss') }}
                             </template>
                         </Column>
                         <Column
-                            field="name"
+                            field="user.name"
                             sortable
                             frozen
                             :header="$t('public.name')"
@@ -184,7 +208,7 @@ watchEffect(() => {
                             </template>
                         </Column>
                         <Column
-                            field="email"
+                            field="user.email"
                             sortable
                             style="width: 15%"
                             class="hidden md:table-cell"
@@ -233,14 +257,17 @@ watchEffect(() => {
                             </template>
                         </Column>
                         <Column
-                            field="action"
-                            header=""
-                            style="width: 15%"
+                            field="status"
+                            sortable
                             class="hidden md:table-cell"
                         >
+                            <template #header>
+                                <span class="hidden md:block">{{ $t('public.status') }}</span>
+                            </template>
                             <template #body="slotProps">
-                                <PendingTransactionAction
-                                    :transaction="slotProps.data"
+                                <Tag
+                                    :value="$t(`public.${slotProps.data.status}`)"
+                                    :severity="getSeverity(slotProps.data.status)"
                                 />
                             </template>
                         </Column>
@@ -304,4 +331,93 @@ watchEffect(() => {
             </div>
         </template>
     </Card>
+
+    <Dialog v-model:visible="visible" modal :header="$t('public.deposit_details')" class="dialog-xs md:dialog-md">
+        <div class="flex flex-col justify-center items-start pb-4 gap-3 self-stretch border-b border-gray-200 dark:border-surface-600 md:flex-row md:pt-4 md:justify-between">
+            <!-- below md -->
+            <span class="md:hidden self-stretch text-surface-950 dark:text-white text-xl font-semibold">¥{{ data.transaction_amount }}</span>
+            <div class="flex items-center gap-3 self-stretch">
+                <div class="w-9 h-9 rounded-full overflow-hidden grow-0 shrink-0">
+                    <DefaultProfilePhoto />
+                </div>
+                <div class="flex flex-col items-start flex-grow">
+                    <span class="self-stretch overflow-hidden text-surface-950 dark:text-white text-ellipsis text-sm font-medium">{{ data.user.name }}</span>
+                    <span class="self-stretch overflow-hidden text-surface-500 text-ellipsis text-xs">{{ data.user.email }}</span>
+                </div>
+            </div>
+            <!-- above md -->
+            <span class="hidden md:block w-[180px] text-surface-950 dark:text-white text-right text-xl font-semibold">¥{{ data.transaction_amount }}</span>
+        </div>
+
+        <div class="flex flex-col items-center py-4 gap-3 self-stretch border-b border-gray-200 dark:border-surface-600">
+            <div class="flex flex-col md:flex-row items-start gap-1 self-stretch">
+                <span class="self-stretch md:w-[140px] text-surface-500 text-xs">{{ $t('public.txn_no') }}</span>
+                <span class="self-stretch text-surface-950 dark:text-white text-sm font-medium">{{ data.transaction_number }}</span>
+            </div>
+            <div class="flex flex-col md:flex-row items-start gap-1 self-stretch">
+                <span class="self-stretch md:w-[140px] text-surface-500 text-xs">{{ $t('public.date') }}</span>
+                <span class="self-stretch text-surface-950 dark:text-white text-sm font-medium">{{ dayjs(data.approval_at).format('YYYY/MM/DD HH:mm:ss') }}</span>
+            </div>
+            <div class="flex flex-col md:flex-row items-start gap-1 self-stretch">
+                <span class="self-stretch md:w-[140px] text-surface-500 text-xs">{{ $t('public.to') }}</span>
+                <span class="self-stretch text-surface-950 dark:text-white text-sm font-medium">{{ $t(`public.${data.to_wallet.type}`) }}</span>
+            </div>
+            <div class="flex flex-col md:flex-row items-start gap-1 self-stretch">
+                <span class="self-stretch md:w-[140px] text-surface-500 text-xs">{{ $t('public.status') }}</span>
+                <Tag
+                    :value="$t(`public.${data.status}`)"
+                    :severity="getSeverity(data.status)"
+                />
+            </div>
+        </div>
+
+        <div class="flex flex-col items-center py-4 gap-3 self-stretch border-b border-gray-200 dark:border-surface-600">
+            <div class="flex flex-col md:flex-row md:items-center gap-1 self-stretch">
+                <div class="w-[140px] text-surface-500 text-xs">
+                    {{ $t('public.bank_name') }}
+                </div>
+                <div class="text-surface-950 dark:text-white text-sm font-medium">
+                    {{ data.to_payment_platform_name }}
+                </div>
+            </div>
+            <div class="flex flex-col md:flex-row md:items-center gap-1 self-stretch">
+                <div class="w-[140px] text-surface-500 text-xs">
+                    {{ $t('public.receiver_name') }}
+                </div>
+                <div class="text-surface-950 dark:text-white text-sm font-medium">
+                    {{ data.to_payment_account_name }}
+                </div>
+            </div>
+            <div class="flex flex-col md:flex-row md:items-center gap-1 self-stretch">
+                <div class="w-[140px] text-surface-500 text-xs">
+                    {{ $t('public.account_number') }}
+                </div>
+                <div class="text-surface-950 dark:text-white text-sm font-medium">
+                    {{ data.to_payment_account_no }}
+                </div>
+            </div>
+        </div>
+
+        <div class="flex flex-col items-center py-4 gap-3 self-stretch">
+            <div class="flex flex-col md:flex-row items-start gap-1 self-stretch">
+                <span class="self-stretch md:w-[140px] text-surface-500 text-xs">{{ $t('public.remarks') }}</span>
+                <span class="self-stretch text-surface-950 dark:text-white text-sm font-medium">{{ data.remarks ?? '-' }}</span>
+            </div>
+            <div class="flex flex-col md:flex-row md:items-center gap-1 self-stretch">
+                <div class="w-[140px] text-surface-500 text-xs">
+                    {{ $t('public.payment_slip') }}
+                </div>
+                <div class="flex gap-2 items-center self-stretch">
+                    <Image
+                        :src="data.media[0].original_url"
+                        alt="Image"
+                        imageClass="max-w-full h-9 object-contain rounded"
+                        preview
+                    />
+                    <span class="text-sm">{{ data.media[0].file_name }}</span>
+                </div>
+            </div>
+        </div>
+
+    </Dialog>
 </template>

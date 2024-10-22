@@ -15,13 +15,13 @@ const props = defineProps({
 
         <div class="flex flex-col items-center gap-2 self-stretch">
             <slot name="title">
-                <div v-if="title" class="self-stretch text-gray-950 text-center font-semibold text-sm md:text-base">
+                <div v-if="title" class="self-stretch text-surface-950 dark:text-white text-center font-semibold text-sm md:text-base">
                     {{ title }}
                 </div>
             </slot>
 
             <slot name="message">
-                <div v-if="message" class="self-stretch text-gray-700 text-center text-xs md:text-sm">
+                <div v-if="message" class="self-stretch text-surface-400 dark:text-surface-600 text-center text-xs md:text-sm">
                     {{ message }}
                 </div>
             </slot>

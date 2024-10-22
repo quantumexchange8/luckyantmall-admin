@@ -38,7 +38,7 @@ const submit = (transactionId) => {
     form.id = transactionId;
     form.action = approvalAction.value;
 
-    form.post(route('transaction.pendingApproval'), {
+    form.post(route('transaction.pending.pendingApproval'), {
         onSuccess: () => {
             closeDialog();
             form.reset();
@@ -143,6 +143,7 @@ const submit = (transactionId) => {
                             type="button"
                             variant="error-flat"
                             class="w-full md:w-[120px]"
+                            size="base"
                             @click="handleApproval('reject')"
                         >
                             {{ $t('public.reject') }}
@@ -150,6 +151,7 @@ const submit = (transactionId) => {
                         <Button
                             variant="success-flat"
                             class="w-full md:w-[120px]"
+                            size="base"
                             @click="handleApproval('approve')"
                         >
                             {{ $t('public.approve') }}
@@ -199,6 +201,7 @@ const submit = (transactionId) => {
                     type="button"
                     variant="gray-tonal"
                     class="w-full md:w-[120px]"
+                    size="base"
                     @click="closeDialog"
                 >
                     {{ $t('public.cancel') }}
@@ -206,6 +209,7 @@ const submit = (transactionId) => {
                 <Button
                     variant="primary-flat"
                     class="w-full md:w-[120px]"
+                    size="base"
                     @click="submit(transaction.id)"
                 >
                     {{ $t('public.confirm') }}

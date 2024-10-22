@@ -63,16 +63,38 @@ Route::middleware('auth')->group(function () {
     Route::prefix('transaction')->group(function () {
         /**
          * ==============================
-         *        Pending Deposit
+         *            Pending
          * ==============================
          */
-        Route::prefix('pending_deposit')->group(function () {
+        Route::prefix('pending')->group(function () {
+            /**
+             * ==============================
+             *            Deposit
+             * ==============================
+             */
             // listing
-            Route::get('/', [TransactionController::class, 'pending_deposit'])->name('transaction.pending_deposit');
-            Route::get('/getRecentApprovals', [TransactionController::class, 'getRecentApprovals'])->name('transaction.getRecentApprovals');
-            Route::get('/getPendingDeposits', [TransactionController::class, 'getPendingDeposits'])->name('transaction.getPendingDeposits');
+            Route::get('/deposit', [TransactionController::class, 'pending_deposit'])->name('transaction.pending.pending_deposit');
+            Route::get('/getRecentApprovals', [TransactionController::class, 'getRecentApprovals'])->name('transaction.pending.getRecentApprovals');
+            Route::get('/getPendingDeposits', [TransactionController::class, 'getPendingDeposits'])->name('transaction.pending.getPendingDeposits');
 
-            Route::post('/pendingApproval', [TransactionController::class, 'pendingApproval'])->name('transaction.pendingApproval');
+            Route::post('/pendingApproval', [TransactionController::class, 'pendingApproval'])->name('transaction.pending.pendingApproval');
+        });
+
+        /**
+         * ==============================
+         *            History
+         * ==============================
+         */
+        Route::prefix('history')->group(function () {
+            /**
+             * ==============================
+             *            Deposit
+             * ==============================
+             */
+            // listing
+            Route::get('/deposit', [TransactionController::class, 'deposit_history'])->name('transaction.history.deposit_history');
+            Route::get('/getHighestDeposit', [TransactionController::class, 'getHighestDeposit'])->name('transaction.history.getHighestDeposit');
+            Route::get('/getDepositHistoryData', [TransactionController::class, 'getDepositHistoryData'])->name('transaction.pending.getDepositHistoryData');
         });
 
     });

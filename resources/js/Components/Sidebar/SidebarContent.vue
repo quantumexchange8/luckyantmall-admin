@@ -100,33 +100,6 @@ watchEffect(() => {
 
         </SidebarCollapsible>
 
-        <SidebarCategoryLabel
-            :title="$t('public.transaction')"
-        />
-
-        <!-- Transaction -->
-        <SidebarCollapsible
-            :title="$t('public.pending')"
-            :active="route().current('transaction.*')"
-        >
-            <template #icon>
-                <IconClockDollar :size="20" stroke-width="1.5" />
-            </template>
-
-            <SidebarCollapsibleItem
-                :title="$t('public.deposit')"
-                :href="route('transaction.pending_deposit')"
-                :active="route().current('transaction.pending_deposit')"
-            />
-
-            <SidebarCollapsibleItem
-                :title="$t('public.withdrawal')"
-                :href="route('customer.listing')"
-                :active="route().current('customer.listing')"
-            />
-
-        </SidebarCollapsible>
-
         <!-- Group -->
         <SidebarLink
             :title="$t('public.group')"
@@ -137,6 +110,56 @@ watchEffect(() => {
                 <IconUsersGroup :size="20" stroke-width="1.5" />
             </template>
         </SidebarLink>
+
+        <SidebarCategoryLabel
+            :title="$t('public.transaction')"
+        />
+
+        <!-- Pending -->
+        <SidebarCollapsible
+            :title="$t('public.pending')"
+            :active="route().current('transaction.pending.*')"
+        >
+            <template #icon>
+                <IconClockDollar :size="20" stroke-width="1.5" />
+            </template>
+
+            <SidebarCollapsibleItem
+                :title="$t('public.deposit')"
+                :href="route('transaction.pending.pending_deposit')"
+                :active="route().current('transaction.pending.pending_deposit')"
+            />
+
+            <SidebarCollapsibleItem
+                :title="$t('public.withdrawal')"
+                :href="route('customer.listing')"
+                :active="route().current('customer.listing')"
+            />
+
+        </SidebarCollapsible>
+
+        <!-- History -->
+        <SidebarCollapsible
+            :title="$t('public.history')"
+            :active="route().current('transaction.history.*')"
+        >
+            <template #icon>
+                <IconClockDollar :size="20" stroke-width="1.5" />
+            </template>
+
+            <SidebarCollapsibleItem
+                :title="$t('public.deposit')"
+                :href="route('transaction.history.deposit_history')"
+                :active="route().current('transaction.history.deposit_history')"
+            />
+
+            <SidebarCollapsibleItem
+                :title="$t('public.withdrawal')"
+                :href="route('customer.listing')"
+                :active="route().current('customer.listing')"
+            />
+
+        </SidebarCollapsible>
 
         <SidebarCategoryLabel
             :title="$t('public.product')"
