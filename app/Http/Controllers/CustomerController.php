@@ -10,7 +10,9 @@ use App\Models\User;
 use App\Services\GroupService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 
 class CustomerController extends Controller
@@ -106,6 +108,82 @@ class CustomerController extends Controller
         return back()->with('toast', [
             'title' => trans("public.success"),
             'message' => trans("public.toast_create_customer_success_message"),
+            'type' => 'success',
+        ]);
+    }
+
+    public function detail($id_number)
+    {
+        $user = User::where('id_number', $id_number)
+            ->select(['id', 'name', 'id_number'])
+            ->first();
+
+        return Inertia::render('Customer/Listing/Detail/CustomerDetail', [
+            'user' => $user,
+        ]);
+    }
+
+    public function getUserData($id_number)
+    {
+        $user = User::with([
+            'country:id,name,emoji',
+            'rank:id,rank_name',
+            'group.group:id,name,color',
+            'upline:id,name,email,upline_id',
+        ])
+            ->where('id_number', $id_number)
+            ->first();
+
+        return response()->json($user);
+    }
+
+    public function getCustomerContactInfo($id_number)
+    {
+        $user = User::with('country:id,name,emoji')
+            ->select([
+                'id', 'name', 'id_number', 'email', 'email_verified_at', 'username', 'dial_code', 'phone', 'country_id', 'referral_code'
+            ])
+            ->where('id_number', $id_number)
+            ->first();
+
+        return response()->json($user);
+    }
+
+    public function updateCustomerProfile(Request $request)
+    {
+        Validator::make($request->all(), [
+            'name' => ['required', 'regex:/^[a-zA-Z0-9\p{Han}. ]+$/u', 'max:255'],
+            'username' => ['required'],
+            'country' => ['required'],
+            'dial_code' => ['required'],
+            'phone' => ['required', 'max:255'],
+            'phone_number' => ['required', 'max:255', Rule::unique(User::class)->ignore($request->user_id)],
+        ])->setAttributeNames([
+            'name' => trans('public.full_name'),
+            'username' => trans('public.username'),
+            'country' => trans('public.country'),
+            'dial_code' => trans('public.phone_number'),
+            'phone' => trans('public.phone_number'),
+            'phone_number' => trans('public.phone_number'),
+        ])->validate();
+
+        $user = User::find($request->user_id);
+        $dial_code = $request->dial_code;
+        $country = Country::find($request->country['id']);
+
+        $user->update([
+            'name' => $request->name,
+            'username' => $request->username,
+            'dial_code' => $dial_code['phone_code'],
+            'phone' => $request->phone,
+            'phone_number' => $request->phone_number,
+            'country_id' => $country->id,
+            'nationality' => $country->nationality,
+        ]);
+
+        return back()->with('toast', [
+            'title' => trans("public.success"),
+            'message' => trans("public.toast_update_customer_success_message"),
             'type' => 'success',
         ]);
     }

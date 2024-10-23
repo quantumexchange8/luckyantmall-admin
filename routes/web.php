@@ -53,6 +53,15 @@ Route::middleware('auth')->group(function () {
         Route::get('/getCustomersData', [CustomerController::class, 'getCustomersData'])->name('customer.getCustomersData');
 
         Route::post('/addNewCustomer', [CustomerController::class, 'addNewCustomer'])->name('customer.addNewCustomer');
+
+        // details
+        Route::prefix('detail')->group(function () {
+            Route::get('/{id_number}', [CustomerController::class, 'detail'])->name('customer.detail');
+            Route::get('/{id_number}/getUserData', [CustomerController::class, 'getUserData'])->name('customer.detail.getUserData');
+            Route::get('/{id_number}/getCustomerContactInfo', [CustomerController::class, 'getCustomerContactInfo'])->name('customer.detail.getCustomerContactInfo');
+
+            Route::post('/updateCustomerProfile', [CustomerController::class, 'updateCustomerProfile'])->name('customer.detail.updateCustomerProfile');
+        });
     });
 
     /**

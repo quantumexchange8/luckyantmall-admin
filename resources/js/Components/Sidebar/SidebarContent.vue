@@ -14,7 +14,7 @@ import {
     IconTemplate,
     IconCategory,
     IconCoinMonero,
-    IconBusinessplan,
+    IconHistory,
     IconClockDollar,
     IconAdjustmentsDollar
 } from '@tabler/icons-vue';
@@ -83,7 +83,7 @@ watchEffect(() => {
             <SidebarCollapsibleItem
                 :title="$t('public.customer_listing')"
                 :href="route('customer.listing')"
-                :active="route().current('customer.listing')"
+                :active="route().current('customer.listing') || route().current('customer.detail')"
             />
 
 <!--            <SidebarCollapsibleItem-->
@@ -144,7 +144,7 @@ watchEffect(() => {
             :active="route().current('transaction.history.*')"
         >
             <template #icon>
-                <IconClockDollar :size="20" stroke-width="1.5" />
+                <IconHistory :size="20" stroke-width="1.5" />
             </template>
 
             <SidebarCollapsibleItem

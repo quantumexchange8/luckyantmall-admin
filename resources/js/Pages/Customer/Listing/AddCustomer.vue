@@ -77,7 +77,7 @@ const submitForm = () => {
         form.phone_number = selectedPhoneCode.value.phone_code + form.phone;
     }
     form.post(route('customer.addNewCustomer'), {
-        onSuccess: (values) => {
+        onSuccess: () => {
             closeDialog();
             form.reset();
         }

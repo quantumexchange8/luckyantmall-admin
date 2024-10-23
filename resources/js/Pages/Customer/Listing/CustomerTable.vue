@@ -20,6 +20,7 @@ import Tag from "primevue/tag";
 import dayjs from "dayjs";
 import {usePage} from "@inertiajs/vue3";
 import ProgressSpinner from 'primevue/progressspinner';
+import CustomerTableAction from "@/Pages/Customer/Listing/CustomerTableAction.vue";
 
 const props = defineProps({
     customerCounts: Number
@@ -326,8 +327,8 @@ watchEffect(() => {
                             class="hidden md:table-cell"
                         >
                             <template #body="slotProps">
-                                <MemberTableActions
-                                    :member="slotProps.data"
+                                <CustomerTableAction
+                                    :customer="slotProps.data"
                                 />
                             </template>
                         </Column>
@@ -357,9 +358,7 @@ watchEffect(() => {
                                             </div>
                                         </div>
                                         <div class="flex items-end">
-                                            <MemberTableActions
-                                                :member="slotProps.data"
-                                            />
+
                                         </div>
                                     </div>
                                     <div class="flex items-center gap-1 h-[26px]">

@@ -6,7 +6,7 @@ export default {
 
             // Size
             'min-w-[12rem]',
-            'p-1',
+            'py-1',
 
             // Colors
             'bg-surface-0 dark:bg-surface-900',
@@ -27,9 +27,6 @@ export default {
     },
     itemContent: ({ context }) => ({
         class: [
-            //Shape
-            'rounded-[4px]',
-
             // Colors
             'text-surface-700 dark:text-white/80',
             {
@@ -67,6 +64,9 @@ export default {
             // Color
             'text-surface-700 dark:text-white/80',
 
+            // Font
+            'text-sm',
+
             // Misc
             'no-underline',
             'overflow-hidden',
@@ -102,7 +102,7 @@ export default {
             'min-w-[12.5rem]',
 
             // Shape
-            'shadow-none sm:shadow-md',
+            'shadow-dropdown',
             'border border-surface-200 dark:border-surface-700',
 
             // Position

@@ -5,10 +5,7 @@ export default {
             'rounded-md',
 
             // Spacing
-            'p-4',
-
-            // Color
-            'bg-surface-0 dark:bg-surface-900',
+            'py-2 px-4',
 
             // Misc
             'overflow-x-auto'
