@@ -162,7 +162,33 @@ watchEffect(() => {
         </SidebarCollapsible>
 
         <SidebarCategoryLabel
+            :title="$t('public.market')"
+        />
+
+        <!-- Product -->
+        <SidebarLink
             :title="$t('public.product')"
+            :href="route('product')"
+            :active="route().current('product.*')"
+        >
+            <template #icon>
+                <IconTemplate :size="20" stroke-width="1.5" />
+            </template>
+        </SidebarLink>
+
+        <!-- Master -->
+        <SidebarLink
+            :title="$t('public.master')"
+            :href="route('master')"
+            :active="route().current('master') || route().current('master.*')"
+        >
+            <template #icon>
+                <IconCoinMonero :size="20" stroke-width="1.5" />
+            </template>
+        </SidebarLink>
+
+        <SidebarCategoryLabel
+            :title="$t('public.settings')"
         />
 
         <!-- Item -->
@@ -186,10 +212,6 @@ watchEffect(() => {
                 <IconCategory :size="20" stroke-width="1.5" />
             </template>
         </SidebarLink>
-
-        <SidebarCategoryLabel
-            :title="$t('public.settings')"
-        />
 
         <!-- Deposit Profile -->
         <SidebarLink

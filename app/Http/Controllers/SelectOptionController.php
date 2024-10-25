@@ -73,4 +73,12 @@ class SelectOptionController extends Controller
 
         return response()->json($items);
     }
+
+    public function getGroupLeaders()
+    {
+        $groups = Group::whereNotNull('parent_group_id')
+            ->get();
+
+        return response()->json($groups);
+    }
 }

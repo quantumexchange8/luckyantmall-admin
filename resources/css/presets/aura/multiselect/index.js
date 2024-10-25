@@ -143,7 +143,7 @@ export default {
                 'text-surface-700 dark:text-white/80': !context.focused && !context.selected,
                 'bg-surface-200 dark:bg-surface-600/60': context.focused && !context.selected,
                 'text-surface-700 dark:text-white/80': context.focused && !context.selected,
-                'bg-highlight': context.selected
+                'bg-primary-100 dark:bg-surface-600/40': context.selected
             },
 
             //States

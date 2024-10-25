@@ -22,6 +22,7 @@ export default {
             class: [
                 // Font
                 'leading-none',
+                'text-sm',
 
                 // Display
                 'flex-auto',
@@ -49,14 +50,14 @@ export default {
                 { 'border-surface-300 dark:border-surface-700': !parent.props.invalid },
 
                 // Invalid State
-                'invalid:focus:ring-red-200',
-                'invalid:hover:border-red-500',
-                { 'border-red-500 dark:border-red-400': parent.props.invalid },
+                { 'border-error-500 dark:border-error-400': parent.props.invalid },
 
                 // States
-                { 'hover:border-primary': !parent.props.invalid },
-                'focus:outline-none focus:outline-offset-0 focus:ring-1 focus:ring-primary-500 dark:focus:ring-primary-400 focus:z-10',
-                { 'bg-surface-200 dark:bg-surface-700 select-none pointer-events-none cursor-default': context.disabled },
+                {
+                    'hover:border-surface-400 dark:hover:border-surface-600': !context.disabled && !parent.props.invalid,
+                    'focus:outline-none focus:ring-0 focus:border-primary-500 dark:focus:border-primary-300': !context.disabled,
+                    'bg-surface-200 dark:bg-surface-800 disabled:text-gray-500 dark:disabled:text-gray-500 select-none pointer-events-none cursor-default': context.disabled
+                },
 
                 // Filled State *for FloatLabel
                 { filled: parent.instance?.$parentInstance?.$name === 'FloatLabel' && parent.state.d_modelValue !== null },

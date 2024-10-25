@@ -31,7 +31,7 @@ const { locale } = useLangObserver();
 const getResults = async () => {
     isLoading.value = true;
     try {
-        const response = await axios.get('/category/getCategoriesData');
+        const response = await axios.get('/settings/category/getCategoriesData');
         categories.value = response.data.categories;
     } catch (error) {
         console.error('Error fetching categories:', error);

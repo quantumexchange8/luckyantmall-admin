@@ -62,7 +62,7 @@ const { type, variant, size, squared, pill, href, iconOnly, srText, external } =
 const { disabled } = toRefs(props)
 
 const baseClasses = [
-    'inline-flex items-center justify-center gap-3 transition-colors text-sm font-medium select-none disabled:cursor-not-allowed disabled:text-gray-400 focus:outline-none focus:ring',
+    'inline-flex items-center justify-center gap-3 transition-colors text-sm font-medium select-none disabled:cursor-not-allowed disabled:text-surface-400 dark:disabled:text-surface-500 focus:outline-none focus:ring',
 ]
 
 const variantClasses = (variant) => ({
@@ -79,7 +79,7 @@ const variantClasses = (variant) => ({
     'bg-error-500 dark:bg-error-600 hover:bg-error-600 dark:hover:bg-error-700 border border-error-500 hover:border-error-600 dark:border-error-600 dark:hover:border-error-700 focus:ring-error-500 dark:ring-error-600 text-white disabled:border-gray-100 disabled:bg-gray-100 dark:disabled:border-gray-800 dark:disabled:bg-gray-800': variant === 'error-flat',
     'bg-error-50 dark:bg-error-100 hover:bg-error-100 dark:hover:bg-error-200 border border-error-50 hover:border-error-100 dark:border-error-100 dark:hover:border-error-200 focus:ring-error-100 dark:ring-error-200 text-error-500 dark:text-error-400 disabled:border-gray-100 disabled:bg-gray-100 dark:disabled:border-gray-800 dark:disabled:bg-gray-800': variant === 'error-tonal',
     'bg-white dark:bg-surface-950 hover:bg-error-50 dark:hover:bg-error-100 border border-error-500 hover:border-error-600 dark:border-error-600 dark:hover:border-error-700 focus:ring-error-500 dark:ring-error-600 text-error-500 dark:text-error-400 shadow-input disabled:bg-gray-100 dark:disabled:bg-gray-800 disabled:border-gray-200 dark:disabled:border-gray-800': variant === 'error-outlined',
-    'bg-transparent dark:bg-transparent hover:bg-error-50 dark:hover:bg-error-100 focus:ring-error-100 dark:ring-error-200 text-error-500 dark:text-error-400 disabled:bg-transparent dark:disabled:bg-transparent': variant === 'error-text',
+    'bg-transparent dark:bg-transparent hover:bg-error-50 dark:hover:bg-error-950 focus:ring-error-100 dark:ring-error-200 text-error-500 dark:text-error-400 disabled:bg-transparent dark:disabled:bg-transparent': variant === 'error-text',
 
     'bg-success-500 dark:bg-success-600 hover:bg-success-600 dark:hover:bg-success-700 border border-success-500 hover:border-success-600 dark:border-success-600 dark:hover:border-success-700 focus:ring-success-500 dark:ring-success-600 text-white dark:text-surface-0 disabled:border-gray-100 disabled:bg-gray-100 dark:disabled:border-gray-800 dark:disabled:bg-gray-800': variant === 'success-flat',
     'bg-success-50 dark:bg-success-100 hover:bg-success-100 dark:hover:bg-success-200 border border-success-50 hover:border-success-100 dark:border-success-100 dark:hover:border-success-200 focus:ring-success-100 dark:ring-success-200 text-success-500 dark:text-success-400 disabled:border-gray-100 disabled:bg-gray-100 dark:disabled:border-gray-800 dark:disabled:bg-gray-800': variant === 'success-tonal',

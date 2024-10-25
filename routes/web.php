@@ -6,6 +6,8 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DepositProfileController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\ItemController;
+use App\Http\Controllers\MasterController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SelectOptionController;
 use App\Http\Controllers\TransactionController;
@@ -39,6 +41,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/getAvailableLeader', [SelectOptionController::class, 'getAvailableLeader'])->name('getAvailableLeader');
     Route::get('/getSettingRanks', [SelectOptionController::class, 'getSettingRanks'])->name('getSettingRanks');
     Route::get('/getItems', [SelectOptionController::class, 'getItems'])->name('getItems');
+    Route::get('/getGroupLeaders', [SelectOptionController::class, 'getGroupLeaders'])->name('getGroupLeaders');
 
     Route::get('/getPendingCounts', [DashboardController::class, 'getPendingCounts'])->name('dashboard.getPendingCounts');
 
@@ -110,34 +113,6 @@ Route::middleware('auth')->group(function () {
 
     /**
      * ==============================
-     *             Item
-     * ==============================
-     */
-    Route::prefix('item')->group(function () {
-        // listing
-        Route::get('/listing', [ItemController::class, 'index'])->name('item.listing');
-        Route::get('/getItemsData', [ItemController::class, 'getItemsData'])->name('item.getCustomersData');
-
-        Route::post('/addItem', [ItemController::class, 'addItem'])->name('item.addItem');
-        Route::patch('/updateItemStatus', [ItemController::class, 'updateItemStatus'])->name('item.updateItemStatus');
-    });
-
-    /**
-     * ==============================
-     *           Category
-     * ==============================
-     */
-    Route::prefix('category')->group(function () {
-        // listing
-        Route::get('/listing', [CategoryController::class, 'index'])->name('category.listing');
-        Route::get('/getCategoriesData', [CategoryController::class, 'getCategoriesData'])->name('category.getCustomersData');
-
-        Route::post('/addCategory', [CategoryController::class, 'addCategory'])->name('category.addCategory');
-        Route::patch('/updateCategoryStatus', [CategoryController::class, 'updateCategoryStatus'])->name('category.updateCategoryStatus');
-    });
-
-    /**
-     * ==============================
      *            Groups
      * ==============================
      */
@@ -151,10 +126,62 @@ Route::middleware('auth')->group(function () {
 
     /**
      * ==============================
+     *            Product
+     * ==============================
+     */
+    Route::prefix('product')->group(function () {
+        // listing
+        Route::get('/', [ProductController::class, 'index'])->name('product');
+    });
+
+    /**
+     * ==============================
+     *            Master
+     * ==============================
+     */
+    Route::prefix('master')->group(function () {
+        // listing
+        Route::get('/', [MasterController::class, 'index'])->name('master');
+        Route::get('/getMasterOverview', [MasterController::class, 'getMasterOverview'])->name('master.getMasterOverview');
+        Route::get('/getMasters', [MasterController::class, 'getMasters'])->name('master.getMasters');
+
+        Route::post('/addMaster', [MasterController::class, 'addMaster'])->name('master.addMaster');
+    });
+
+    /**
+     * ==============================
      *           Settings
      * ==============================
      */
     Route::prefix('settings')->group(function () {
+        /**
+         * ==============================
+         *             Item
+         * ==============================
+         */
+        Route::prefix('item')->group(function () {
+            // listing
+            Route::get('/listing', [ItemController::class, 'index'])->name('item.listing');
+            Route::get('/getItemsData', [ItemController::class, 'getItemsData'])->name('item.getCustomersData');
+
+            Route::post('/addItem', [ItemController::class, 'addItem'])->name('item.addItem');
+            Route::patch('/updateItemStatus', [ItemController::class, 'updateItemStatus'])->name('item.updateItemStatus');
+        });
+
+        /**
+         * ==============================
+         *           Category
+         * ==============================
+         */
+        Route::prefix('category')->group(function () {
+            // listing
+            Route::get('/listing', [CategoryController::class, 'index'])->name('category.listing');
+            Route::get('/getCategoriesData', [CategoryController::class, 'getCategoriesData'])->name('category.getCustomersData');
+
+            Route::post('/addCategory', [CategoryController::class, 'addCategory'])->name('category.addCategory');
+            Route::patch('/updateCategoryStatus', [CategoryController::class, 'updateCategoryStatus'])->name('category.updateCategoryStatus');
+        });
+
         Route::prefix('deposit_profile')->group(function () {
             // listing
             Route::get('/', [DepositProfileController::class, 'deposit_profile'])->name('deposit_profile');

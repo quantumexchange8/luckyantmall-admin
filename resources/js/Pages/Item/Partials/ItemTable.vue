@@ -30,7 +30,7 @@ const { locale } = useLangObserver();
 const getResults = async () => {
     isLoading.value = true;
     try {
-        const response = await axios.get('/item/getItemsData');
+        const response = await axios.get('/settings/item/getItemsData');
         items.value = response.data.items;
     } catch (error) {
         console.error('Error fetching items:', error);
