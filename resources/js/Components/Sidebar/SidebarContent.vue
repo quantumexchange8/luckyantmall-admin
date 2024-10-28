@@ -16,7 +16,8 @@ import {
     IconCoinMonero,
     IconHistory,
     IconClockDollar,
-    IconAdjustmentsDollar
+    IconAdjustmentsDollar,
+    IconTag
 } from '@tabler/icons-vue';
 import SidebarCategoryLabel from "@/Components/Sidebar/SidebarCategoryLabel.vue";
 
@@ -166,15 +167,27 @@ watchEffect(() => {
         />
 
         <!-- Product -->
-        <SidebarLink
+        <SidebarCollapsible
             :title="$t('public.product')"
-            :href="route('product')"
             :active="route().current('product.*')"
         >
             <template #icon>
-                <IconTemplate :size="20" stroke-width="1.5" />
+                <IconTag :size="20" stroke-width="1.5" />
             </template>
-        </SidebarLink>
+
+            <SidebarCollapsibleItem
+                :title="$t('public.add_product')"
+                :href="route('product.add_product')"
+                :active="route().current('product.add_product')"
+            />
+
+            <SidebarCollapsibleItem
+                :title="$t('public.product_listing')"
+                :href="route('customer.listing')"
+                :active="route().current('customer.listing')"
+            />
+
+        </SidebarCollapsible>
 
         <!-- Master -->
         <SidebarLink

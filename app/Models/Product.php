@@ -13,6 +13,8 @@ class Product extends Model
         'name',
         'item_id',
         'category_id',
+        'master_id',
+        'master_meta_login',
         'descriptions',
         'quantity',
         'base_price',

@@ -12,6 +12,8 @@ return new class extends Migration {
             $table->string('name')->nullable();
             $table->unsignedBigInteger('item_id')->nullable();
             $table->unsignedBigInteger('category_id')->nullable();
+            $table->unsignedBigInteger('master_id')->nullable();
+            $table->unsignedInteger('master_meta_login')->nullable();
             $table->longText('descriptions')->nullable();
             $table->unsignedInteger('quantity')->nullable();
             $table->decimal('base_price', 13)->nullable();
@@ -32,6 +34,12 @@ return new class extends Migration {
             $table->foreign('category_id')
                 ->references('id')
                 ->on('categories')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+
+            $table->foreign('master_id')
+                ->references('id')
+                ->on('trading_masters')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
         });

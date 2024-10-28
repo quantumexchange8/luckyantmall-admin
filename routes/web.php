@@ -42,6 +42,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/getSettingRanks', [SelectOptionController::class, 'getSettingRanks'])->name('getSettingRanks');
     Route::get('/getItems', [SelectOptionController::class, 'getItems'])->name('getItems');
     Route::get('/getGroupLeaders', [SelectOptionController::class, 'getGroupLeaders'])->name('getGroupLeaders');
+    Route::get('/getCategories', [SelectOptionController::class, 'getCategories'])->name('getCategories');
+    Route::get('/getMasters', [SelectOptionController::class, 'getMasters'])->name('getMasters');
 
     Route::get('/getPendingCounts', [DashboardController::class, 'getPendingCounts'])->name('dashboard.getPendingCounts');
 
@@ -130,6 +132,10 @@ Route::middleware('auth')->group(function () {
      * ==============================
      */
     Route::prefix('product')->group(function () {
+        // add product
+        Route::get('/add_product', [ProductController::class, 'add_product'])->name('product.add_product');
+
+        Route::post('/addProduct', [ProductController::class, 'addProduct'])->name('product.addProduct');
         // listing
         Route::get('/', [ProductController::class, 'index'])->name('product');
     });

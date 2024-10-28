@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Country;
 use App\Models\Group;
 use App\Models\GroupRankSetting;
 use App\Models\Item;
-use App\Models\SettingRank;
+use App\Models\TradingMaster;
 use App\Models\User;
 
 class SelectOptionController extends Controller
@@ -80,5 +81,22 @@ class SelectOptionController extends Controller
             ->get();
 
         return response()->json($groups);
+    }
+
+    public function getCategories()
+    {
+        $categories = Category::where('status', 'active')
+            ->get();
+
+        return response()->json($categories);
+    }
+
+    public function getMasters()
+    {
+        $categories = TradingMaster::where('status', 'active')
+            ->select('id', 'master_name')
+            ->get();
+
+        return response()->json($categories);
     }
 }
