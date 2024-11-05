@@ -11,7 +11,8 @@ import {useForm} from "@inertiajs/vue3";
 import FileUpload from 'primevue/fileupload';
 import Button from '@/Components/Button.vue';
 import Image from 'primevue/image';
-import {ref, watch} from "vue";
+import ToggleSwitch from 'primevue/toggleswitch';
+import {ref} from "vue";
 import { usePrimeVue } from 'primevue/config';
 import {
     IconPhotoPlus,
@@ -35,6 +36,7 @@ const form = useForm({
     images: null,
     category: '',
     master: '',
+    required_delivery: '',
 });
 
 const $primevue = usePrimeVue();
@@ -498,7 +500,7 @@ const submitForm = () => {
                                                                 pill
                                                                 icon-only
                                                                 size="sm"
-                                                                @click="onRemoveTemplatingFile(file, removeFileCallback, index)"
+                                                                @click="onRemoveTemplatingFile(removeFileCallback, index)"
                                                             >
                                                                 <IconX size="16" stroke-width="1.5" />
                                                             </Button>
@@ -537,7 +539,7 @@ const submitForm = () => {
                             <span class="text-surface-950 dark:text-white font-semibold">{{ $t('public.configurations') }}</span>
 
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-5 w-full">
-                                <!-- Categories -multiselect -->
+                                <!-- Categories -->
                                 <div class="flex flex-col gap-1 items-start self-stretch">
                                     <InputLabel
                                         for="category"
@@ -598,6 +600,21 @@ const submitForm = () => {
                                         </template>
                                     </Select>
                                     <InputError :message="form.errors.master" />
+                                </div>
+
+                                <!-- Delivery -->
+                                <div class="flex flex-col gap-1 items-start self-stretch">
+                                    <InputLabel
+                                        for="required_delivery"
+                                        :invalid="!!form.errors.required_delivery"
+                                    >
+                                        {{ $t('public.required_delivery') }}
+                                    </InputLabel>
+                                    <ToggleSwitch
+                                        inputId="required_delivery"
+                                        v-model="form.required_delivery"
+                                    />
+                                    <InputError :message="form.errors.required_delivery" />
                                 </div>
                             </div>
                         </div>

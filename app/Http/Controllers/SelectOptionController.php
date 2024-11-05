@@ -94,7 +94,7 @@ class SelectOptionController extends Controller
     public function getMasters()
     {
         $categories = TradingMaster::where('status', 'active')
-            ->select('id', 'master_name')
+            ->select('id', 'master_name', 'meta_login')
             ->get();
 
         return response()->json($categories);

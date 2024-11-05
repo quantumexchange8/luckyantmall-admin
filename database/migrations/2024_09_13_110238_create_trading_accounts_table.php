@@ -17,10 +17,10 @@ return new class extends Migration
             $table->unsignedInteger('meta_login')->unique();
             $table->unsignedBigInteger('account_type_id')->default(1);
             $table->integer('currency_digits')->nullable();
-            $table->decimal('balance', 13)->nullable();
-            $table->decimal('real_fund', 13)->nullable();
-            $table->decimal('demo_fund', 13)->nullable();
-            $table->decimal('credit', 13)->nullable();
+            $table->decimal('balance', 13)->nullable()->default(0);
+            $table->decimal('real_fund', 13)->nullable()->default(0);
+            $table->decimal('demo_fund', 13)->nullable()->default(0);
+            $table->decimal('credit', 13)->nullable()->default(0);
             $table->double('margin')->nullable();
             $table->double('margin_free')->nullable();
             $table->double('margin_level')->nullable();

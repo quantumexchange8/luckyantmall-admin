@@ -175,6 +175,7 @@ class TransactionController extends Controller
             'media',
             'to_wallet:id,type,address'
         ])
+            ->where('transaction_type', 'deposit')
             ->whereNot('status', 'processing')
             ->latest()
             ->get();

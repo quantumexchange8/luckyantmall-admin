@@ -33,6 +33,7 @@ class ProductController extends Controller
             'images' => ['required'],
             'category' => ['required'],
             'master' => ['nullable'],
+            'required_delivery' => ['nullable'],
         ])->setAttributeNames([
             'name' => trans('public.name'),
             'description' => trans('public.description'),
@@ -57,8 +58,11 @@ class ProductController extends Controller
             'discount_type' => $request->discount_type,
             'quantity' => $request->quantity,
             'sku' => $request->sku,
+            'item_id' => $category['item_id'],
             'category_id' => $category['id'],
             'master_id' => $master['id'],
+            'master_meta_login' => $master['meta_login'],
+            'required_delivery' => $request->required_delivery,
         ]);
 
         if ($bundles) {
@@ -68,6 +72,12 @@ class ProductController extends Controller
                     'min_quantity' => $bundle['min_unit'],
                     'price_per_unit' => $bundle['price_per_unit'],
                 ]);
+            }
+        }
+
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                $product->addMedia($image)->toMediaCollection('product_images');
             }
         }
 

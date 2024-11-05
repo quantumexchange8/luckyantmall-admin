@@ -15,6 +15,7 @@ return new class extends Migration {
             $table->unsignedBigInteger('master_id')->nullable();
             $table->unsignedInteger('master_meta_login')->nullable();
             $table->longText('descriptions')->nullable();
+            $table->string('slug')->nullable();
             $table->unsignedInteger('quantity')->nullable();
             $table->decimal('base_price', 13)->nullable();
             $table->string('discount_type')->nullable();
@@ -22,6 +23,7 @@ return new class extends Migration {
             $table->decimal('discount_price', 13)->nullable();
             $table->string('final_price_type')->nullable();
             $table->decimal('final_price', 13)->nullable();
+            $table->boolean('required_delivery')->nullable()->default(0);
             $table->timestamps();
             $table->softDeletes();
 
