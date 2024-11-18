@@ -66,7 +66,7 @@ function calculatePercentage(fund) {
                                         ¥{{ formatAmount(0) }}
                                     </div>
                                     <div v-else-if="isLoading">
-                                        <Skeleton width="5rem" height="2rem"></Skeleton>
+                                        <Skeleton width="5rem" class="mt-1.5 mb-1" height="2rem"></Skeleton>
                                     </div>
                                     <div v-else>
                                         ¥{{ formatAmount(currentSuccessDeposit) }}
@@ -113,7 +113,7 @@ function calculatePercentage(fund) {
                                         ¥{{ formatAmount(0) }}
                                     </div>
                                     <div v-else-if="isLoading">
-                                        <Skeleton width="5rem" height="2rem"></Skeleton>
+                                        <Skeleton width="5rem" class="mt-1.5 mb-1" height="2rem"></Skeleton>
                                     </div>
                                     <div v-else>
                                         ¥{{ formatAmount(currentFailDeposit) }}

@@ -169,7 +169,7 @@ watchEffect(() => {
         <!-- Product -->
         <SidebarCollapsible
             :title="$t('public.product')"
-            :active="route().current('product.*')"
+            :active="route().current('product') || route().current('product.*')"
         >
             <template #icon>
                 <IconTag :size="20" stroke-width="1.5" />
@@ -183,8 +183,8 @@ watchEffect(() => {
 
             <SidebarCollapsibleItem
                 :title="$t('public.product_listing')"
-                :href="route('customer.listing')"
-                :active="route().current('customer.listing')"
+                :href="route('product')"
+                :active="route().current('product')"
             />
 
         </SidebarCollapsible>

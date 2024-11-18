@@ -28,4 +28,9 @@ class DeliveryAddress extends Model
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
+
+    public function country(): BelongsTo
+    {
+        return $this->belongsTo(Country::class, 'country_id', 'id');
+    }
 }

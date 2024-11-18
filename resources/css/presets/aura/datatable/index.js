@@ -174,7 +174,7 @@ export default {
         footerCell: ({ context }) => ({
             class: [
                 // Font
-                'font-bold',
+                'text-sm font-semibold',
 
                 // Alignment
                 'text-left',

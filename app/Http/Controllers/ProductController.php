@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use App\Models\ProductBundlePrice;
+use App\Models\ProductHasMaster;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
 
@@ -12,7 +14,9 @@ class ProductController extends Controller
 {
     public function index()
     {
-
+        return Inertia::render('Product/ProductListing', [
+            'productsCount' => Product::count(),
+        ]);
     }
 
     public function add_product(Request $request)
@@ -32,7 +36,7 @@ class ProductController extends Controller
             'sku' => ['nullable'],
             'images' => ['required'],
             'category' => ['required'],
-            'master' => ['nullable'],
+            'masters' => ['nullable'],
             'required_delivery' => ['nullable'],
         ])->setAttributeNames([
             'name' => trans('public.name'),
@@ -44,26 +48,34 @@ class ProductController extends Controller
             'sku' => trans('public.sku'),
             'images' => trans('public.images'),
             'category' => trans('public.category'),
-            'master' => trans('public.master'),
+            'masters' => trans('public.master'),
         ])->validate();
 
         $category = $request->category;
-        $master = $request->master;
+        $masters = $request->masters;
         $bundles = $request->bundle_price;
 
         $product = Product::create([
             'name' => $request->name,
             'descriptions' => $request->description,
+            'slug' => \Str::slug($request->name),
             'base_price' => $request->base_price,
             'discount_type' => $request->discount_type,
             'quantity' => $request->quantity,
             'sku' => $request->sku,
             'item_id' => $category['item_id'],
             'category_id' => $category['id'],
-            'master_id' => $master['id'],
-            'master_meta_login' => $master['meta_login'],
             'required_delivery' => $request->required_delivery,
         ]);
+
+        if ($masters) {
+            foreach ($masters as $master) {
+                ProductHasMaster::create([
+                    'product_id' => $product->id,
+                    'trading_master_id' => $master['id'],
+                ]);
+            }
+        }
 
         if ($bundles) {
             foreach ($bundles as $bundle) {
@@ -81,10 +93,26 @@ class ProductController extends Controller
             }
         }
 
-        return back()->with('toast', [
+        return Redirect::route('product')->with('toast', [
             'title' => trans('public.success'),
             'message' => trans('public.toast_add_product_success'),
             'type' => 'success',
+        ]);
+    }
+
+    public function getProductData(Request $request)
+    {
+        $product = Product::with([
+            'category:id,name',
+            'media',
+            'masters',
+        ])
+            ->withSum('success_orders', 'quantity')
+            ->latest()
+            ->get();
+
+        return response()->json([
+            'products' => $product
         ]);
     }
 }

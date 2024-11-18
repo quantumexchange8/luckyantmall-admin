@@ -5,15 +5,17 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements HasMedia
 {
-    use HasFactory, Notifiable, InteractsWithMedia;
+    use HasFactory, Notifiable, InteractsWithMedia, HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -90,5 +92,15 @@ class User extends Authenticatable implements HasMedia
     public function group(): HasOne
     {
         return $this->hasOne(GroupHasUser::class, 'user_id');
+    }
+
+    public function delivery_addresses(): HasMany
+    {
+        return $this->hasMany(DeliveryAddress::class, 'user_id', 'id');
+    }
+
+    public function wallets(): HasMany
+    {
+        return $this->hasMany(Wallet::class, 'user_id', 'id');
     }
 }

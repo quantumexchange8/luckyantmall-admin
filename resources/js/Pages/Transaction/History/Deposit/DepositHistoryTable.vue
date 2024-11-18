@@ -23,7 +23,7 @@ const props = defineProps({
 
 const depositHistories = ref([]);
 const isLoading = ref(false);
-const {formatRgbaColor} = generalFormat();
+const {formatRgbaColor, formatAmount} = generalFormat();
 const emit = defineEmits(['update:totalPendingAmount']);
 
 const getResults = async () => {
@@ -59,6 +59,12 @@ const getSeverity = (status) => {
 
         case 'success':
             return 'success';
+
+        case 'demo_fund':
+            return 'secondary';
+
+        case 'real_fund':
+            return 'info';
 
         default:
             return null;
@@ -253,7 +259,22 @@ watchEffect(() => {
                                 <span class="hidden md:block">{{ $t('public.amount') }}</span>
                             </template>
                             <template #body="slotProps">
-                                ¥{{ slotProps.data.amount }}
+                                ¥{{ formatAmount(slotProps.data.amount) }}
+                            </template>
+                        </Column>
+                        <Column
+                            field="fund_type"
+                            sortable
+                            class="hidden md:table-cell"
+                        >
+                            <template #header>
+                                <span class="hidden md:block">{{ $t('public.fund') }}</span>
+                            </template>
+                            <template #body="slotProps">
+                                <Tag
+                                    :value="$t(`public.${slotProps.data.fund_type}`)"
+                                    :severity="getSeverity(slotProps.data.fund_type)"
+                                />
                             </template>
                         </Column>
                         <Column
@@ -335,7 +356,7 @@ watchEffect(() => {
     <Dialog v-model:visible="visible" modal :header="$t('public.deposit_details')" class="dialog-xs md:dialog-md">
         <div class="flex flex-col justify-center items-start pb-4 gap-3 self-stretch border-b border-gray-200 dark:border-surface-600 md:flex-row md:pt-4 md:justify-between">
             <!-- below md -->
-            <span class="md:hidden self-stretch text-surface-950 dark:text-white text-xl font-semibold">¥{{ data.transaction_amount }}</span>
+            <span class="md:hidden self-stretch text-surface-950 dark:text-white text-xl font-semibold">¥{{ formatAmount(data.transaction_amount) }}</span>
             <div class="flex items-center gap-3 self-stretch">
                 <div class="w-9 h-9 rounded-full overflow-hidden grow-0 shrink-0">
                     <DefaultProfilePhoto />
@@ -346,7 +367,7 @@ watchEffect(() => {
                 </div>
             </div>
             <!-- above md -->
-            <span class="hidden md:block w-[180px] text-surface-950 dark:text-white text-right text-xl font-semibold">¥{{ data.transaction_amount }}</span>
+            <span class="hidden md:block w-[180px] text-surface-950 dark:text-white text-right text-xl font-semibold">¥{{ formatAmount(data.transaction_amount) }}</span>
         </div>
 
         <div class="flex flex-col items-center py-4 gap-3 self-stretch border-b border-gray-200 dark:border-surface-600">
@@ -377,7 +398,7 @@ watchEffect(() => {
                     {{ $t('public.bank_name') }}
                 </div>
                 <div class="text-surface-950 dark:text-white text-sm font-medium">
-                    {{ data.to_payment_platform_name }}
+                    {{ data.to_payment_platform_name ?? '-' }}
                 </div>
             </div>
             <div class="flex flex-col md:flex-row md:items-center gap-1 self-stretch">
@@ -385,7 +406,7 @@ watchEffect(() => {
                     {{ $t('public.receiver_name') }}
                 </div>
                 <div class="text-surface-950 dark:text-white text-sm font-medium">
-                    {{ data.to_payment_account_name }}
+                    {{ data.to_payment_account_name ?? '-' }}
                 </div>
             </div>
             <div class="flex flex-col md:flex-row md:items-center gap-1 self-stretch">
@@ -393,7 +414,7 @@ watchEffect(() => {
                     {{ $t('public.account_number') }}
                 </div>
                 <div class="text-surface-950 dark:text-white text-sm font-medium">
-                    {{ data.to_payment_account_no }}
+                    {{ data.to_payment_account_no ?? '-' }}
                 </div>
             </div>
         </div>
@@ -403,7 +424,10 @@ watchEffect(() => {
                 <span class="self-stretch md:w-[140px] text-surface-500 text-xs">{{ $t('public.remarks') }}</span>
                 <span class="self-stretch text-surface-950 dark:text-white text-sm font-medium">{{ data.remarks ?? '-' }}</span>
             </div>
-            <div class="flex flex-col md:flex-row md:items-center gap-1 self-stretch">
+            <div
+                v-if="data.media[0]"
+                class="flex flex-col md:flex-row md:items-center gap-1 self-stretch"
+            >
                 <div class="w-[140px] text-surface-500 text-xs">
                     {{ $t('public.payment_slip') }}
                 </div>

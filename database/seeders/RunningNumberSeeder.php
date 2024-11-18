@@ -43,5 +43,19 @@ class RunningNumberSeeder extends Seeder
             'digits' => 7,
             'last_number' => 0,
         ]);
+
+        RunningNumber::create([
+            'type' => 'subscription',
+            'prefix' => 'LM-SUB',
+            'digits' => 7,
+            'last_number' => 0,
+        ]);
+
+        RunningNumber::create([
+            'type' => 'order',
+            'prefix' => 'LM-OD',
+            'digits' => 7,
+            'last_number' => 0,
+        ]);
     }
 }

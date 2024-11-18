@@ -48,4 +48,14 @@ class TradingSubscription extends Model
     {
         return $this->belongsTo(TradingMaster::class, 'master_meta_login', 'meta_login');
     }
+
+    public function trading_account(): BelongsTo
+    {
+        return $this->belongsTo(TradingAccount::class, 'meta_login', 'meta_login');
+    }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
 }

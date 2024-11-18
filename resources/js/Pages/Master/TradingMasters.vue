@@ -6,9 +6,6 @@ import {
     IconPremiumRights,
     IconAdjustments,
     IconScanEye,
-    IconAlertCircleFilled,
-    IconHeartFilled,
-    IconHeart,
 } from '@tabler/icons-vue';
 import {ref} from "vue";
 import InputText from "primevue/inputtext";
@@ -20,6 +17,7 @@ import Card from "primevue/card";
 import Empty from "@/Components/Empty.vue";
 import {generalFormat} from "@/Composables/format.js";
 import DefaultProfilePhoto from "@/Components/DefaultProfilePhoto.vue";
+import TradingMasterAction from "@/Pages/Master/Partials/TradingMasterAction.vue";
 
 const props = defineProps({
     masterCounts: Number
@@ -113,7 +111,6 @@ const clearSearch = () => {
             <div class="w-full flex justify-between items-center self-stretch gap-3">
                 <Button
                     variant="gray-outlined"
-                    @click="toggle"
                     size="base"
                     class="flex gap-3 items-center justify-center w-full md:w-[130px]"
                 >
@@ -144,8 +141,8 @@ const clearSearch = () => {
 
         <div v-if="masterCounts === 0 && !masters.length">
             <Empty
-                :title="$t('public.no_groups_created_yet')"
-                :message="$t('public.no_groups_created_yet_caption')"
+                :title="$t('public.no_master_created_yet')"
+                :message="$t('public.no_master_created_yet_caption')"
             />
         </div>
 
@@ -180,15 +177,14 @@ const clearSearch = () => {
                                         <div class="self-stretch truncate text-surface-950 dark:text-white font-bold">
                                             {{ master.master_name }}
                                         </div>
-                                        <div class="self-stretch truncate text-gray-500 text-sm">
+                                        <div class="self-stretch truncate text-surface-500 text-sm">
                                             {{ master.meta_login }}
                                         </div>
                                     </div>
                                     <div class="flex gap-3 items-center w-full justify-end">
-                                        <!--                                <Action-->
-                                        <!--                                    :master="master"-->
-                                        <!--                                    :groupsOptions="groupsOptions"-->
-                                        <!--                                />-->
+                                        <TradingMasterAction
+                                            :master="master"
+                                        />
                                     </div>
                                 </div>
 

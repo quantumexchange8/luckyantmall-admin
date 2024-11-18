@@ -12,6 +12,7 @@ import FileUpload from 'primevue/fileupload';
 import Button from '@/Components/Button.vue';
 import Image from 'primevue/image';
 import ToggleSwitch from 'primevue/toggleswitch';
+import Chip from 'primevue/chip';
 import {ref} from "vue";
 import { usePrimeVue } from 'primevue/config';
 import {
@@ -23,6 +24,7 @@ import {
 } from "@tabler/icons-vue"
 import {useLangObserver} from "@/Composables/localeObserver.js";
 import {generalFormat} from "@/Composables/format.js";
+import MultiSelect from "primevue/multiselect";
 
 const form = useForm({
     name: '',
@@ -35,7 +37,7 @@ const form = useForm({
     sku: '',
     images: null,
     category: '',
-    master: '',
+    masters: '',
     required_delivery: '',
 });
 
@@ -93,7 +95,7 @@ const getCategories = async () => {
 
 getCategories();
 
-const selectedMaster = ref();
+const selectedMasters = ref();
 const masters = ref();
 const loadingMasters = ref(false);
 
@@ -128,7 +130,7 @@ const submitForm = () => {
     form.base_price = finalPrice.value;
     form.images = files.value;
     form.category = selectedCategories.value;
-    form.master = selectedMaster.value;
+    form.masters = selectedMasters.value;
 
     // Filter out empty rows
     const nonEmptyRows = rows.value.filter(row => Object.keys(row).length > 0);
@@ -415,22 +417,22 @@ const submitForm = () => {
                                 </div>
 
                                 <!-- SKU -->
-                                <div class="flex flex-col gap-1 items-start self-stretch">
-                                    <InputLabel
-                                        for="sku"
-                                    >
-                                        {{ $t('public.sku') }}
-                                    </InputLabel>
-                                    <InputText
-                                        id="sku"
-                                        type="text"
-                                        class="block w-full"
-                                        v-model="form.sku"
-                                        :placeholder="$t('public.sku_placeholder')"
-                                        :invalid="!!form.errors.sku"
-                                    />
-                                    <InputError :message="form.errors.sku" />
-                                </div>
+<!--                                <div class="flex flex-col gap-1 items-start self-stretch">-->
+<!--                                    <InputLabel-->
+<!--                                        for="sku"-->
+<!--                                    >-->
+<!--                                        {{ $t('public.sku') }}-->
+<!--                                    </InputLabel>-->
+<!--                                    <InputText-->
+<!--                                        id="sku"-->
+<!--                                        type="text"-->
+<!--                                        class="block w-full"-->
+<!--                                        v-model="form.sku"-->
+<!--                                        :placeholder="$t('public.sku_placeholder')"-->
+<!--                                        :invalid="!!form.errors.sku"-->
+<!--                                    />-->
+<!--                                    <InputError :message="form.errors.sku" />-->
+<!--                                </div>-->
                             </div>
                         </div>
                     </template>
@@ -573,33 +575,22 @@ const submitForm = () => {
                                 <!-- Master -->
                                 <div class="flex flex-col gap-1 items-start self-stretch">
                                     <InputLabel
-                                        for="master"
-                                        :invalid="!!form.errors.master"
+                                        for="masters"
+                                        :invalid="!!form.errors.masters"
                                     >
                                         {{ $t('public.master') }}
                                     </InputLabel>
-                                    <Select
-                                        v-model="selectedMaster"
+                                    <MultiSelect
+                                        v-model="selectedMasters"
                                         :options="masters"
                                         optionLabel="master_name"
+                                        filter
                                         :placeholder="$t('public.select_master')"
+                                        :maxSelectedLabels="3"
                                         class="w-full"
-                                        :loading="loadingMasters"
-                                        :invalid="!!form.errors.master"
-                                    >
-                                        <template #value="slotProps">
-                                            <div v-if="slotProps.value" class="flex items-center">
-                                                <div>{{ slotProps.value.master_name }}</div>
-                                            </div>
-                                            <span v-else>{{ slotProps.placeholder }}</span>
-                                        </template>
-                                        <template #option="slotProps">
-                                            <div class="flex items-center gap-1 max-w-[220px] truncate">
-                                                <span>{{ slotProps.option.master_name }}</span>
-                                            </div>
-                                        </template>
-                                    </Select>
-                                    <InputError :message="form.errors.master" />
+                                        :invalid="!!form.errors.masters"
+                                    />
+                                    <InputError :message="form.errors.masters" />
                                 </div>
 
                                 <!-- Delivery -->
@@ -628,14 +619,16 @@ const submitForm = () => {
                             <span class="text-surface-950 dark:text-white font-semibold">{{ $t('public.submit_to_post') }}</span>
                             <div class="flex flex-col gap-1 items-start self-stretch w-full">
                                 <div
-                                    v-if="selectedMaster"
+                                    v-if="selectedMasters"
                                     class="flex justify-between items-start w-full text-sm"
                                 >
                                     <div class="max-w-[100px] truncate text-surface-500">
                                         {{ $t('public.master') }}
                                     </div>
-                                    <div class="font-semibold">
-                                        {{ selectedMaster.master_name }}
+                                    <div class="flex gap-1">
+                                        <div v-for="master in selectedMasters">
+                                            <Chip :label="master.master_name" />
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="flex justify-between items-start w-full text-sm">

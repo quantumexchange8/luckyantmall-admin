@@ -64,6 +64,10 @@ const getSettingRanks = async () => {
     try {
         const response = await axios.get('/getSettingRanks');
         ranks.value = response.data;
+        form.rank_settings = response.data.reduce((acc, rank) => {
+            acc[rank.id] = { ...rank };
+            return acc;
+        }, {});
     } catch (error) {
         console.error('Error fetching users:', error);
     } finally {

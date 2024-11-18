@@ -73,6 +73,10 @@ const getSeverity = (status) => {
     }
 }
 
+const clearFilterGlobal = () => {
+    filters.value['global'].value = null;
+}
+
 watchEffect(() => {
     if (usePage().props.toast !== null) {
         getResults();
@@ -97,7 +101,7 @@ watchEffect(() => {
                     tableStyle="md:min-width: 50rem"
                     paginatorTemplate="RowsPerPageDropdown FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport"
                     :currentPageReportTemplate="$t('public.paginator_caption')"
-                    :globalFilterFields="['name']"
+                    :globalFilterFields="['name', 'email', 'username']"
                     ref="dt"
                     :loading="isLoading"
                 >
@@ -214,23 +218,11 @@ watchEffect(() => {
                             </template>
                         </Column>
                         <Column
-                            field="id_number"
-                            sortable
-                            class="hidden md:table-cell"
-                        >
-                            <template #header>
-                                <span class="hidden md:block">{{ $t('public.id') }}</span>
-                            </template>
-                            <template #body="slotProps">
-                                {{ slotProps.data.id_number }}
-                            </template>
-                        </Column>
-                        <Column
                             field="upline.name"
                             class="hidden md:table-cell min-w-[220px]"
                         >
                             <template #header>
-                                <span class="hidden md:block">{{ $t('public.upline') }}</span>
+                                <span class="hidden md:block">{{ $t('public.referer') }}</span>
                             </template>
                             <template #body="slotProps">
                                 <div
@@ -251,37 +243,42 @@ watchEffect(() => {
                         </Column>
                         <Column
                             field="group"
-                            class="hidden md:table-cell min-w-40"
+                            class="hidden md:table-cell min-w-60"
                         >
                             <template #header>
                                 <span class="hidden md:block">{{ $t('public.group') }}</span>
                             </template>
                             <template #body="slotProps">
-                                <div class="flex items-center">
-                                    <Tag
-                                        v-if="slotProps.data.group"
-                                        class="flex items-center gap-2 rounded"
-                                        :style="{ background: formatRgbaColor(slotProps.data.group.group.color, 0.1) }"
-                                    >
-                                        <div
-                                            class="w-1.5 h-1.5 grow-0 shrink-0 rounded-full"
-                                            :style="{ backgroundColor: `#${slotProps.data.group.group.color}` }"
-                                        ></div>
-                                        <div
-                                            class="text-xs font-semibold"
-                                            :style="{ color: `#${slotProps.data.group.group.color}` }"
+                                <div class="flex items-center gap-2">
+                                    <div class="flex items-center">
+                                        <Tag
+                                            v-if="slotProps.data.group"
+                                            class="flex items-center gap-2 w-full rounded"
+                                            :style="{ background: formatRgbaColor(slotProps.data.group.group.color, 0.1) }"
                                         >
-                                            {{ slotProps.data.group.group.name }}
+                                            <div
+                                                class="w-1.5 h-1.5 grow-0 shrink-0 rounded-full"
+                                                :style="{ backgroundColor: `#${slotProps.data.group.group.color}` }"
+                                            ></div>
+                                            <div
+                                                class="text-xs font-semibold text-nowrap"
+                                                :style="{ color: `#${slotProps.data.group.group.color}` }"
+                                            >
+                                                {{ slotProps.data.group.group.name }}
+                                            </div>
+                                        </Tag>
+                                        <div v-else>
+                                            -
                                         </div>
-                                    </Tag>
-                                    <div v-else>
-                                        -
+                                    </div>
+                                    <div class="text-xs truncate">
+                                      {{ slotProps.data.group.group.group_leader.name }}
                                     </div>
                                 </div>
                             </template>
                         </Column>
                         <Column
-                            field="role"
+                            field="rank"
                             class="hidden md:table-cell min-w-28"
                         >
                             <template #header>
@@ -289,6 +286,17 @@ watchEffect(() => {
                             </template>
                             <template #body="slotProps">
                                 {{ $t(`public.${slotProps.data.rank.rank_name}`) }}
+                            </template>
+                        </Column>
+                        <Column
+                            field="role"
+                            class="hidden md:table-cell min-w-44"
+                        >
+                            <template #header>
+                                <span class="hidden md:block">{{ $t('public.role') }}</span>
+                            </template>
+                            <template #body="slotProps">
+                                {{ $t(`public.${slotProps.data.role}`) }}
                             </template>
                         </Column>
                         <Column
@@ -322,6 +330,8 @@ watchEffect(() => {
                         </Column>
                         <Column
                             field="action"
+                            frozen
+                            alignFrozen="right"
                             header=""
                             style="width: 15%"
                             class="hidden md:table-cell"

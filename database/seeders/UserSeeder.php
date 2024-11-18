@@ -17,6 +17,7 @@ class UserSeeder extends Seeder
     {
         User::create([
             'name' => 'Luckyant Mall Admin',
+            'username' => 'luckyantadmin',
             'email' => 'admin@admin.com',
             'email_verified_at' => now(),
             'password' =>  Hash::make('testtest'),
@@ -28,11 +29,12 @@ class UserSeeder extends Seeder
             'nationality' => 'Malaysian',
             'referral_code' => 'LKMx666666',
             'id_number' => 'SID000001',
-            'role' => 'super-admin',
+            'role' => 'super_admin',
         ]);
 
         User::create([
             'name' => 'Luckyant Mall',
+            'username' => 'luckyantmall',
             'email' => 'luckyant@luckyantmall.com',
             'email_verified_at' => now(),
             'password' =>  Hash::make('Lucky1234.'),

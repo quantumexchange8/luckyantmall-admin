@@ -9,6 +9,8 @@ use App\Models\GroupRankSetting;
 use App\Models\Item;
 use App\Models\TradingMaster;
 use App\Models\User;
+use Illuminate\Http\Request;
+use Spatie\Permission\Models\Role;
 
 class SelectOptionController extends Controller
 {
@@ -22,7 +24,7 @@ class SelectOptionController extends Controller
 
     public function getUsers()
     {
-        $users = User::where('role', 'user')
+        $users = User::whereNotIn('role', ['super_admin', 'admin'])
             ->select('id', 'name', 'username')
             ->get();
 
@@ -33,7 +35,7 @@ class SelectOptionController extends Controller
     {
         $group_leader_ids = Group::pluck('group_leader_id')->toArray();
 
-        $users = User::where('role', 'user')
+        $users = User::whereNotIn('role', ['super_admin', 'admin'])
             ->whereNotIn('id', $group_leader_ids)
             ->select('id', 'name', 'username')
             ->get()
@@ -93,10 +95,33 @@ class SelectOptionController extends Controller
 
     public function getMasters()
     {
-        $categories = TradingMaster::where('status', 'active')
+        $masters = TradingMaster::where('status', 'active')
             ->select('id', 'master_name', 'meta_login')
             ->get();
 
-        return response()->json($categories);
+        return response()->json($masters);
+    }
+
+    public function getRanks(Request $request)
+    {
+        $ranks = GroupRankSetting::where('group_id', $request->group_id)
+            ->select('id', 'rank_name')
+            ->get();
+
+        return response()->json($ranks);
+    }
+
+    public function getRoles(Request $request)
+    {
+        $roles = Role::query()
+            ->select('id', 'name')
+            ->whereNotIn('name', ['super_admin', 'admin'])
+            ->orderBy('id')
+            ->get();
+
+        $newId = $roles->max('id') + 1;
+        $roles->push((object) ['id' => $newId, 'name' => 'user']);
+
+        return response()->json($roles);
     }
 }

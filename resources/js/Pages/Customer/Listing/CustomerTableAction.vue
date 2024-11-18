@@ -5,10 +5,16 @@ import {
     IconId,
     IconUserUp,
     IconTrash,
-    IconDeviceLaptop
+    IconDeviceLaptop,
+    IconChevronRight,
+    IconUserCog,
+    IconUserDollar,
 } from "@tabler/icons-vue";
 import TieredMenu from "primevue/tieredmenu";
+import Dialog from "primevue/dialog";
 import Button from "@/Components/Button.vue";
+import UpgradeRank from "@/Pages/Customer/Listing/Partials/UpgradeRank.vue";
+import UpgradeRole from "@/Pages/Customer/Listing/Partials/UpgradeRole.vue";
 
 const props = defineProps({
     customer: Object,
@@ -32,6 +38,28 @@ const items = ref([
         command: () => {
             window.open(route('customer.access_portal', props.customer.id), '_blank');
         },
+    },
+    {
+        label: 'upgrade',
+        icon: h(IconUserUp),
+        items: [
+            {
+                label: 'rank',
+                icon: h(IconUserCog),
+                command: () => {
+                    visible.value = true;
+                    dialogType.value = 'upgrade_rank';
+                },
+            },
+            {
+                label: 'role',
+                icon: h(IconUserDollar),
+                command: () => {
+                    visible.value = true;
+                    dialogType.value = 'upgrade_role';
+                },
+            }
+        ]
     },
     {
         separator: true,
@@ -71,7 +99,31 @@ const toggle = (event) => {
             >
                 <component :is="item.icon" size="20" stroke-width="1.25" :color="item.label === 'delete_member' ? '#F04438' : '#667085'" />
                 <span class="font-medium" :class="{'text-error-500': item.label === 'delete_member'}">{{ $t(`public.${item.label}`) }}</span>
+                <span v-if="hasSubmenu" class="ml-auto">
+                        <IconChevronRight size="20" stroke-width="1.25" />
+                    </span>
             </div>
         </template>
     </TieredMenu>
+
+    <Dialog
+        v-model:visible="visible"
+        modal
+        :header="$t(`public.${dialogType}`)"
+        class="dialog-xs sm:dialog-sm"
+    >
+        <template v-if="dialogType === 'upgrade_rank'">
+            <UpgradeRank
+                :customer="customer"
+                @update:visible="visible = false"
+            />
+        </template>
+
+        <template v-if="dialogType === 'upgrade_role'">
+            <UpgradeRole
+                :customer="customer"
+                @update:visible="visible = false"
+            />
+        </template>
+    </Dialog>
 </template>

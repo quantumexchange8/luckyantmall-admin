@@ -43,13 +43,12 @@ onMounted(() => {
     getHighestDeposit();
 });
 
-function calculatePercentage(fund) {
+const calculatePercentage = (fund) => {
     if (!currentInvestors.value || !fund) {
         return 0;
     }
-    return ((fund / currentInvestors.value) * 100).toFixed(2);
-}
-
+    return Math.min(((fund / currentInvestors.value) * 100), 100);
+};
 </script>
 
 <template>
@@ -62,7 +61,25 @@ function calculatePercentage(fund) {
                             <span class="text-surface-500 text-sm">{{ $t('public.current_active_fund') + `($)` }}</span>
                         </div>
                         <div class="flex items-end gap-5">
-                            <span class="text-surface-950 dark:text-white text-xl font-semibold md:text-xxl">{{ currentInvestors ? formatAmount(currentInvestors) : formatAmount(0) }}</span>
+                            <span class="text-surface-950 dark:text-white text-xl font-semibold md:text-xxl">{{ currentAssets ? formatAmount(currentAssets) : formatAmount(0) }}</span>
+                            <div class="flex items-center pb-1.5 gap-2">
+                                <div v-if="currentAssets" class="flex items-center gap-2">
+                                    <div
+                                        class="flex items-center gap-2"
+                                        :class="
+                                            {
+                                                'text-green': lastMonthAssetComparison > 0,
+                                                'text-pink': lastMonthAssetComparison < 0
+                                            }"
+                                    >
+                                        <IconTriangleFilled v-if="lastMonthAssetComparison > 0" size="12" stroke-width="1.25" />
+                                        <IconTriangleInvertedFilled v-if="lastMonthAssetComparison < 0" size="12" stroke-width="1.25" />
+                                        <span class="text-xs font-medium md:text-sm">  {{ `${formatAmount(lastMonthAssetComparison)}%` }}</span>
+                                    </div>
+                                    <span class="text-gray-400 text-xs md:text-sm">{{ $t('public.compare_last_month') }}</span>
+                                </div>
+                                <span v-else class="text-gray-400 text-xs md:text-sm">{{ $t('public.data_not_available') }}</span>
+                            </div>
                         </div>
                     </div>
                     <div class="flex flex-col gap-3 items-center self-stretch w-full">

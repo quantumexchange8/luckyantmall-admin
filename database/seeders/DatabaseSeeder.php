@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             GroupSeeder::class,
             RunningNumberSeeder::class,
             SettingRankSeeder::class,
+            PermissionSeeder::class,
         ]);
     }
 }

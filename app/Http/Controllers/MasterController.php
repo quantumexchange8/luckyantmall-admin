@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Group;
 use App\Models\TradingAccount;
 use App\Models\TradingMaster;
+use App\Models\TradingMasterToGroup;
 use App\Models\TradingSubscription;
 use App\Models\User;
 use App\Services\MetaFiveService;
@@ -31,7 +32,7 @@ class MasterController extends Controller
         // last month
         $endOfLastMonth = Carbon::now()->subMonth()->endOfMonth();
 
-        $subscription_query = TradingSubscription::where('status', 'ongoing');
+        $subscription_query = TradingSubscription::where('status', 'active');
 
         // current month assets
         $current_month_assets = (clone $subscription_query)
@@ -62,12 +63,15 @@ class MasterController extends Controller
         $last_month_investor_comparison = $current_month_investors - $last_month_investors;
 
         // Get and format top 3 masters by total fund
-        $topThreeMaster = TradingSubscription::select('meta_login', DB::raw('SUM(subscription_amount) as total_investment'))
-            ->where('status', 'ongoing')
-            ->groupBy('meta_login')
+        $topThreeMaster = TradingSubscription::select(
+            'master_meta_login',
+            DB::raw('SUM(subscription_amount) as total_investment')
+        )
+            ->where('status', 'active')
+            ->groupBy('master_meta_login')
             ->orderByDesc('total_investment')
             ->take(3)
-            ->with(['trading_master:id,master_name'])
+            ->with(['trading_master:meta_login,master_name'])
             ->get();
 
         return response()->json([
@@ -106,8 +110,8 @@ class MasterController extends Controller
             case 2:
                 $rules['min_investment'] = ['required'];
                 $rules['sharing_profit'] = ['required'];
-                $rules['investment_period'] = ['required'];
-                $rules['investment_period_type'] = ['required'];
+                $rules['investment_period'] = ['nullable'];
+                $rules['investment_period_type'] = ['nullable'];
                 $rules['settlement_period'] = ['required'];
                 $rules['settlement_period_type'] = ['required'];
                 $rules['visible_to'] = ['required'];
@@ -156,15 +160,23 @@ class MasterController extends Controller
         }
 
         $userModel = User::find($user['id']);
-        $metaAccount = $metaService->createUser($userModel, 'JS', 500, $userModel->email);
+        $metaAccount = $metaService->createUser($userModel, 'JS', 500, $userModel->email, $master->master_name);
 
         $master->meta_login = $metaAccount['login'];
         $groupCounts = Group::whereNotNull('parent_group_id')->count();
+        $groups = $request->visible_to;
 
-        if (count($request->visible_to) == $groupCounts) {
+        if (count($groups) == $groupCounts) {
             $master->visibility_type = 'public';
         } else {
             $master->visibility_type = 'private';
+
+            foreach ($groups as $group) {
+                TradingMasterToGroup::create([
+                    'trading_master_id' => $master->id,
+                    'group_id' => $group['id'],
+                ]);
+            }
         }
         $master->save();
 
@@ -300,6 +312,43 @@ class MasterController extends Controller
             'masters' => $formattedMasters,
             'totalRecords' => $totalRecords,
             'currentPage' => $masters->currentPage(),
+        ]);
+    }
+
+    public function getJoiningAccountsData(Request $request)
+    {
+        $startDate = $request->query('startDate');
+        $endDate = $request->query('endDate');
+
+        $query = TradingSubscription::select([
+            'id',
+            'user_id',
+            'meta_login',
+            'master_meta_login',
+            'subscription_amount',
+            'approval_at',
+            'status'
+        ])
+            ->with([
+                'user:id,name,email',
+                'user.group.group.group_leader:id,name',
+            ])
+            ->where('master_meta_login', $request->master_meta_login)
+            ->where('status', 'active');
+
+        if ($startDate && $endDate) {
+            $start_date = \Illuminate\Support\Carbon::createFromFormat('Y-m-d', $startDate)->startOfDay();
+            $end_date = Carbon::createFromFormat('Y-m-d', $endDate)->endOfDay();
+
+            $query->whereBetween('created_at', [$start_date, $end_date]);
+        }
+
+        $accounts = $query
+            ->orderByDesc('approval_at')
+            ->get();
+
+        return response()->json([
+            'accounts' => $accounts,
         ]);
     }
 }

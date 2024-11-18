@@ -4,15 +4,17 @@ import Breadcrumb from 'primevue/breadcrumb';
 import {h, ref, watchEffect} from "vue";
 import {Link, usePage} from '@inertiajs/vue3'
 import CustomerInfo from "@/Pages/Customer/Listing/Detail/CustomerInfo.vue";
-import CustomerProfile from "@/Pages/Customer/Listing/Detail/CustomerProfile.vue";
+import FinanceInfo from "@/Pages/Customer/Listing/Detail/Finance/FinanceInfo.vue";
 import Tabs from 'primevue/tabs';
 import TabList from 'primevue/tablist';
 import Tab from 'primevue/tab';
 import TabPanels from 'primevue/tabpanels';
 import TabPanel from 'primevue/tabpanel';
+import DeliveryAddress from "@/Pages/Customer/Listing/Detail/DeliveryAddress.vue";
 
 const props = defineProps({
-    user: Object
+    user: Object,
+    transactionsCount: Number
 });
 
 const home = ref({
@@ -45,13 +47,16 @@ watchEffect(() => {
 
 const tabs = ref([
     {
-        title: 'profile',
+        title: 'finance',
         content: 'Tab 1 Content',
-        component: h(CustomerProfile, {idNumber: props.user.id_number}),
+        component: h(FinanceInfo, {
+            user: props.user,
+            transactionsCount: props.transactionsCount,
+        }),
         value: '0'
     },
     {
-        title: 'finance',
+        title: 'investment',
         content: 'Tab 2 Content',
         value: '1'
     },
@@ -77,9 +82,17 @@ const tabs = ref([
             </Breadcrumb>
 
             <!-- Customer Info -->
-            <CustomerInfo
-                :userDetail="userDetail"
-            />
+            <div class="flex flex-col lg:flex-row items-center w-full gap-5 self-stretch">
+                <CustomerInfo
+                    :userDetail="userDetail"
+                />
+
+                <DeliveryAddress
+                    :idNumber="user.id_number"
+                    :deliveryAddressesCount="user.delivery_addresses_count"
+                />
+            </div>
+
 
             <!-- Tabs -->
             <Tabs value="0">

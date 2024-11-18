@@ -39,6 +39,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/getGroupLeaders', [SelectOptionController::class, 'getGroupLeaders'])->name('getGroupLeaders');
     Route::get('/getCategories', [SelectOptionController::class, 'getCategories'])->name('getCategories');
     Route::get('/getMasters', [SelectOptionController::class, 'getMasters'])->name('getMasters');
+    Route::get('/getRanks', [SelectOptionController::class, 'getRanks'])->name('getRanks');
+    Route::get('/getRoles', [SelectOptionController::class, 'getRoles'])->name('getRoles');
 
     Route::get('/getPendingCounts', [DashboardController::class, 'getPendingCounts'])->name('dashboard.getPendingCounts');
 
@@ -50,17 +52,23 @@ Route::middleware('auth')->group(function () {
     Route::prefix('customer')->group(function () {
         // listing
         Route::get('/listing', [CustomerController::class, 'index'])->name('customer.listing');
+        Route::get('/getCustomerOverview', [CustomerController::class, 'getCustomerOverview'])->name('customer.getCustomerOverview');
         Route::get('/getCustomersData', [CustomerController::class, 'getCustomersData'])->name('customer.getCustomersData');
 
         Route::post('/addNewCustomer', [CustomerController::class, 'addNewCustomer'])->name('customer.addNewCustomer');
+        Route::post('/upgradeRank', [CustomerController::class, 'upgradeRank'])->name('customer.upgradeRank');
+        Route::post('/upgradeRole', [CustomerController::class, 'upgradeRole'])->name('customer.upgradeRole');
 
         // details
         Route::prefix('detail')->group(function () {
             Route::get('/{id_number}', [CustomerController::class, 'detail'])->name('customer.detail');
             Route::get('/{id_number}/getUserData', [CustomerController::class, 'getUserData'])->name('customer.detail.getUserData');
-            Route::get('/{id_number}/getCustomerContactInfo', [CustomerController::class, 'getCustomerContactInfo'])->name('customer.detail.getCustomerContactInfo');
+            Route::get('/{id_number}/getWalletData', [CustomerController::class, 'getWalletData'])->name('customer.detail.getWalletData');
+            Route::get('/{id_number}/getDeliveryAddresses', [CustomerController::class, 'getDeliveryAddresses'])->name('customer.detail.getDeliveryAddresses');
+            Route::get('/{id_number}/getRecentTransactionData', [CustomerController::class, 'getRecentTransactionData'])->name('customer.detail.getRecentTransactionData');
 
             Route::post('/updateCustomerProfile', [CustomerController::class, 'updateCustomerProfile'])->name('customer.detail.updateCustomerProfile');
+            Route::post('/walletAdjustment', [CustomerController::class, 'walletAdjustment'])->name('customer.detail.walletAdjustment');
         });
     });
 
@@ -131,8 +139,10 @@ Route::middleware('auth')->group(function () {
         Route::get('/add_product', [ProductController::class, 'add_product'])->name('product.add_product');
 
         Route::post('/addProduct', [ProductController::class, 'addProduct'])->name('product.addProduct');
+
         // listing
         Route::get('/', [ProductController::class, 'index'])->name('product');
+        Route::get('/getProductData', [ProductController::class, 'getProductData'])->name('product.getProductData');
     });
 
     /**
@@ -145,6 +155,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/', [MasterController::class, 'index'])->name('master');
         Route::get('/getMasterOverview', [MasterController::class, 'getMasterOverview'])->name('master.getMasterOverview');
         Route::get('/getMasters', [MasterController::class, 'getMasters'])->name('master.getMasters');
+        Route::get('/getJoiningAccountsData', [MasterController::class, 'getJoiningAccountsData'])->name('master.getJoiningAccountsData');
 
         Route::post('/addMaster', [MasterController::class, 'addMaster'])->name('master.addMaster');
     });

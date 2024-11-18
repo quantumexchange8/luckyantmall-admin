@@ -10,6 +10,8 @@ return new class extends Migration {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id')->nullable();
+            $table->unsignedBigInteger('transaction_id')->nullable();
+            $table->string('order_number')->nullable();
             $table->decimal('sub_total')->nullable();
             $table->decimal('delivery_fee')->nullable();
             $table->decimal('discount_price')->nullable();
@@ -29,6 +31,12 @@ return new class extends Migration {
             $table->foreign('user_id')
                 ->references('id')
                 ->on('users')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+
+            $table->foreign('transaction_id')
+                ->references('id')
+                ->on('transactions')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
 

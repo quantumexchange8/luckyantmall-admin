@@ -39,6 +39,6 @@ class TradingMaster extends Model
     // Relations
     public function ongoing_subscriptions(): HasMany
     {
-        return $this->hasMany(TradingSubscription::class, 'master_meta_login', 'meta_login')->where('status','ongoing');
+        return $this->hasMany(TradingSubscription::class, 'master_meta_login', 'meta_login')->where('status','active');
     }
 }

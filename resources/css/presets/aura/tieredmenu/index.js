@@ -97,9 +97,12 @@ export default {
             // Spacing
             'flex flex-col',
             'm-0',
-            'p-1',
-            'list-none',
-            'min-w-[12.5rem]',
+            'outline-none',
+            'rounded-md',
+
+            // Size
+            'w-full',
+            'py-1',
 
             // Shape
             'shadow-dropdown',
