@@ -21,7 +21,8 @@ return new class extends Migration {
             $table->decimal('discount_price', 13)->nullable();
             $table->string('final_price_type')->nullable();
             $table->decimal('final_price', 13)->nullable();
-            $table->boolean('required_delivery')->nullable()->default(0);
+            $table->boolean('required_delivery')->nullable()->default(false);
+            $table->boolean('is_auth_visible')->nullable()->default(true);
             $table->timestamps();
             $table->softDeletes();
 

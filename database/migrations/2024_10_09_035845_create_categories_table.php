@@ -13,6 +13,7 @@ return new class extends Migration {
             $table->json('name')->nullable();
             $table->string('slug')->nullable();
             $table->string('status')->default('active');
+            $table->boolean('is_auth_visible')->nullable()->default(true);
             $table->timestamps();
             $table->softDeletes();
 

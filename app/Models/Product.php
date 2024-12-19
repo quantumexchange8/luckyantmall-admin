@@ -28,6 +28,7 @@ class Product extends Model implements HasMedia
         'final_price_type',
         'final_price',
         'required_delivery',
+        'is_auth_visible',
     ];
 
     // Relations
