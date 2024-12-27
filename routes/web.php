@@ -11,6 +11,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SelectOptionController;
 use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\OrderController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -143,6 +144,26 @@ Route::middleware('auth')->group(function () {
         // listing
         Route::get('/', [ProductController::class, 'index'])->name('product');
         Route::get('/getProductData', [ProductController::class, 'getProductData'])->name('product.getProductData');
+    });
+
+    /**
+     * ==============================
+     *            Order
+     * ==============================
+     */
+    Route::prefix('order')->group(function () {
+        // listing
+        Route::get('/', [OrderController::class, 'index'])->name('order');
+        Route::get('/getOrderOverview', [OrderController::class, 'getOrderOverview'])->name('order.getOrderOverview');
+        // Route::get('/pendingTransaction', [TransactionController::class, 'pendingTransaction'])->name('transaction.pending_transaction');
+        Route::get('/orderHistory', [OrderController::class, 'orderHistory'])->name('order.order_history');
+        // Route::get('/getPendingTransaction/{type}', [TransactionController::class, 'getPendingTransaction'])->name('transaction.getPendingTransaction');
+        // Route::post('/approveTransaction', [TransactionController::class, 'approveTransaction'])->name('transaction.approveTransaction');
+        // Route::post('/rejectTransaction', [TransactionController::class, 'rejectTransaction'])->name('transaction.rejectTransaction');
+        Route::get('/getOrderHistory', [OrderController::class, 'getOrderHistory'])->name('order.getOrderHistory');
+        Route::patch('/updateOrderStatus', [OrderController::class, 'updateOrderStatus'])->name('order.updateOrderStatus');
+        Route::patch('/updateOrderItemStatus', [OrderController::class, 'updateOrderItemStatus'])->name('order.updateOrderItemStatus');
+        // Route::get('/getBalanceHistory/{type}', [TransactionController::class, 'getBalanceHistory'])->name('transaction.getBalanceHistory');
     });
 
     /**

@@ -17,7 +17,8 @@ import {
     IconHistory,
     IconClockDollar,
     IconAdjustmentsDollar,
-    IconTag
+    IconTag,
+    IconClipboardData
 } from '@tabler/icons-vue';
 import SidebarCategoryLabel from "@/Components/Sidebar/SidebarCategoryLabel.vue";
 
@@ -188,6 +189,17 @@ watchEffect(() => {
             />
 
         </SidebarCollapsible>
+
+        <!-- Order -->
+        <SidebarLink
+            :title="$t('public.order')"
+            :href="route('order')"
+            :active="route().current('order') || route().current('order.*')"
+        >
+            <template #icon>
+                <IconClipboardData :size="20" stroke-width="1.5" />
+            </template>
+        </SidebarLink>
 
         <!-- Master -->
         <SidebarLink

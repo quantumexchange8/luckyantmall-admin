@@ -20,14 +20,14 @@ export default {
                 'border-surface-200 dark:border-surface-700': !context.active,
                 'text-surface-700 dark:text-surface-0/80': !context.active,
 
-                'text-primary font-semibold': context.active,
+                'text-primary-500 font-semibold border-b-4 border-primary-500': context.active,
 
                 'opacity-60 cursor-default user-select-none select-none pointer-events-none': props?.disabled
             },
 
             // States
             'focus:outline-none focus:outline-offset-0 focus-visible:ring-0 ring-inset focus-visible:ring-primary-400 dark:focus-visible:ring-primary-300',
-            'hover:text-primary-700',
+            'hover:text-primary-700 dark:hover:text-primary-700',
 
             // Transitions
             'transition-all duration-200',

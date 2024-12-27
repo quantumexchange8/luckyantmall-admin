@@ -103,4 +103,30 @@ class User extends Authenticatable implements HasMedia
     {
         return $this->hasMany(Wallet::class, 'user_id', 'id');
     }
+
+    public function orders(): HasMany
+    {
+        return $this->hasMany(Order::class, 'user_id', 'id');
+    }
+
+    public function getFirstLeader()
+    {
+        $first_leader = null;
+
+        $upline = explode("-", substr($this->hierarchyList, 1, -1));
+        $count = count($upline) - 1;
+
+        // Check if there are elements in $upline before accessing
+        if ($count >= 0) {
+            while ($count >= 0) {
+                $user = User::find($upline[$count]);
+                if (!empty($user->leader_status) && $user->leader_status == 1) {
+                    $first_leader = $user;
+                    break; // Found the first leader, exit the loop
+                }
+                $count--;
+            }
+        }
+        return $first_leader;
+    }
 }

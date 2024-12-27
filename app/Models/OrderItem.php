@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class OrderItem extends Model
 {
@@ -27,4 +28,20 @@ class OrderItem extends Model
             'cancelled_at' => 'datetime',
         ];
     }
+
+    public function order(): BelongsTo
+    {
+        return $this->belongsTo(Order::class, 'order_id', 'id');
+    }
+
+    public function product(): BelongsTo
+    {
+        return $this->belongsTo(Product::class, 'product_id', 'id');
+    }
+
+    public function trading_master(): BelongsTo
+    {
+        return $this->belongsTo(TradingMaster::class, 'trading_master_id', 'id');
+    }
+
 }
