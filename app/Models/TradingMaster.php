@@ -18,6 +18,8 @@ class TradingMaster extends Model
         'type',
         'min_investment',
         'sharing_profit',
+        'sa_profit',
+        'market_profit',
         'estimated_monthly_returns',
         'estimated_lot_size',
         'subscription_fee',

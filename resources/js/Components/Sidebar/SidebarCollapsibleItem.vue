@@ -35,7 +35,7 @@ const Tag = external ? 'a' : Link
                 'p-2.5 flex gap-3 items-center hover:text-primary-500 dark:hover:text-primary-300 w-full',
                 {
                     'text-primary-500 dark:text-primary-300': active,
-                    'text-surface-500': !active,
+                    'text-gray-500 dark:text-gray-400': !active,
                 },
             ]"
         >
