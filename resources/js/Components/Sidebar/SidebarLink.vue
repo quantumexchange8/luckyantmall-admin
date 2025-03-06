@@ -35,7 +35,7 @@ const Tag = !props.external ? Link : 'a'
         :class="[
             'p-2.5 flex gap-3 items-center rounded-md transition-colors w-full hover:bg-primary-50 dark:hover:bg-surface-900',
             {
-                'text-surface-700 dark:text-surface-400 hover:text-primary-500 dark:hover:text-primary-100':
+                'text-surface-700 dark:text-white hover:text-primary-500 dark:hover:text-primary-100':
                     !active,
                 'text-primary-600 bg-primary-100 dark:text-primary-400 dark:bg-transparent':
                     active,
@@ -70,7 +70,7 @@ const Tag = !props.external ? Link : 'a'
         :class="[
             'p-2.5 flex gap-3 items-center rounded-md transition-colors w-full hover:bg-primary-50 dark:hover:bg-surface-900',
             {
-                'text-surface-700 dark:text-surface-400 hover:text-primary-500 dark:hover:text-primary-100':
+                'text-surface-700 dark:text-white hover:text-primary-500 dark:hover:text-primary-100':
                     !active,
                 'text-primary-600 bg-primary-100 dark:text-primary-400 dark:bg-transparent':
                     active,

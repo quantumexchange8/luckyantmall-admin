@@ -7,19 +7,17 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up(): void
     {
-        Schema::create('categories', function (Blueprint $table) {
+        Schema::create('sales_associates', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('item_id')->nullable();
-            $table->json('name')->nullable();
-            $table->string('slug')->nullable();
-            $table->string('status')->default('active');
-            $table->boolean('is_auth_visible')->nullable()->default(true);
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->string('target_amount')->nullable();
+            $table->string('bonus_amount')->nullable();
             $table->timestamps();
             $table->softDeletes();
 
-            $table->foreign('item_id')
+            $table->foreign('user_id')
                 ->references('id')
-                ->on('items')
+                ->on('users')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
         });
@@ -27,6 +25,6 @@ return new class extends Migration {
 
     public function down(): void
     {
-        Schema::dropIfExists('categories');
+        Schema::dropIfExists('sales_associates');
     }
 };

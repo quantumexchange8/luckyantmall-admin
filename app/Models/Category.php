@@ -16,6 +16,7 @@ class Category extends Model
         'name',
         'slug',
         'status',
+        'is_auth_visible',
     ];
 
     protected function casts(): array

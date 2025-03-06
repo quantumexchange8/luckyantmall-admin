@@ -8,6 +8,7 @@ use App\Models\ProductHasMaster;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 use Inertia\Inertia;
 
 class ProductController extends Controller
@@ -27,7 +28,7 @@ class ProductController extends Controller
     public function addProduct(Request $request)
     {
         Validator::make($request->all(), [
-            'name' => ['required', 'regex:/^[a-zA-Z0-9\p{Han}. ]+$/u', 'max:255'],
+            'name' => ['required'],
             'description' => ['required'],
             'base_price' => ['required', 'numeric'],
             'discount_type' => ['nullable', 'in:bundle,percent,points'],
@@ -58,7 +59,9 @@ class ProductController extends Controller
         $product = Product::create([
             'name' => $request->name,
             'descriptions' => $request->description,
-            'slug' => \Str::slug($request->name),
+            'slug' => ctype_alpha(str_replace(' ', '', $request->name))
+                ? Str::slug($request->name)
+                : $request->name,
             'base_price' => $request->base_price,
             'discount_type' => $request->discount_type,
             'quantity' => $request->quantity,

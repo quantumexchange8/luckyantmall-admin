@@ -16,6 +16,8 @@ return new class extends Migration {
             $table->string('type')->nullable();
             $table->decimal('min_investment', 13)->nullable();
             $table->decimal('sharing_profit')->nullable();
+            $table->decimal('sa_profit')->nullable();
+            $table->decimal('market_profit')->nullable();
             $table->string('estimated_monthly_returns')->nullable();
             $table->string('estimated_lot_size')->nullable();
             $table->decimal('subscription_fee')->nullable()->default(0);

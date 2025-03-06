@@ -85,8 +85,8 @@ const submitForm = () => {
         form.currency = 'USD'
     }
 
-    form.post(route('settings.addDepositProfile'), {
-        onSuccess: (values) => {
+    form.post(route('deposit_profile.addDepositProfile'), {
+        onSuccess: () => {
             closeDialog();
             form.reset();
         }

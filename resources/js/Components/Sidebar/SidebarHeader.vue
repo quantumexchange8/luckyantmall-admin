@@ -6,15 +6,25 @@ import { IconX } from '@tabler/icons-vue';
 </script>
 
 <template>
-    <div class="flex gap-2 pr-2 lg:pr-5 px-5 py-[18px] w-full">
-        <Link :href="route('dashboard')" class="w-full flex items-center">
+    <div
+        class="flex gap-2 w-full py-[18px]"
+        :class="{
+                'pr-2 lg:pr-5 px-5': sidebarState.isOpen || sidebarState.isHovered,
+                'px-3': !sidebarState.isOpen && !sidebarState.isHovered,
+            }"
+    >
+        <Link
+            :href="route('dashboard')"
+            class="w-full flex items-center"
+            :class="{
+                'justify-center': !sidebarState.isOpen && !sidebarState.isHovered,
+            }"
+        >
             <div class="flex items-center self-stretch gap-2">
-                <div class="px-2">
-                    <ApplicationLogo aria-hidden="true" class="w-7 h-7 fill-logo" />
-                </div>
+                <ApplicationLogo aria-hidden="true" class="w-10 h-10 shrink-0 grow-0 overflow-hidden fill-logo" />
                 <div
                     v-show="sidebarState.isOpen || sidebarState.isHovered"
-                    class="text-gray-800 dark:text-white w-full"
+                    class="text-gray-800 dark:text-white"
                 >
                     Luckyant Mall
                 </div>
